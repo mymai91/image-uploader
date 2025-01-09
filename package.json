@@ -4,5 +4,9 @@
   "main": "index.js",
   "repository": "",
   "author": "My Mai <my.maithi@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
 }
