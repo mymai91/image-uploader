@@ -27,23 +27,39 @@ docker exec -it image-uploader-postgres-1 psql -U user -d upload_images_db
 
 # Create migration
 
+- type orm need `dotenv` to manage enviroment then we need to install `dotenv`
+
+`yarn add dotenv`
+
 Use Migrations:
 
 Generate migrations for schema changes:
 
 ```bash
-npm run typeorm migration:generate -- -n MigrationName
+yarn typeorm migration:generate -d src/config/data-source.ts -n MigrationName
 ```
 
 Run migrations:
 
 ```bash
-npm run typeorm migration:run
+yarn typeorm migration:run -d src/config/data-source.ts
+```
+
+OR
+
+```
+yarn migration:generate src/migrations/UserTableAndImageTable
+```
+
+Rollback migration:
+
+```bash
+yarn typeorm migration:revert -d src/config/data-source.ts
 ```
 
 # Using Swagger (Recommended for Development)
 
-npm install @nestjs/swagger swagger-ui-express
+yarn add @nestjs/swagger swagger-ui-express
 
 Add swagger to main.ts
 
