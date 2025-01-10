@@ -1,5 +1,12 @@
-import { Image } from 'src/modules/images/entities/image.entities';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Image } from '../../images/entities/images.entity';
 
 @Entity()
 export class User {
@@ -17,4 +24,10 @@ export class User {
 
   @OneToMany(() => Image, (image) => image.user)
   images: Image[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

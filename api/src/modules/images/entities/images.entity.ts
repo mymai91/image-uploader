@@ -1,11 +1,11 @@
-import { User } from 'src/modules/users/entities/user.entity';
 import {
-  Column,
-  CreateDateColumn,
   Entity,
-  ManyToOne,
+  Column,
   PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
 } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Image {
