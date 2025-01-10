@@ -20,3 +20,15 @@ nest g controller modules/images
 
 nest g service modules/users
 nest g service modules/images
+
+# Check DB up from docker
+
+docker exec -it image-uploader-postgres-1 psql -U user -d upload_images_db
+
+# Using Swagger (Recommended for Development)
+
+npm install @nestjs/swagger swagger-ui-express
+
+Add swagger to main.ts
+
+Now you can access Swagger at: http://localhost:3000/api
