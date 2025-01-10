@@ -22,7 +22,7 @@ import { ImagesModule } from './modules/images/images.module';
         password: configService.get('database.password'),
         database: configService.get('database.database'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, // Set to false in production
+        synchronize: false,
         autoLoadEntities: true,
       }),
       inject: [ConfigService],

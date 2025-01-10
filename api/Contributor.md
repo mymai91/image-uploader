@@ -25,6 +25,22 @@ nest g service modules/images
 
 docker exec -it image-uploader-postgres-1 psql -U user -d upload_images_db
 
+# Create migration
+
+Use Migrations:
+
+Generate migrations for schema changes:
+
+```bash
+npm run typeorm migration:generate -- -n MigrationName
+```
+
+Run migrations:
+
+```bash
+npm run typeorm migration:run
+```
+
 # Using Swagger (Recommended for Development)
 
 npm install @nestjs/swagger swagger-ui-express
