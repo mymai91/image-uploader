@@ -64,3 +64,12 @@ yarn add @nestjs/swagger swagger-ui-express
 Add swagger to main.ts
 
 Now you can access Swagger at: http://localhost:3000/api
+
+# Upload image
+
+we don't need to explicitly install the `multer` package because it comes bundled with `@nestjs/platform-express` package, which is a standard dependency in NestJS applications.
+Here's the dependency chain:
+
+`@nestjs/platform-express` includes `Express.js`
+`Express.js` includes `multer` as a dependency for handling `multipart/form-data`
+`NestJS` wraps this functionality in the `FileInterceptor from @nestjs/platform-express`
