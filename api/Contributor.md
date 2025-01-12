@@ -25,10 +25,51 @@ nest g service modules/images
 
 docker exec -it image-uploader-postgres-1 psql -U user -d upload_images_db
 
+# Create migration
+
+- type orm need `dotenv` to manage enviroment then we need to install `dotenv`
+
+`yarn add dotenv`
+
+Use Migrations:
+
+Generate migrations for schema changes:
+
+```bash
+yarn typeorm migration:generate -d src/config/data-source.ts -n MigrationName
+```
+
+Run migrations:
+
+```bash
+yarn typeorm migration:run -d src/config/data-source.ts
+```
+
+OR
+
+```
+yarn migration:generate src/migrations/UserTableAndImageTable
+```
+
+Rollback migration:
+
+```bash
+yarn typeorm migration:revert -d src/config/data-source.ts
+```
+
 # Using Swagger (Recommended for Development)
 
-npm install @nestjs/swagger swagger-ui-express
+yarn add @nestjs/swagger swagger-ui-express
 
 Add swagger to main.ts
 
 Now you can access Swagger at: http://localhost:3000/api
+
+# Upload image
+
+we don't need to explicitly install the `multer` package because it comes bundled with `@nestjs/platform-express` package, which is a standard dependency in NestJS applications.
+Here's the dependency chain:
+
+`@nestjs/platform-express` includes `Express.js`
+`Express.js` includes `multer` as a dependency for handling `multipart/form-data`
+`NestJS` wraps this functionality in the `FileInterceptor from @nestjs/platform-express`
