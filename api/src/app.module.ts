@@ -6,11 +6,13 @@ import databaseConfig from './config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './modules/users/users.module';
 import { ImagesModule } from './modules/images/images.module';
+import { AuthModule } from './modules/auth/auth.module';
+import jwtConfig from './config/jwt.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // Makes env variables available throughout the app
-      load: [databaseConfig],
+      load: [databaseConfig, jwtConfig],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -28,6 +30,7 @@ import { ImagesModule } from './modules/images/images.module';
     }),
     UsersModule,
     ImagesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

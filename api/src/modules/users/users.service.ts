@@ -30,4 +30,8 @@ export class UsersService {
 
     return this.userRepository.save(user);
   }
+
+  async findByEmail(email: string): Promise<User> {
+    return this.userRepository.findOne({ where: { email } });
+  }
 }
