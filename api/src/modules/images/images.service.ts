@@ -1,3 +1,4 @@
+// src/modules/images/images.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -21,33 +22,43 @@ export class ImagesService {
     uploadImageDto: UploadImageDto,
     user: User,
   ): Promise<Image> {
-    // Define the compressed file path
-    const compressedFilename = `c-${file.filename}`;
-    const compressedFilePath = path.join(
-      path.dirname(file.path),
-      compressedFilename,
-    );
+    try {
+      // Define the compressed file path
+      const compressedFilename = `c-${file.filename}`;
+      const compressedFilePath = path.join(
+        path.dirname(file.path),
+        compressedFilename,
+      );
 
-    // Compress the image using Sharp
-    await sharp(file.path)
-      .resize(COMPRESS_OPTIONS.width, COMPRESS_OPTIONS.height, {
-        fit: 'inside',
-        withoutEnlargement: true,
-      })
-      .jpeg({ quality: COMPRESS_OPTIONS.quality })
-      .toFile(compressedFilePath);
+      // Compress the image using Sharp
+      await sharp(file.path)
+        .resize(COMPRESS_OPTIONS.width, COMPRESS_OPTIONS.height, {
+          fit: 'inside',
+          withoutEnlargement: true,
+        })
+        .jpeg({ quality: COMPRESS_OPTIONS.quality })
+        .toFile(compressedFilePath);
 
-    // Delete the original file if you don't need it
-    fs.unlinkSync(file.path);
+      // Delete the original file if you don't need it
+      fs.unlinkSync(file.path);
 
-    // Save the compressed file details in the database with user information
-    const image = this.imageRepository.create({
-      filename: compressedFilename,
-      path: compressedFilePath,
-      description: uploadImageDto.description,
-      user: user, // Associate the image with the user
-    });
+      // Create a new image instance using repository.create()
+      const image = this.imageRepository.create({
+        filename: compressedFilename,
+        path: compressedFilePath,
+        description: uploadImageDto.description,
+        user: user,
+      });
 
-    return this.imageRepository.save(image);
+      // Save and return the new image
+      const savedImage = await this.imageRepository.save(image);
+      return savedImage;
+    } catch (error) {
+      // Clean up the file if there's an error
+      if (file.path && fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+      throw error;
+    }
   }
 }
