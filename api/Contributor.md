@@ -36,13 +36,13 @@ Use Migrations:
 Generate migrations for schema changes:
 
 ```bash
-yarn typeorm migration:generate -d src/config/data-source.ts -n MigrationName
+yarn typeorm migration:generate -d src/config/dataSource.ts -n MigrationName
 ```
 
 Run migrations:
 
 ```bash
-yarn typeorm migration:run -d src/config/data-source.ts
+yarn typeorm migration:run -d src/config/dataSource.ts
 ```
 
 OR
@@ -54,7 +54,7 @@ yarn migration:generate src/migrations/UserTableAndImageTable
 Rollback migration:
 
 ```bash
-yarn typeorm migration:revert -d src/config/data-source.ts
+yarn typeorm migration:revert -d src/config/dataSource.ts
 ```
 
 # Using Swagger (Recommended for Development)
