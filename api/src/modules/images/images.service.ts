@@ -10,6 +10,7 @@ import * as path from 'path';
 import { COMPRESS_OPTIONS } from '@/common/config/data.config';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
+import { UserUtil } from '@/common/utils/user.utils';
 
 @Injectable()
 export class ImagesService {
@@ -18,6 +19,8 @@ export class ImagesService {
     private imageRepository: Repository<Image>,
 
     private usersService: UsersService,
+
+    private userUtils: UserUtil,
   ) {}
 
   async create(
@@ -25,11 +28,13 @@ export class ImagesService {
     uploadImageDto: UploadImageDto,
     user: User,
   ): Promise<Image> {
-    const currentUser = await this.usersService.findById(user.id);
+    // const currentUser = await this.usersService.findById(user.id);
 
-    if (!currentUser) {
-      throw new UnauthorizedException('User not authenticated');
-    }
+    // if (!currentUser) {
+    //   throw new UnauthorizedException('User not authenticated');
+    // }
+
+    const currentUser = await this.userUtils.getCurrentUser(user.id);
 
     try {
       // Define the compressed file path

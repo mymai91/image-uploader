@@ -8,6 +8,7 @@ import { UsersModule } from './modules/users/users.module';
 import { ImagesModule } from './modules/images/images.module';
 import { AuthModule } from './modules/auth/auth.module';
 import jwtConfig from './config/jwt.config';
+import { UserUtil } from './common/utils/user.utils';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,6 +34,7 @@ import jwtConfig from './config/jwt.config';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UserUtil],
+  exports: [UserUtil],
 })
 export class AppModule {}
