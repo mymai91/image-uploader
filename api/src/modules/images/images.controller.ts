@@ -10,10 +10,10 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ImagesService } from './images.service';
-import { UploadImageDto } from './dtos/upload-image.dto';
+import { UploadImageDto } from './dtos/uploadImage.dto';
 import { multerConfig } from '@/common/config/multer.config';
-import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
-import { GetUser } from '@/common/decorators/get-user.decorator';
+import { JwtAuthGuard } from '@/common/guards/jwtAuth.guard';
+import { GetUser } from '@/common/decorators/getUser.decorator';
 import { User } from '../users/entities/user.entity';
 
 @ApiTags('images')

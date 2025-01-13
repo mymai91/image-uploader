@@ -3,7 +3,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Image } from './entities/images.entity';
-import { UploadImageDto } from './dtos/upload-image.dto';
+import { UploadImageDto } from './dtos/uploadImage.dto';
 import * as sharp from 'sharp';
 import * as fs from 'fs';
 import * as path from 'path';

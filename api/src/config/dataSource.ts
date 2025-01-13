@@ -1,3 +1,4 @@
+// This file use to connect with DB and generate the migration file
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
 // TODO alias import is not working @module/users/...
