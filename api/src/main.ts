@@ -12,7 +12,8 @@ async function bootstrap() {
     .setTitle('User API')
     .setDescription('User management API')
     .setVersion('1.0')
-    .addTag('users')
+    .addBearerAuth() // Enable JWT authentication
+    // .addTag('users')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
