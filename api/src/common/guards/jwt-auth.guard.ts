@@ -21,7 +21,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('no token provided');
     }
 
     try {
@@ -30,7 +30,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       });
       request['user'] = payload;
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('invalid token');
     }
     return true;
   }

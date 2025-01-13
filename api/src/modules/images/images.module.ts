@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Image } from './entities/images.entity';
 import { ImagesController } from './images.controller';
 import { ImagesService } from './images.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { ImagesService } from './images.service';
     MulterModule.register({
       dest: './uploads',
     }),
+    AuthModule,
   ],
   controllers: [ImagesController],
   providers: [ImagesService],
