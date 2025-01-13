@@ -50,3 +50,4 @@ export class ImagesService {
 
     return this.imageRepository.save(image);
   }
+}
