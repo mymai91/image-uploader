@@ -7,6 +7,7 @@ import * as sharp from 'sharp';
 import * as fs from 'fs';
 import * as path from 'path';
 import { COMPRESS_OPTIONS } from '@/common/config/data.config';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class ImagesService {
@@ -18,6 +19,7 @@ export class ImagesService {
   async create(
     file: Express.Multer.File,
     uploadImageDto: UploadImageDto,
+    user: User,
   ): Promise<Image> {
     // Define the compressed file path
     const compressedFilename = `c-${file.filename}`;
@@ -31,20 +33,20 @@ export class ImagesService {
       .resize(COMPRESS_OPTIONS.width, COMPRESS_OPTIONS.height, {
         fit: 'inside',
         withoutEnlargement: true,
-      }) // Resize the image to a maximum width of 800px
-      .jpeg({ quality: COMPRESS_OPTIONS.quality }) // Compress the image with 80% quality
+      })
+      .jpeg({ quality: COMPRESS_OPTIONS.quality })
       .toFile(compressedFilePath);
 
     // Delete the original file if you don't need it
     fs.unlinkSync(file.path);
 
-    // Save the compressed file details in the database
+    // Save the compressed file details in the database with user information
     const image = this.imageRepository.create({
       filename: compressedFilename,
       path: compressedFilePath,
       description: uploadImageDto.description,
+      user: user, // Associate the image with the user
     });
 
     return this.imageRepository.save(image);
   }
-}
