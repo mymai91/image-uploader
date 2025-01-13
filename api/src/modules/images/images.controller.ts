@@ -1,3 +1,4 @@
+// src/modules/images/images.controller.ts
 import {
   Body,
   Controller,
@@ -22,7 +23,7 @@ export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard) // Ensure only authenticated users can access this route
   @UseInterceptors(FileInterceptor('image', multerConfig()))
   @ApiConsumes('multipart/form-data')
   @ApiBody({

@@ -170,3 +170,15 @@ export class AuthModule {}
 ```
 
 ```
+
+# Jwt comment approach
+
+4. Recommended Approach
+
+```
+A practical approach is a hybrid of the above:
+
+* Use @GetUser() to fetch lightweight user info (e.g., id) from the JWT payload.
+* In the service layer, fetch the full user entity only when absolutely necessary (e.g., when user relations or additional fields are required).
+* (optional) For APIs where you frequently need the full user entity, consider caching it or including it in the JWT token (if size is not a concern).
+```

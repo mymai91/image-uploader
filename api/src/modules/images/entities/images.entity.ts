@@ -26,4 +26,7 @@ export class Image {
 
   @ManyToOne(() => User, (user) => user.images, { nullable: true })
   user: User;
+
+  @Column({ nullable: true })
+  userId: number;
 }
