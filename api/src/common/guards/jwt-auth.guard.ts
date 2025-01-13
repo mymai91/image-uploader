@@ -1,11 +1,11 @@
 import {
-  ExecutionContext,
   Injectable,
+  ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -21,36 +21,22 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {
-      throw new UnauthorizedException('Unauthorized No Token');
+      throw new UnauthorizedException();
     }
 
     try {
-      if (!this.jwtService) {
-        console.error('JwtService is undefined');
-        throw new Error('JwtService not properly injected');
-      }
-
-      // Add logging to debug
-      console.log('JWT Secret:', this.configService.get('jwt.secret')); // Check if secret is undefined
-
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get('jwt.secret'), // Add type safety
+        secret: this.configService.get<string>('jwt.secret'),
       });
-
-      console.log('Payload:', payload);
       request['user'] = payload;
-      return true;
-    } catch (error) {
-      console.error('Error:', error);
-      throw new UnauthorizedException('Unauthorized invalid token');
+    } catch {
+      throw new UnauthorizedException();
     }
-
     return true;
   }
 
   private extractTokenFromHeader(request: any): string | undefined {
-    const [type, token] = request.headers.authorization.split(' ') || [];
-
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
 }
