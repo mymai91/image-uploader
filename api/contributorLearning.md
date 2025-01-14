@@ -47,3 +47,14 @@ POST /images images#create Create a new image
 PATCH/PUT /images/:id images#update Update an existing image
 DELETE /images/:id images#destroy Delete an image
 ```
+
+# Controller
+
+https://docs.nestjs.com/controllers
+
+# Guards
+
+Guards are executed after all middleware, but before any interceptor or pipe.
+
+Hint
+If you are looking for a real-world example on how to implement an authentication mechanism in your application, visit this chapter. Likewise, for more sophisticated authorization example, check this page.
