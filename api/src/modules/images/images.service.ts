@@ -74,4 +74,13 @@ export class ImagesService {
       throw error;
     }
   }
+
+  async getAll(user: User): Promise<Image[]> {
+    const currentUser = await this.userUtils.getCurrentUser(user.id);
+    console.log('currentUser', currentUser);
+    return await this.imageRepository.find({
+      where: { user: currentUser },
+      order: { uploadDate: 'DESC' },
+    });
+  }
 }

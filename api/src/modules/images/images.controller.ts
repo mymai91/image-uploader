@@ -6,6 +6,7 @@ import {
   UseInterceptors,
   UploadedFile,
   UseGuards,
+  Get,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -46,5 +47,11 @@ export class ImagesController {
     @GetUser() user: User,
   ) {
     return this.imagesService.create(file, uploadImageDto, user);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getAll(@GetUser() user: User) {
+    return this.imagesService.getAll(user);
   }
 }
