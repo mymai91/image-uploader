@@ -58,3 +58,50 @@ Guards are executed after all middleware, but before any interceptor or pipe.
 
 Hint
 If you are looking for a real-world example on how to implement an authentication mechanism in your application, visit this chapter. Likewise, for more sophisticated authorization example, check this page.
+
+# Serializer
+
+`class-transformer`
+
+2 ways:
+
+1. from service
+
+```
+async getAll(user: User): Promise<Image[]> {
+    const currentUser = await this.userUtils.getCurrentUser(user.email);
+    console.log('currentUser', currentUser);
+
+    const images = await this.imageRepository.find({
+      where: { user: { id: currentUser.id } }, // Better to query by ID
+      relations: ['user'], // Add this to load the user relation
+      order: { uploadDate: 'DESC' },
+    });
+
+    return images;
+
+    // console.log('images', images);
+
+    // return images.map((image) =>
+    //   plainToClass(ImageResponseDto, image, { excludeExtraneousValues: true }),
+    // );
+  }
+```
+
+2. from controller
+
+use `@UseInterceptors(ClassSerializerInterceptor)` and `@SerializeOptions({ type: ImageResponseDto })`
+
+https://docs.nestjs.com/techniques/serialization
+
+```
+@UseInterceptors(ClassSerializerInterceptor)
+export class ImagesController {
+  @Get()
+  @Auth()
+  @SerializeOptions({ type: ImageResponseDto })
+  async findAll(@GetUser() user: User, @Query('page') page: number) {
+    return this.imagesService.getAll(user);
+  }
+}
+```

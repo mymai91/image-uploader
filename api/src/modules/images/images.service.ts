@@ -1,15 +1,15 @@
 // src/modules/images/images.service.ts
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { COMPRESS_OPTIONS } from '@/common/config/data.config';
+import { UserUtil } from '@/common/utils/user.utils';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Image } from './entities/images.entity';
-import { UploadImageDto } from './dtos/upload-image.dto';
-import * as sharp from 'sharp';
 import * as fs from 'fs';
 import * as path from 'path';
-import { COMPRESS_OPTIONS } from '@/common/config/data.config';
+import * as sharp from 'sharp';
+import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
-import { UserUtil } from '@/common/utils/user.utils';
+import { UploadImageDto } from './dtos/upload-image.dto';
+import { Image } from './entities/images.entity';
 
 @Injectable()
 export class ImagesService {
@@ -69,9 +69,19 @@ export class ImagesService {
   async getAll(user: User): Promise<Image[]> {
     const currentUser = await this.userUtils.getCurrentUser(user.email);
     console.log('currentUser', currentUser);
-    return await this.imageRepository.find({
-      where: { user: currentUser },
+
+    const images = await this.imageRepository.find({
+      where: { user: { id: currentUser.id } }, // Better to query by ID
+      relations: ['user'], // Add this to load the user relation
       order: { uploadDate: 'DESC' },
     });
+
+    return images;
+
+    // console.log('images', images);
+
+    // return images.map((image) =>
+    //   plainToClass(ImageResponseDto, image, { excludeExtraneousValues: true }),
+    // );
   }
 }

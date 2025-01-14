@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Image } from '../../images/entities/images.entity';
+import { Expose } from 'class-transformer';
 
 @Entity()
 export class User {

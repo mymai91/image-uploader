@@ -39,22 +39,36 @@ Generate migrations for schema changes:
 yarn typeorm migration:generate -d src/config/data-source.ts -n MigrationName
 ```
 
-Run migrations:
+Run migrations to create the tables in your database
 
 ```bash
 yarn typeorm migration:run -d src/config/data-source.ts
-```
-
-OR
-
-```
-yarn migration:generate src/migrations/UserTableAndImageTable
 ```
 
 Rollback migration:
 
 ```bash
 yarn typeorm migration:revert -d src/config/data-source.ts
+```
+
+Alter migration:
+
+```bash
+yarn run typeorm migration:create ./src/migrations/AlertImageTableRemoveUserIdColumn
+```
+
+# Run via command
+
+## Create migration
+
+```
+yarn migration:generate src/migrations/UserTableAndImageTable
+```
+
+Run migration
+
+```
+yarn yarn migration:run
 ```
 
 # Using Swagger (Recommended for Development)

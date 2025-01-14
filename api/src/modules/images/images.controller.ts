@@ -1,27 +1,29 @@
 // src/modules/images/images.controller.ts
+import { multerConfig } from '@/common/config/multer.config';
+import { Auth } from '@/common/decorators/auth.decorator';
+import { GetUser } from '@/common/decorators/get-user.decorator';
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
-  Post,
-  UseInterceptors,
-  UploadedFile,
-  UseGuards,
   Get,
+  Post,
   Query,
+  SerializeOptions,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { ImagesService } from './images.service';
-import { UploadImageDto } from './dtos/upload-image.dto';
-import { multerConfig } from '@/common/config/multer.config';
-import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
-import { GetUser } from '@/common/decorators/get-user.decorator';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { User } from '../users/entities/user.entity';
-import { Auth } from '@/common/decorators/auth.decorator';
+import { UploadImageDto } from './dtos/upload-image.dto';
+import { ImagesService } from './images.service';
+import { ImageResponseDto } from './dtos/image-response.dto';
 
 @ApiTags('images')
 @Controller('images')
 // @ApiBearerAuth()
+@UseInterceptors(ClassSerializerInterceptor)
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
@@ -53,8 +55,8 @@ export class ImagesController {
   }
 
   @Get()
-  // @UseGuards(JwtAuthGuard)
   @Auth()
+  @SerializeOptions({ type: ImageResponseDto })
   async findAll(@GetUser() user: User, @Query('page') page: number) {
     return this.imagesService.getAll(user);
   }
