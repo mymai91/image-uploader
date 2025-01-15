@@ -1,7 +1,7 @@
 // src/modules/images/images.service.ts
 import { COMPRESS_OPTIONS } from '@/common/config/data.config';
 import { UserUtil } from '@/common/utils/user.utils';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -91,7 +91,7 @@ export class ImagesService {
     const images = await this.imageRepository.findAndCount({
       where: { user: { id: currentUser.id } },
       relations: ['user'],
-      order: { uploadDate: 'DESC' },
+      order: { createdAt: 'DESC' },
       take: limit,
       skip,
     });
@@ -111,5 +111,41 @@ export class ImagesService {
       limit,
       totalPages: Math.ceil(total / limit),
     };
+  }
+
+  async softDelete(id: number, user: User): Promise<void> {
+    // Soft delete all images
+    const image = await this.imageRepository.findOne({
+      where: { id, user: { id: user.id } },
+    });
+
+    if (!image) {
+      throw new NotFoundException('Image not found');
+    }
+
+    if (image && !image.isActive) {
+      throw new NotFoundException('Image is deleted');
+    }
+
+    image.isActive = false;
+    image.updatedAt = new Date();
+
+    await this.imageRepository.save(image);
+  }
+
+  async restore(id: number, user: User): Promise<Image> {
+    // Restore all images
+    const image = await this.imageRepository.findOne({
+      where: { id, user: { id: user.id } },
+    });
+
+    if (!image) {
+      throw new NotFoundException('Image not found');
+    }
+
+    image.isActive = true;
+    image.updatedAt = new Date();
+
+    return await this.imageRepository.save(image);
   }
 }

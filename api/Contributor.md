@@ -71,6 +71,10 @@ Run migration
 yarn yarn migration:run
 ```
 
+```
+yarn migration:alter src/migrations/AlertImageTableRemoveUserIdColumn
+```
+
 # Using Swagger (Recommended for Development)
 
 yarn add @nestjs/swagger swagger-ui-express
