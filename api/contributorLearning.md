@@ -105,3 +105,5 @@ export class ImagesController {
   }
 }
 ```
+
+If you return with pagination, the best way is you should serializer at service and use `plainToClass`

@@ -4,12 +4,12 @@ import { Auth } from '@/common/decorators/auth.decorator';
 import { GetUser } from '@/common/decorators/get-user.decorator';
 import {
   Body,
-  ClassSerializerInterceptor,
+  // ClassSerializerInterceptor,
   Controller,
   Get,
   Post,
   Query,
-  SerializeOptions,
+  // SerializeOptions,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -18,12 +18,13 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { User } from '../users/entities/user.entity';
 import { UploadImageDto } from './dtos/upload-image.dto';
 import { ImagesService } from './images.service';
-import { ImageResponseDto } from './dtos/image-response.dto';
+// import { ImageResponseDto } from './dtos/image-response.dto';
+import { PaginationQueryDto } from '@/common/dtos/pagination-query.dto';
 
 @ApiTags('images')
 @Controller('images')
 // @ApiBearerAuth()
-@UseInterceptors(ClassSerializerInterceptor)
+// @UseInterceptors(ClassSerializerInterceptor)
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
@@ -56,8 +57,11 @@ export class ImagesController {
 
   @Get()
   @Auth()
-  @SerializeOptions({ type: ImageResponseDto })
-  async findAll(@GetUser() user: User, @Query('page') page: number) {
-    return this.imagesService.getAll(user);
+  // @SerializeOptions({ type: ImageResponseDto })
+  async findAll(
+    @GetUser() user: User,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
+    return this.imagesService.getAll(user, paginationQuery);
   }
 }

@@ -10,6 +10,10 @@ import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UploadImageDto } from './dtos/upload-image.dto';
 import { Image } from './entities/images.entity';
+import { PaginationQueryDto } from '@/common/dtos/pagination-query.dto';
+import { PaginationResponseDto } from '@/common/dtos/pagination-response.dto';
+import { plainToClass } from 'class-transformer';
+import { ImageResponseDto } from './dtos/image-response.dto';
 
 @Injectable()
 export class ImagesService {
@@ -66,22 +70,46 @@ export class ImagesService {
     }
   }
 
-  async getAll(user: User): Promise<Image[]> {
+  async getAll(
+    user: User,
+    paginationQuery: PaginationQueryDto,
+  ): Promise<PaginationResponseDto<ImageResponseDto>> {
     const currentUser = await this.userUtils.getCurrentUser(user.email);
-    console.log('currentUser', currentUser);
 
-    const images = await this.imageRepository.find({
-      where: { user: { id: currentUser.id } }, // Better to query by ID
-      relations: ['user'], // Add this to load the user relation
+    const { limit = 10, page = 1 } = paginationQuery;
+    const skip = (page - 1) * limit;
+
+    // Without pagination
+    // const images = await this.imageRepository.find({
+    //   where: { user: { id: currentUser.id } }, // Better to query by ID
+    //   relations: ['user'], // Add this to load the user relation
+    //   order: { uploadDate: 'DESC' },
+    // });
+
+    // With pagination
+
+    const images = await this.imageRepository.findAndCount({
+      where: { user: { id: currentUser.id } },
+      relations: ['user'],
       order: { uploadDate: 'DESC' },
+      take: limit,
+      skip,
     });
 
-    return images;
+    const [items, total] = images;
 
-    // console.log('images', images);
+    const serializerImage = items.map((item) => {
+      return plainToClass(ImageResponseDto, item, {
+        excludeExtraneousValues: true,
+      });
+    });
 
-    // return images.map((image) =>
-    //   plainToClass(ImageResponseDto, image, { excludeExtraneousValues: true }),
-    // );
+    return {
+      items: serializerImage,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 }
