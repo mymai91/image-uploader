@@ -30,8 +30,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         secret: this.configService.get<string>('JWT_SECRET'),
       });
 
-      console.log('payload', payload);
-
       // Attach user info to the request
       request['user'] = payload;
     } catch (error) {

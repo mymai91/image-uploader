@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Image {
@@ -26,7 +27,4 @@ export class Image {
 
   @ManyToOne(() => User, (user) => user.images, { nullable: true })
   user: User;
-
-  @Column({ nullable: true })
-  userId: number;
 }

@@ -1,29 +1,36 @@
 // src/modules/images/images.controller.ts
+import { multerConfig } from '@/common/config/multer.config';
+import { Auth } from '@/common/decorators/auth.decorator';
+import { GetUser } from '@/common/decorators/get-user.decorator';
 import {
   Body,
+  // ClassSerializerInterceptor,
   Controller,
+  Get,
   Post,
-  UseInterceptors,
+  Query,
+  // SerializeOptions,
   UploadedFile,
-  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { ImagesService } from './images.service';
-import { UploadImageDto } from './dtos/uploadImage.dto';
-import { multerConfig } from '@/common/config/multer.config';
-import { JwtAuthGuard } from '@/common/guards/jwtAuth.guard';
-import { GetUser } from '@/common/decorators/getUser.decorator';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { User } from '../users/entities/user.entity';
+import { UploadImageDto } from './dtos/upload-image.dto';
+import { ImagesService } from './images.service';
+// import { ImageResponseDto } from './dtos/image-response.dto';
+import { PaginationQueryDto } from '@/common/dtos/pagination-query.dto';
 
 @ApiTags('images')
 @Controller('images')
-@ApiBearerAuth()
+// @ApiBearerAuth()
+// @UseInterceptors(ClassSerializerInterceptor)
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard) // Ensure only authenticated users can access this route
+  // @UseGuards(JwtAuthGuard) // Ensure only authenticated users can access this route
+  @Auth()
   @UseInterceptors(FileInterceptor('image', multerConfig()))
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -46,5 +53,15 @@ export class ImagesController {
     @GetUser() user: User,
   ) {
     return this.imagesService.create(file, uploadImageDto, user);
+  }
+
+  @Get()
+  @Auth()
+  // @SerializeOptions({ type: ImageResponseDto })
+  async findAll(
+    @GetUser() user: User,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
+    return this.imagesService.getAll(user, paginationQuery);
   }
 }

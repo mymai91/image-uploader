@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class UserUtil {
   constructor(private readonly userService: UsersService) {}
 
-  async getCurrentUser(userId: number) {
-    return this.userService.findById(userId);
+  async getCurrentUser(email: string) {
+    return this.userService.findByEmail(email);
   }
 }

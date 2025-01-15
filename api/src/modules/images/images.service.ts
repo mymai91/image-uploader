@@ -1,24 +1,25 @@
 // src/modules/images/images.service.ts
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { COMPRESS_OPTIONS } from '@/common/config/data.config';
+import { UserUtil } from '@/common/utils/user.utils';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Image } from './entities/images.entity';
-import { UploadImageDto } from './dtos/uploadImage.dto';
-import * as sharp from 'sharp';
 import * as fs from 'fs';
 import * as path from 'path';
-import { COMPRESS_OPTIONS } from '@/common/config/data.config';
+import * as sharp from 'sharp';
+import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
-import { UsersService } from '../users/users.service';
-import { UserUtil } from '@/common/utils/user.utils';
+import { UploadImageDto } from './dtos/upload-image.dto';
+import { Image } from './entities/images.entity';
+import { PaginationQueryDto } from '@/common/dtos/pagination-query.dto';
+import { PaginationResponseDto } from '@/common/dtos/pagination-response.dto';
+import { plainToClass } from 'class-transformer';
+import { ImageResponseDto } from './dtos/image-response.dto';
 
 @Injectable()
 export class ImagesService {
   constructor(
     @InjectRepository(Image)
     private imageRepository: Repository<Image>,
-
-    private usersService: UsersService,
 
     private userUtils: UserUtil,
   ) {}
@@ -28,13 +29,7 @@ export class ImagesService {
     uploadImageDto: UploadImageDto,
     user: User,
   ): Promise<Image> {
-    // const currentUser = await this.usersService.findById(user.id);
-
-    // if (!currentUser) {
-    //   throw new UnauthorizedException('User not authenticated');
-    // }
-
-    const currentUser = await this.userUtils.getCurrentUser(user.id);
+    const currentUser = await this.userUtils.getCurrentUser(user.email);
 
     try {
       // Define the compressed file path
@@ -73,5 +68,48 @@ export class ImagesService {
       }
       throw error;
     }
+  }
+
+  async getAll(
+    user: User,
+    paginationQuery: PaginationQueryDto,
+  ): Promise<PaginationResponseDto<ImageResponseDto>> {
+    const currentUser = await this.userUtils.getCurrentUser(user.email);
+
+    const { limit = 10, page = 1 } = paginationQuery;
+    const skip = (page - 1) * limit;
+
+    // Without pagination
+    // const images = await this.imageRepository.find({
+    //   where: { user: { id: currentUser.id } }, // Better to query by ID
+    //   relations: ['user'], // Add this to load the user relation
+    //   order: { uploadDate: 'DESC' },
+    // });
+
+    // With pagination
+
+    const images = await this.imageRepository.findAndCount({
+      where: { user: { id: currentUser.id } },
+      relations: ['user'],
+      order: { uploadDate: 'DESC' },
+      take: limit,
+      skip,
+    });
+
+    const [items, total] = images;
+
+    const serializerImage = items.map((item) => {
+      return plainToClass(ImageResponseDto, item, {
+        excludeExtraneousValues: true,
+      });
+    });
+
+    return {
+      items: serializerImage,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 }
