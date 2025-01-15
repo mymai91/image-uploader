@@ -89,7 +89,7 @@ export class ImagesService {
     // With pagination
 
     const images = await this.imageRepository.findAndCount({
-      where: { user: { id: currentUser.id } },
+      where: { user: { id: currentUser.id }, isActive: true },
       relations: ['user'],
       order: { createdAt: 'DESC' },
       take: limit,
