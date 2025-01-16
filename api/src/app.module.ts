@@ -9,6 +9,10 @@ import { ImagesModule } from './modules/images/images.module';
 import { AuthModule } from './modules/auth/auth.module';
 import jwtConfig from './config/jwt.config';
 import { UserUtil } from './common/utils/user.utils';
+import { ScheduleModule } from '@nestjs/schedule';
+// import { TasksModule } from './tasks/tasks.module';
+import { BullModule } from '@nestjs/bull';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -29,9 +33,22 @@ import { UserUtil } from './common/utils/user.utils';
       }),
       inject: [ConfigService],
     }),
+    ScheduleModule.forRoot(), // The .forRoot() call initializes the scheduler and registers any declarative cron jobs, timeouts and intervals that exist within your app.
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+        // Add retry strategy
+        maxRetriesPerRequest: 20,
+        retryStrategy(times: number) {
+          return Math.min(times * 50, 2000);
+        },
+      },
+    }),
     UsersModule,
     ImagesModule,
     AuthModule,
+    // TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService, UserUtil],

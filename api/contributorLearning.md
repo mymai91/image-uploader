@@ -156,3 +156,66 @@ export class AlertImageTableRemoveUserIdColumn1736905982113
 }
 
 ```
+
+# Task schedule
+
+Run script everyday
+
+https://docs.nestjs.com/techniques/task-scheduling
+
+`yarn add @nestjs/schedule`
+
+# Task Queues
+
+if users can initiate resource-intensive tasks at arbitrary times, you can add these tasks to a queue instead of performing them synchronously
+
+Nest provides the @nestjs/bullmq package
+
+Both BullMQ and Bull use `Redis` to persist job data, so you'll need to have `Redis installed on your system`
+
+https://docs.nestjs.com/techniques/queues
+
+```
+yarn add @nestjs/bullmq bullmq
+
+yarn add -D @types/bull
+```
+
+queues file name should be with `xxx.processor.ts`
+
+**concept**
+
+```
+// Sender (Service)
+imageDeleteQueue.add('delete', { imageId: 123 });
+
+// Receiver (Processor)
+@Process('delete')
+handleDelete(job) {
+  console.log(job.data.imageId); // 123
+}
+```
+
+**Redis**
+
+1. Install
+
+```
+brew install redis
+```
+
+2. Start Redis
+
+```
+brew services start redis
+```
+
+OR
+
+Restart Redis:
+
+```
+brew services restart redis
+```
+
+3. Verify Redis is running:

@@ -1,7 +1,7 @@
 // src/modules/images/images.service.ts
 import { COMPRESS_OPTIONS } from '@/common/config/data.config';
 import { UserUtil } from '@/common/utils/user.utils';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -14,6 +14,8 @@ import { PaginationQueryDto } from '@/common/dtos/pagination-query.dto';
 import { PaginationResponseDto } from '@/common/dtos/pagination-response.dto';
 import { plainToClass } from 'class-transformer';
 import { ImageResponseDto } from './dtos/image-response.dto';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bullmq';
 
 @Injectable()
 export class ImagesService {
@@ -22,6 +24,8 @@ export class ImagesService {
     private imageRepository: Repository<Image>,
 
     private userUtils: UserUtil,
+
+    @InjectQueue('image-delete') private imageDeleteQueue: Queue,
   ) {}
 
   async create(
@@ -131,6 +135,18 @@ export class ImagesService {
     image.updatedAt = new Date();
 
     await this.imageRepository.save(image);
+
+    // Add to queue without await since it's a background task
+    try {
+      //  we don't need to await the queue addition -  we don't want to block the API response
+      this.imageDeleteQueue.add(
+        'delete',
+        { imageId: image.id },
+        { delay: 30000 }, // 30 seconds
+      );
+    } catch (error) {
+      Logger.error('Failed to add delete job to queue:', error);
+    }
   }
 
   async restore(id: number, user: User): Promise<Image> {
@@ -143,9 +159,34 @@ export class ImagesService {
       throw new NotFoundException('Image not found');
     }
 
-    image.isActive = true;
-    image.updatedAt = new Date();
+    try {
+      // Get all jobs in the queue
+      const jobs = await this.imageDeleteQueue.getJobs(['delayed']);
 
-    return await this.imageRepository.save(image);
+      // Find and remove the job for this image
+      const jobToRemove = jobs.find((job) => job.data.imageId === image.id);
+
+      if (jobToRemove) {
+        await jobToRemove.remove();
+      }
+
+      // Restore the image
+      image.isActive = true;
+      image.deletedAt = null;
+      image.updatedAt = new Date();
+
+      return await this.imageRepository.save(image);
+    } catch (error) {
+      Logger.error('Failed to restore image:', error);
+      throw error;
+    }
+  }
+
+  async findById(id: number): Promise<Image> {
+    return await this.imageRepository.findOneBy({ id });
+  }
+
+  async delete(image: Image): Promise<void> {
+    await this.imageRepository.remove(image);
   }
 }

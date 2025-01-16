@@ -7,6 +7,8 @@ import { ImagesService } from './images.service';
 import { AuthModule } from '../auth/auth.module';
 import { User } from '../users/entities/user.entity';
 import { UsersModule } from '../users/users.module';
+import { BullModule } from '@nestjs/bull';
+import { ImageDeleteProcessor } from './queues/image-delete.processor';
 
 @Module({
   imports: [
@@ -14,11 +16,14 @@ import { UsersModule } from '../users/users.module';
     MulterModule.register({
       dest: './uploads',
     }),
+    BullModule.registerQueue({
+      name: 'image-delete',
+    }),
     AuthModule,
     UsersModule,
   ],
   controllers: [ImagesController],
-  providers: [ImagesService],
+  providers: [ImagesService, ImageDeleteProcessor],
   exports: [ImagesService],
 })
 export class ImagesModule {}

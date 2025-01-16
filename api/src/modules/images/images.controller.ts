@@ -76,7 +76,7 @@ export class ImagesController {
   @Auth()
   @HttpCode(HttpStatus.NO_CONTENT)
   async softDelete(@GetUser() user: User, @Param('id') id: number) {
-    return this.imagesService.softDelete(id, user);
+    await this.imagesService.softDelete(id, user);
   }
 
   @Put(':id/restore')
