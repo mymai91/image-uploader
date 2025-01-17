@@ -1,9 +1,6 @@
 <div>
-  <label [ngClass]="label"></label>
-  <div class="px-0">
-    <span>{{label}}</span>
-    <span *ngIf="required">*</span>
-  </div>
+  <label [ngClass]="labelClass">{{label}} <span *ngIf="required">*</span></label>
+
   <div class="flex items-center gap-2 input input-bordered">
     <input [value]="value" class="grow" [type]="type" [required]="required" [placeholder]="placeholder"
       (input)="handleInput($event)" [ngClass]="inputClass" />

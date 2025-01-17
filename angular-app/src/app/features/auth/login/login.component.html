@@ -8,10 +8,13 @@
       </span>
     </div>
 
-    <form class="flex flex-col gap-2">
-      <global-input-text name="email" label="Email" placeholder="Enter your email" [required]="true">
-
+    <form [formGroup]="loginForm" class="flex flex-col gap-2">
+      <global-input-text formControlName="email" [errorMessage]="getErrorMessage('email')" label="Email"
+        placeholder="Enter your email" [required]="true">
       </global-input-text>
+
+      <global-input-password formControlName="password" placeholder="Enter password" label="Password" [required]="true"
+        [passwordErrorMessage]="getErrorMessage('password')"></global-input-password>
     </form>
   </div>
   <div class="image-layout image-background">
