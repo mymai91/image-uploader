@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import { TextComponent } from '../../../shared/components/input/text/text.component'
+import { TextComponent } from '@app/shared/components/input/text/text.component'
 import { ErrorMessages } from './login.type'
 import { PasswordComponent } from '@app/shared/components/input/password/password.component'
 
@@ -30,7 +30,6 @@ export class LoginComponent {
     email: {
       required: 'Email is required',
       email: 'Please enter a valid email',
-      customEmail: 'Your custom email error',
     },
     password: {
       required: 'Password is required',
@@ -60,8 +59,15 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
-      console.log('invalid value')
+      Object.keys(this.loginForm.controls).forEach(key => {
+        const control = this.loginForm.get(key)
+        if (control) {
+          control.markAsTouched()
+        }
+      })
+      return
     }
+
     console.log('onSubmit', this.loginForm.value)
   }
 }

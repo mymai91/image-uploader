@@ -3,7 +3,6 @@
 export interface EmailErrors {
   required: string
   email: string
-  customEmail: string
 }
 
 export interface PasswordErrors {
@@ -17,4 +16,18 @@ export interface ErrorType {
 
 export interface ErrorMessages {
   [key: string]: ErrorType
+}
+
+export interface LoginRequest {
+  email: string
+  password: string
+}
+
+export interface LoginResponse {
+  access_token: string
+  user: {
+    id: string
+    email: string
+    name: string
+  }
 }

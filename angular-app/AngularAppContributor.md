@@ -75,6 +75,10 @@ src/
 
 `ng generate component features/auth/login`
 
+# Create the services folder inside auth feature
+
+`ng generate service features/auth/services/auth`
+
 2. Set up auth.routes.ts:
 
 ```
