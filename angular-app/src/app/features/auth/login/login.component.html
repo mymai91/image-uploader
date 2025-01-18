@@ -8,13 +8,15 @@
       </span>
     </div>
 
-    <form [formGroup]="loginForm" class="flex flex-col gap-2">
+    <form [formGroup]="loginForm" class="flex flex-col gap-2" (ngSubmit)="onSubmit()">
       <global-input-text formControlName="email" [errorMessage]="getErrorMessage('email')" label="Email"
         placeholder="Enter your email" [required]="true">
       </global-input-text>
 
       <global-input-password formControlName="password" placeholder="Enter password" label="Password" [required]="true"
         [passwordErrorMessage]="getErrorMessage('password')"></global-input-password>
+
+      <button class="mt-2 text-white btn bg-primary-blue" type="submit">Login</button>
     </form>
   </div>
   <div class="image-layout image-background">

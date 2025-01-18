@@ -264,3 +264,33 @@ export class LoginComponent {
   }
 }
 ```
+
+# Angular template syntax [] and ()
+
+1. [] - Property Binding (Input)
+
+[] sends data TO an element (square brackets "contain" the data)
+
+2. () - Event Binding (Output)
+
+() receives events FROM an element (parentheses "catch" the events)
+
+3. [()] - Two-way Binding (Both)
+
+Combines both property and event binding
+Most commonly used with ngModel
+
+```
+<input
+  [placeholder]="placeholderText"     <!-- Property binding -->
+  (change)="handleChange($event)"     <!-- Event binding -->
+  [(ngModel)]="inputValue"            <!-- Two-way binding -->
+>
+
+<button
+  [disabled]="isLoading"              <!-- Property binding -->
+  (click)="handleClick()"             <!-- Event binding -->
+>
+  Submit
+</button>
+```

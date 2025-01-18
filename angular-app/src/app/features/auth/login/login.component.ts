@@ -49,7 +49,6 @@ export class LoginComponent {
 
   getErrorMessage(controlName: string): string {
     const control = this.loginForm.get(controlName)
-    console.log('getErrorMessage', control)
     if (control && control.errors && (control.dirty || control.touched)) {
       const errors = Object.keys(control.errors)
 
@@ -57,5 +56,12 @@ export class LoginComponent {
     }
 
     return ''
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.invalid) {
+      console.log('invalid value')
+    }
+    console.log('onSubmit', this.loginForm.value)
   }
 }
