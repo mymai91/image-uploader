@@ -79,6 +79,10 @@ src/
 
 `ng generate service features/auth/services/auth`
 
+`ng g guards core/guards`
+
+`ng g interceptor core/interceptors/auth`
+
 2. Set up auth.routes.ts:
 
 ```
