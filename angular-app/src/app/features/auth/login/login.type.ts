@@ -24,7 +24,7 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  access_token: string
+  accessToken: string
   user: {
     id: string
     email: string

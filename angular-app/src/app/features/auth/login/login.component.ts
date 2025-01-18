@@ -9,8 +9,9 @@ import {
 } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { TextComponent } from '@app/shared/components/input/text/text.component'
-import { ErrorMessages } from './login.type'
+import { ErrorMessages, LoginRequest } from './login.type'
 import { PasswordComponent } from '@app/shared/components/input/password/password.component'
+import { AuthService } from '../service'
 
 @Component({
   selector: 'app-login',
@@ -38,8 +39,10 @@ export class LoginComponent {
   }
 
   loginForm: FormGroup
+  isLoading = false
+  apiError = ''
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -68,6 +71,20 @@ export class LoginComponent {
       return
     }
 
-    console.log('onSubmit', this.loginForm.value)
+    this.isLoading = true
+    const loginData: LoginRequest = this.loginForm.value
+
+    this.authService.signin(loginData).subscribe({
+      next: response => {
+        // Navigate to the dashboard or another page on successful login
+        // this.router.navigate(['/dashboard'])
+        console.log('Login successful:', response)
+      },
+      error: err => {
+        this.isLoading = false
+        this.apiError = 'Login failed. Please check your credentials.'
+        console.error('Error:', err)
+      },
+    })
   }
 }

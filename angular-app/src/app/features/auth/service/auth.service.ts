@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { LoginRequest, LoginResponse } from '../login/login.type'
-import { Observable } from 'rxjs'
+import { Observable, tap } from 'rxjs'
 import { environment } from '@env/environment'
 
 @Injectable({
@@ -19,16 +19,24 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   signin(data: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/login`, data, {
-      withCredentials: true,
-    })
+    return this.http.post<LoginResponse>(`${this.API_URL}/login`, data).pipe(
+      tap((response: LoginResponse) => {
+        // Save the token in localStorage
+        if (response.accessToken) {
+          localStorage.setItem('token', response.accessToken)
+        }
+      }),
+    )
   }
 
-  signout() {
-    return this.http.post(
-      `${this.API_URL}/logout`,
-      {},
-      { withCredentials: true },
-    )
+  // TODO: Implement signout api
+  signout(): void {
+    // Clear the token on logout
+    localStorage.removeItem('token')
+  }
+
+  // TODO: Implement isAuthenticated api
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('token')
   }
 }
