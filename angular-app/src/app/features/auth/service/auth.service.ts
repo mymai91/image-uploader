@@ -19,7 +19,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   signin(data: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/login`, data).pipe(
+    return this.http.post<LoginResponse>(`${this.API_URL}/signin`, data).pipe(
       tap((response: LoginResponse) => {
         // Save the token in localStorage
         if (response.accessToken) {
