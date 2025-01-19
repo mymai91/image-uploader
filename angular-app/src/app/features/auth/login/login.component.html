@@ -1,0 +1,25 @@
+<div class="flex w-screen h-screen font-display">
+  <div class="form-layout">
+    <div class="heading-layout">
+      <h1 class="heading-title leading">Sign in here</h1>
+      <span class="subtitle">
+        If you don’t have an account register You can
+        <span class="font-bold text-blue-800">Register here !</span>
+      </span>
+    </div>
+
+    <form [formGroup]="loginForm" class="flex flex-col gap-2" (ngSubmit)="onSubmit()">
+      <global-input-text formControlName="email" [errorMessage]="getErrorMessage('email')" label="Email"
+        placeholder="Enter your email" [required]="true">
+      </global-input-text>
+
+      <global-input-password formControlName="password" placeholder="Enter password" label="Password" [required]="true"
+        [passwordErrorMessage]="getErrorMessage('password')"></global-input-password>
+
+      <button class="mt-2 text-white btn bg-primary-blue" type="submit">Login</button>
+    </form>
+  </div>
+  <div class="image-layout image-background">
+    <img src="assets/images/illustrasi.svg" alt="login-illustration" class="image-illustration" />
+  </div>
+</div>

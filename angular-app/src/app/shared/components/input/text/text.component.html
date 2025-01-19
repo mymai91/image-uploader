@@ -1,0 +1,9 @@
+<div>
+  <label [ngClass]="labelClass">{{label}} <span *ngIf="required">*</span></label>
+
+  <div class="flex items-center gap-2">
+    <input [value]="value" class="grow input input-bordered" [type]="type" [required]="required"
+      [placeholder]="placeholder" (input)="handleInput($event)" [ngClass]="inputClass" />
+  </div>
+  <div *ngIf="errorMessage" class="text-xs text-red-500">{{errorMessage}}</div>
+</div>
