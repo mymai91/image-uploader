@@ -1,17 +1,24 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core'
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core'
 import { provideRouter } from '@angular/router'
 
 import { routes } from './app.routes'
-import {
-  provideClientHydration,
-  withEventReplay,
-} from '@angular/platform-browser'
+// import {
+//   provideClientHydration,
+//   withEventReplay,
+// } from '@angular/platform-browser'
 import {
   provideHttpClient,
   withFetch,
   withInterceptors,
 } from '@angular/common/http'
 import { authInterceptor } from './core/interceptors/auth.interceptor'
+
+import { NgxDropzoneModule } from 'ngx-dropzone'
+
 // import { CookieService } from 'ngx-cookie-service'
 
 export const appConfig: ApplicationConfig = {
@@ -20,6 +27,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     // provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    // CookieService,
+    importProvidersFrom(NgxDropzoneModule),
   ],
 }
