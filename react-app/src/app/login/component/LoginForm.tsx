@@ -36,19 +36,18 @@ export function LoginForm() {
   })
 
   const onSubmit = async (data: LoginFormInputs) => {
-    router.push("/") // Use router.push instead of redirect
-    // try {
-    //   const response = await signIn(data)
-    //   // Store the token if your API returns one
-    //   if (response.accessToken) {
-    //     localStorage.setItem("accessToken", response.accessToken)
-    //   }
-    //   router.push("/") // Use router.push instead of redirect
-    // } catch (error) {
-    //   setError("root", {
-    //     message: "Login failed. Please check your credentials.",
-    //   })
-    // }
+    try {
+      const response = await signIn(data)
+      // Store the token if your API returns one
+      if (response.accessToken) {
+        localStorage.setItem("accessToken", response.accessToken)
+      }
+      router.push("/") // Use router.push instead of redirect
+    } catch (error) {
+      setError("root", {
+        message: "Login failed. Please check your credentials.",
+      })
+    }
   }
 
   return (

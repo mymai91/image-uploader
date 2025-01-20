@@ -24,6 +24,7 @@ export class ImagesComponent implements OnInit {
     this.isLoading = true
     this.imagesService.getListImages().subscribe({
       next: images => {
+        // console.log('images', images)
         this.images = images
       },
       error: error => {
