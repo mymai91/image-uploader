@@ -22,8 +22,10 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.API_URL}/signin`, data).pipe(
       tap((response: LoginResponse) => {
         // Save the token in localStorage
+
+        console.log('response', response)
         if (response.accessToken) {
-          localStorage.setItem('token', response.accessToken)
+          localStorage.setItem('accessToken', response.accessToken)
         }
       }),
     )

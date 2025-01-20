@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router'
 import { LoginComponent } from './features/auth/login/login.component'
-import { ImageComponent } from './features/image/image.component'
+import { ImagesComponent } from './features/images/list/images.component'
 
 export const routes: Routes = [
   {
@@ -9,6 +9,6 @@ export const routes: Routes = [
   },
   {
     path: 'images',
-    component: ImageComponent,
+    component: ImagesComponent,
   },
 ]
