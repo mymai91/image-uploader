@@ -31,19 +31,20 @@ export function LoginForm() {
     formState: { errors, isSubmitting },
     setError,
   } = useForm<LoginFormInputs>({
+    defaultValues: {
+      email: "john@example.com",
+      password: "password123",
+    },
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
   })
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      const response = await signIn(data)
-      // Store the token if your API returns one
-      if (response.accessToken) {
-        localStorage.setItem("accessToken", response.accessToken)
-      }
-      router.push("/") // Use router.push instead of redirect
-    } catch (error) {
+      await signIn(data)
+
+      router.push("/")
+    } catch (_error) {
       setError("root", {
         message: "Login failed. Please check your credentials.",
       })

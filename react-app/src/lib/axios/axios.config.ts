@@ -22,11 +22,30 @@ axiosInstance.interceptors.request.use(
 )
 
 // Response interceptor
+// axiosInstance.interceptors.response.use(
+//   response => response,
+//   async error => {
+//     if (error.response?.status === 401) {
+//       // Handle token expiration
+//       localStorage.removeItem("accessToken")
+//       window.location.href = "/login"
+//     }
+//     return Promise.reject(error)
+//   },
+// )
+
+// Response interceptor
 axiosInstance.interceptors.response.use(
-  response => response,
-  async error => {
+  response => {
+    // Transform the data while keeping the original AxiosResponse structure
+    response.data = {
+      data: response.data?.data || response.data,
+      status: response.status,
+    }
+    return response // Return the original AxiosResponse object
+  },
+  error => {
     if (error.response?.status === 401) {
-      // Handle token expiration
       localStorage.removeItem("accessToken")
       window.location.href = "/login"
     }
