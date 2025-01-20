@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms'
-import { RouterModule } from '@angular/router'
+import { Router, RouterModule } from '@angular/router'
 import { TextComponent } from '@app/shared/components/input/text/text.component'
 import { ErrorMessages, LoginRequest } from './login.type'
 import { PasswordComponent } from '@app/shared/components/input/password/password.component'
@@ -42,10 +42,14 @@ export class LoginComponent {
   isLoading = false
   apiError = ''
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+  ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['john@example.com', [Validators.required, Validators.email]],
+      password: ['password123', [Validators.required, Validators.minLength(6)]],
     })
   }
 
@@ -75,10 +79,8 @@ export class LoginComponent {
     const loginData: LoginRequest = this.loginForm.value
 
     this.authService.signin(loginData).subscribe({
-      next: response => {
-        // Navigate to the dashboard or another page on successful login
-        // this.router.navigate(['/dashboard'])
-        console.log('Login successful:', response)
+      next: _response => {
+        this.router.navigate(['/images'])
       },
       error: err => {
         this.isLoading = false

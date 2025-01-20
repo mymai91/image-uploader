@@ -12,12 +12,14 @@ import {
   withInterceptors,
 } from '@angular/common/http'
 import { authInterceptor } from './core/interceptors/auth.interceptor'
+// import { CookieService } from 'ngx-cookie-service'
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideClientHydration(withEventReplay()),
+    // provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    // CookieService,
   ],
 }

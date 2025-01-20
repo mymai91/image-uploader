@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dtos/signin.dto';
+import { SignInResponseDto } from './dtos/signin-response.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -15,7 +16,7 @@ export class AuthController {
     description: 'User has been successfully signed in.',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async signIn(@Body() signInDto: SignInDto) {
+  async signIn(@Body() signInDto: SignInDto): Promise<SignInResponseDto> {
     return this.authService.signIn(signInDto);
   }
 }

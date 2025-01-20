@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { SignInDto } from './dtos/signin.dto';
 import * as bcrypt from 'bcrypt';
+import { SignInResponseDto } from './dtos/signin-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
   // TODO handle error with code number
-  async signIn(signInDto: SignInDto) {
+  async signIn(signInDto: SignInDto): Promise<SignInResponseDto> {
     const user = await this.userService.findByEmail(signInDto.email);
 
     if (!user) {
@@ -30,7 +31,7 @@ export class AuthService {
     const payload = { email: user.email, sub: user.email };
 
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
       user: {
         id: user.id,
         email: user.email,
