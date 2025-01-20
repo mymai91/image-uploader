@@ -1,101 +1,68 @@
-// src/app/login/components/LoginForm.tsx
 "use client"
 
-import { yupResolver } from "@hookform/resolvers/yup"
+import React from "react"
 import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { useRouter } from "next/navigation" // Note: use next/navigation in app router
-import { signIn } from "../api/auth"
+// import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { loginThunk } from "@/features/auth/authThunks"
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
+import { useRouter } from "next/navigation"
 
-export const loginSchema = yup
-  .object({
-    email: yup
-      .string()
-      .required("Email is required")
-      .email("Please enter a valid email"),
-    password: yup
-      .string()
-      .required("Password is required")
-      .min(6, "Password must be at least 6 characters"),
-  })
-  .required()
+const loginSchema = yup.object({
+  email: yup.string().required("Email is required").email("Invalid email"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(6, "Minimum 6 characters"),
+})
 
-export type LoginFormInputs = yup.InferType<typeof loginSchema>
-
-export function LoginForm() {
+export default function LoginForm() {
+  const dispatch = useAppDispatch()
   const router = useRouter()
-
+  const { loading, error } = useAppSelector(state => state.auth)
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
-  } = useForm<LoginFormInputs>({
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
     defaultValues: {
       email: "john@example.com",
       password: "password123",
     },
-    resolver: yupResolver(loginSchema),
-    mode: "onBlur",
   })
 
-  const onSubmit = async (data: LoginFormInputs) => {
+  const onSubmit = async (data: { email: string; password: string }) => {
     try {
-      await signIn(data)
-
+      await dispatch(loginThunk(data)).unwrap()
       router.push("/")
-    } catch (_error) {
-      setError("root", {
-        message: "Login failed. Please check your credentials.",
-      })
+    } catch (err) {
+      console.error(err)
     }
   }
 
   return (
     <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6">Login</h2>
-
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            {...register("email")}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-          )}
-        </div>
+        <input
+          type="email"
+          {...register("email")}
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.email && <p>{errors.email.message}</p>}
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Password
-          </label>
-          <input
-            type="password"
-            {...register("password")}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+        <input
+          type="password"
+          {...register("password")}
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.password && <p>{errors.password.message}</p>}
 
-        {errors.root && (
-          <p className="text-sm text-red-500">{errors.root.message}</p>
-        )}
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? "Logging in..." : "Login"}
+        {error && <p>{error}</p>}
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>
