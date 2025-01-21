@@ -68,7 +68,7 @@ yarn migration:generate src/migrations/UserTableAndImageTable
 Run migration
 
 ```
-yarn yarn migration:run
+yarn migration:run
 ```
 
 ```

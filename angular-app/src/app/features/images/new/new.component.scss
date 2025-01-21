@@ -1,0 +1,15 @@
+ngx-dropzone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+ngx-dropzone:hover {
+    border-color: #007bff;
+}
+
+img {
+    border-radius: 5px;
+}

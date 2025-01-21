@@ -9,6 +9,9 @@ export class ImageResponseDto {
   filename: string;
 
   @Expose()
+  path: string;
+
+  @Expose()
   url: string;
 
   @Expose()
