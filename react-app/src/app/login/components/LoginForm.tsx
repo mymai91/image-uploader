@@ -37,7 +37,7 @@ export default function LoginForm() {
   const onSubmit = async (data: LoginRequest) => {
     try {
       await dispatch(loginThunk(data)).unwrap()
-      router.push("/images")
+      router.push("/")
     } catch (err) {
       console.error(err)
     }

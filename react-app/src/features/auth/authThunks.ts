@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { loginSuccess, loginFailure } from "./authSlice"
-import axiosInstance from "@/lib/axios/axios.config"
 import { LoginRequest } from "@/app/login/types/auth"
+import { api } from "@/lib/api/api"
 
 export const loginThunk = createAsyncThunk(
   "auth/login",
   async (loginData: LoginRequest, { dispatch }) => {
-    console.log("loginData in loginThunk", loginData)
     try {
-      const response = await axiosInstance.post("/auth/signin", loginData)
-      const { user, accessToken } = response.data.data
+      const response = await api.create("/auth/signin", loginData)
+
+      const { user, accessToken } = response.data
 
       dispatch(loginSuccess({ user, accessToken }))
 
