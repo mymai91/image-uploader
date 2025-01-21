@@ -34,11 +34,11 @@ export class AuthService {
   // TODO: Implement signout api
   signout(): void {
     // Clear the token on logout
-    localStorage.removeItem('token')
+    localStorage.removeItem('accessToken')
   }
 
   // TODO: Implement isAuthenticated api
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token')
+    return Boolean(localStorage.getItem('accessToken'))
   }
 }
