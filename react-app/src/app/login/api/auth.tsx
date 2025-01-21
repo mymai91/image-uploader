@@ -1,8 +1,8 @@
 import axios from "@/lib/axios/axios.config"
-import { LoginFormInputs } from "../component/LoginForm"
+// import { LoginFormInputs } from "../component/LoginForm"
 import { LoginResponse } from "../types/auth"
 
-export const signIn = async (signInData: LoginFormInputs) => {
+export const signIn = async (signInData: LoginResponse) => {
   try {
     const response = await axios.post<LoginResponse>("/auth/signin", signInData)
 

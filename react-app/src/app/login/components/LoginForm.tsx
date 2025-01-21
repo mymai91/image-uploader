@@ -8,6 +8,7 @@ import * as yup from "yup"
 import { loginThunk } from "@/features/auth/authThunks"
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
 import { useRouter } from "next/navigation"
+import { LoginRequest } from "../types/auth"
 
 const loginSchema = yup.object({
   email: yup.string().required("Email is required").email("Invalid email"),
@@ -33,10 +34,10 @@ export default function LoginForm() {
     },
   })
 
-  const onSubmit = async (data: { email: string; password: string }) => {
+  const onSubmit = async (data: LoginRequest) => {
     try {
       await dispatch(loginThunk(data)).unwrap()
-      router.push("/")
+      router.push("/images")
     } catch (err) {
       console.error(err)
     }
