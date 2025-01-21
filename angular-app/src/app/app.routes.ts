@@ -1,19 +1,12 @@
 import { Routes } from '@angular/router'
 import { LoginComponent } from './features/auth/login/login.component'
-import { ImagesComponent } from './features/images/list/images.component'
-import { CreateNewImageComponent } from './features/images/new/new.component'
+
+import { ImageRoutes } from './features/images/images.routes'
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
   },
-  {
-    path: 'images',
-    component: ImagesComponent,
-  },
-  {
-    path: 'images/new',
-    component: CreateNewImageComponent,
-  },
+  ...ImageRoutes,
 ]
