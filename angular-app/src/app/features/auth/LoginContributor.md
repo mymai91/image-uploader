@@ -1,4 +1,4 @@
-1. Config at `app.config.ts`
+1. Config at `app.config.ts` with `authInterceptor`
 
 ```
 // src/app/app.config.ts
