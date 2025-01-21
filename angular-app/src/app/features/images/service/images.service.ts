@@ -19,4 +19,17 @@ export class ImagesService {
       }),
     )
   }
+
+  uploadImage(file: File, description: string): Observable<ImageResponse> {
+    const formData = new FormData()
+    formData.append('image', file)
+    formData.append('description', description)
+
+    return this.http.post<ImageResponse>(this.API_URL, formData).pipe(
+      map((response: ImageResponse) => {
+        console.log('response', response)
+        return response
+      }),
+    )
+  }
 }
