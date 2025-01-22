@@ -302,3 +302,17 @@ Most commonly used with ngModel
   Submit
 </button>
 ```
+
+# Turn off SSR
+
+from angular.json
+
+comment the code
+
+```
+// "server": "src/main.server.ts",
+// "outputMode": "server",
+// "ssr": {
+//   "entry": "src/server.ts"
+// }
+```
