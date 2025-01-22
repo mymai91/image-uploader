@@ -37,4 +37,25 @@ export class ImagesComponent implements OnInit {
       },
     })
   }
+
+  deleteImage(id: number) {
+    if (!confirm('Are you sure you want to delete this image?')) {
+      return // Exit if the user cancels
+    }
+
+    this.isLoading = true
+    this.imagesService.deleteImage(id).subscribe({
+      next: () => {
+        console.log(`Image with ID ${id} deleted successfully.`)
+        this.images = this.images.filter(image => image.id !== id) // Remove the image from the list
+      },
+      error: error => {
+        console.error('Failed to delete image', error)
+        this.error = 'Failed to delete image'
+      },
+      complete: () => {
+        this.isLoading = false
+      },
+    })
+  }
 }

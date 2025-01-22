@@ -13,9 +13,19 @@
   <div>
     <div
       *ngFor="let image of images"
-      class="bg-white shadow-md rounded-lg p-4 mt-4"
+      class="bg-white shadow-md rounded-lg p-4 mt-4 flex"
     >
+      <div>
+        <p>{{ image.id }}</p>
+      </div>
       <img [src]="image.filename" [alt]="image.description" />
+
+      <button
+        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        (click)="deleteImage(image.id)"
+      >
+        Delete
+      </button>
     </div>
   </div>
 </div>

@@ -32,4 +32,10 @@ export class ImagesService {
       }),
     )
   }
+
+  deleteImage(id: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.API_URL}/${id}`)
+      .pipe(map(() => console.log(`image ${id} has been deleted`)))
+  }
 }

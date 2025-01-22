@@ -42,12 +42,10 @@ export class CreateNewImageComponent {
 
     this.imageService.uploadImage(file, description).subscribe({
       next: response => {
-        console.log('upload successful', response)
+        // console.log('upload successful', response)
         this.router.navigate(['/images'])
       },
-      error: error => {
-        console.error('upload error', error)
-      },
+      error: error => {},
       complete: () => {
         this.isUploading = false
       },
