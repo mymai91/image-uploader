@@ -1,14 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { loginSuccess, loginFailure } from "./authSlice"
-import { LoginRequest } from "@/app/login/types/auth"
+import { LoginRequest, LoginResponse } from "@/app/login/types/auth"
 import { api } from "@/lib/api/api"
 
 export const loginThunk = createAsyncThunk(
   "auth/login",
   async (loginData: LoginRequest, { dispatch }) => {
     try {
-      const response = await api.create("/auth/signin", loginData)
-
+      const response = await api.create<LoginResponse, LoginRequest>(
+        "/auth/signin",
+        loginData,
+      )
       const { user, accessToken } = response.data
 
       dispatch(loginSuccess({ user, accessToken }))
