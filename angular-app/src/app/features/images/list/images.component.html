@@ -11,8 +11,14 @@
   <div *ngIf="error" class="alert alert-error mt-4">{{ error }}</div>
 
   <div>
-    <div *ngFor="let image of images" class="bg-white shadow-md rounded-lg p-4 mt-4">
+    <div
+      *ngFor="let image of images"
+      class="bg-white shadow-md rounded-lg p-4 mt-4"
+    >
       <img [src]="image.filename" [alt]="image.description" />
     </div>
   </div>
 </div>
+
+<!-- Router outlet for nested routes -->
+<router-outlet></router-outlet>

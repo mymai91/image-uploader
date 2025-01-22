@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ImageResponse } from '../images.type'
 import { ImagesService } from '../service/images.service'
+import { RouterModule } from '@angular/router'
 
 @Component({
   selector: 'app-image-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './images.component.html',
   styleUrl: './images.component.scss',
 })

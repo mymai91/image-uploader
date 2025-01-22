@@ -7,13 +7,15 @@ import { AuthenticatedGuard } from './core/guards/authenticated.guard'
 
 export const routes: Routes = [
   {
-    path: '',
-    component: WelcomeComponent,
-  },
-  {
     path: 'login',
     component: LoginComponent,
     canActivate: [AuthenticatedGuard],
   },
   ...ImageRoutes,
+  {
+    path: '',
+    component: WelcomeComponent,
+    pathMatch: 'full',
+  },
+  { path: '**', redirectTo: '/images' }, // Fallback for unknow routes
 ]
