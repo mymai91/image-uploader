@@ -79,7 +79,7 @@ src/
 
 `ng generate service features/auth/services/auth`
 
-`ng g guards core/guards`
+`ng g guard core/guards.auth`
 
 `ng g interceptor core/interceptors/auth`
 
