@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { NgxDropzoneModule } from 'ngx-dropzone'
 import { ImagesService } from '../service/images.service'
-import { error } from 'console'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-image-new',
@@ -16,7 +16,7 @@ export class CreateNewImageComponent {
   maxFileSize = 5 * 1024 * 1024 // max 5MB
   isUploading = false
 
-  constructor(private imageService: ImagesService) {}
+  constructor(private imageService: ImagesService, private router: Router) {}
 
   onSelect(event: any): void {
     console.log('Files added:', event.addedFiles)
@@ -43,6 +43,7 @@ export class CreateNewImageComponent {
     this.imageService.uploadImage(file, description).subscribe({
       next: response => {
         console.log('upload successful', response)
+        this.router.navigate(['/images'])
       },
       error: error => {
         console.error('upload error', error)
