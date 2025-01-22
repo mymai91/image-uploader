@@ -1,12 +1,5 @@
+import { ProductImage } from "@/app/product-images/types/ProductImage"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-
-interface ProductImage {
-  id: number
-  filename: string
-  description: string
-  createdAt: Date
-  updatedAt: Date
-}
 
 interface ListImageState {
   items: ProductImage[]

@@ -232,3 +232,116 @@ try {
 }
 
 ```
+
+# Redux thunk to fetch api
+
+1. Redux level
+
+```
+const getData = createAsyncThunk(
+  'users/fetchByIdStatus',
+  async (paramsSentFromComponent, { dispatch }) => {
+    // Dispatch another action inside the thunk
+  const response = await userAPI.fetchById(userId)
+
+  dispatch(loginSuccess(response))
+
+  return response.data
+  },
+)
+```
+
+2. Component level
+
+a. getData() => so the paramsSentFromComponent is empty
+
+```
+ useEffect(() => {
+    dispatch(getData())
+  }, [dispatch])
+```
+
+a. getData(userId) => so the paramsSentFromComponent is userId
+
+```
+ useEffect(() => {
+    dispatch(getData(userId))
+  }, [dispatch])
+```
+
+3. Reducers function & dispatch
+
+```
+import { ProductImage } from "@/app/product-images/types/ProductImage"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+
+interface ListImageState {
+  items: ProductImage[]
+  total: number
+  page: number
+  limit: number
+  totalPage: number
+  loading: boolean
+  error: string | null
+}
+
+const initialState: ListImageState = {
+  items: [],
+  total: 0,
+  page: 1,
+  limit: 10,
+  totalPage: 0,
+  loading: false,
+  error: null,
+}
+
+const imageSlice = createSlice({
+  name: "images",
+  initialState,
+  reducers: {
+    fetchListImage(
+      state,
+      action: PayloadAction<{
+        items: ProductImage[]
+        page: number
+        limit: number
+        totalPage: number
+        total: number
+      }>,
+    ) {
+      state.items = [...state.items, ...action.payload.items]
+      state.page = action.payload.page
+      state.limit = action.payload.limit
+      state.totalPage = action.payload.totalPage
+      state.total = action.payload.total
+      state.loading = false
+      state.error = null
+    },
+    fetchListImageFailure(state, action: PayloadAction<string>) {
+      state.error = action.payload
+      state.loading = false
+    },
+  },
+})
+
+export const { fetchListImage, fetchListImageFailure } = imageSlice.actions
+export default imageSlice.reducer
+```
+
+2. From thunk function
+
+Redux automatically:
+Provides the current state of the images slice to the fetchListImage reducer.
+Passes the action payload you provided ({ items, page, limit, totalPage, total }).
+
+```
+   dispatch(
+        fetchListImage({
+          items: response.data.items,
+          page: 1,
+          limit: 10,
+          totalPage: response.data.totalPage,
+          total: response.data.total,
+        }),
+      )
+```

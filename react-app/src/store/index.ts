@@ -5,7 +5,7 @@ export const makeStore = () => {
   return configureStore({
     reducer: {
       auth: authReducer, // Add reducers here
-      image: imagesReducer,
+      images: imagesReducer,
     },
   })
 }
