@@ -219,3 +219,7 @@ brew services restart redis
 ```
 
 3. Verify Redis is running:
+
+```
+redis-cli ping
+```
