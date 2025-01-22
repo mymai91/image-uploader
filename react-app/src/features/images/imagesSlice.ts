@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-interface ImageState {
+interface ProductImage {
   id: number
   filename: string
   description: string
@@ -9,7 +9,7 @@ interface ImageState {
 }
 
 interface ListImageState {
-  items: ImageState[]
+  items: ProductImage[]
   total: number
   page: number
   limit: number
@@ -35,7 +35,7 @@ const imageSlice = createSlice({
     fetchListImage(
       state,
       action: PayloadAction<{
-        items: ImageState[]
+        items: ProductImage[]
         page: number
         limit: number
         totalPage: number
