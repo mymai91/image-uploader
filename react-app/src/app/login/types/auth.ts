@@ -1,8 +1,17 @@
+interface User {
+  id: number
+  username: string
+  email: string
+}
 export interface LoginResponse {
-  accessToken: string
+  data: {
+    accessToken: string
+    user: User
+  }
+  status: number
 }
 
 export interface LoginRequest {
-  username: string
+  email: string
   password: string
 }

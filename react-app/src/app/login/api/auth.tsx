@@ -1,20 +1,17 @@
 import axios from "@/lib/axios/axios.config"
-import { LoginFormInputs } from "../component/LoginForm"
+// import { LoginFormInputs } from "../component/LoginForm"
 import { LoginResponse } from "../types/auth"
 
-export const signIn = async (data: LoginFormInputs) => {
+export const signIn = async (signInData: LoginResponse) => {
   try {
-    const response = await axios.post<LoginResponse>("/auth/signin", data)
+    const response = await axios.post<LoginResponse>("/auth/signin", signInData)
 
-    console.log("response", response)
-
-    // Save token
-    // localStorage.setItem("accessToken", response.accessToken)
+    localStorage.setItem("accessToken", response.data.data.accessToken)
 
     // You might also want to set it in a cookie for SSR
     // document.cookie = `accessToken=${response.accessToken}; path=/;`
 
-    return data
+    return response.data.data
   } catch (error) {
     console.log("error", error)
   }
