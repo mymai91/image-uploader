@@ -16,6 +16,7 @@ import { plainToClass } from 'class-transformer';
 import { ImageResponseDto } from './dtos/image-response.dto';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
+import { FindAllImageDto } from './dtos/find-all-image.dto';
 
 @Injectable()
 export class ImagesService {
@@ -76,11 +77,11 @@ export class ImagesService {
 
   async getAll(
     user: User,
-    paginationQuery: PaginationQueryDto,
+    findAllImageDto: FindAllImageDto,
   ): Promise<PaginationResponseDto<ImageResponseDto>> {
     const currentUser = await this.userUtils.getCurrentUser(user.email);
 
-    const { limit = 10, page = 1 } = paginationQuery;
+    const { limit = 10, page = 1 } = findAllImageDto;
     const skip = (page - 1) * limit;
 
     // Without pagination
@@ -93,7 +94,10 @@ export class ImagesService {
     // With pagination
 
     const images = await this.imageRepository.findAndCount({
-      where: { user: { id: currentUser.id }, isActive: true },
+      where: {
+        user: { id: currentUser.id },
+        isActive: findAllImageDto.isActive,
+      },
       relations: ['user'],
       order: { createdAt: 'DESC' },
       take: limit,

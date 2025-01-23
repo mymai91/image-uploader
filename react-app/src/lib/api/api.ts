@@ -48,16 +48,12 @@ export const api = {
   /**
    * Update an existing resource
    */
-  update: async <T, Payload>(
-    path: string,
-    id: string,
-    data: Payload,
-  ): Promise<T> => {
+  update: async <T, Payload>(path: string, data: Payload): Promise<T> => {
     try {
-      const response = await axios.put(`${path}/${id}`, data)
+      const response = await axios.put(`${path}`, data)
       return response.data
     } catch (error) {
-      console.error(`PUT ${path}/${id} failed:`, error)
+      console.error(`PUT ${path} failed:`, error)
       throw error
     }
   },

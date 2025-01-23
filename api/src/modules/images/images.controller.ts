@@ -26,6 +26,7 @@ import { UploadImageDto } from './dtos/upload-image.dto';
 import { ImagesService } from './images.service';
 import { PaginationQueryDto } from '@/common/dtos/pagination-query.dto';
 import { ImageResponseDto } from './dtos/image-response.dto';
+import { FindAllImageDto } from './dtos/find-all-image.dto';
 
 @ApiTags('images')
 @Controller('images')
@@ -67,9 +68,9 @@ export class ImagesController {
   // @SerializeOptions({ type: ImageResponseDto })
   async findAll(
     @GetUser() user: User,
-    @Query() paginationQuery: PaginationQueryDto,
+    @Query() findAllImageDto: FindAllImageDto,
   ) {
-    return this.imagesService.getAll(user, paginationQuery);
+    return this.imagesService.getAll(user, findAllImageDto);
   }
 
   @Delete(':id')

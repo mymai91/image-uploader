@@ -47,8 +47,23 @@ const imageSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
+    removeImage(state, action: PayloadAction<{ id: number }>) {
+      const items = state.items
+      const newItems = items.filter(item => item.id !== action.payload.id)
+
+      state.items = newItems
+      state.loading = false
+    },
+    restoreImage(state, action: PayloadAction<{ image: ProductImage }>) {
+      state.items.push(action.payload.image)
+    },
   },
 })
 
-export const { fetchListImage, fetchListImageFailure } = imageSlice.actions
+export const {
+  fetchListImage,
+  fetchListImageFailure,
+  removeImage,
+  restoreImage,
+} = imageSlice.actions
 export default imageSlice.reducer

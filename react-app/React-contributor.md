@@ -345,3 +345,34 @@ Passes the action payload you provided ({ items, page, limit, totalPage, total }
         }),
       )
 ```
+
+# Redux extraReducers
+
+I. extraReducers of a thunk created by createAsyncThunk always has three action states:
+
+1. pending:
+
+This action is dispatched when the asynchronous operation starts (e.g., fetching data, deleting an item).
+Typically used to set a "loading" state to true.
+
+2. fulfilled:
+
+This action is dispatched when the asynchronous operation completes successfully.
+Typically used to update the state with the response data.
+
+3. rejected:
+
+This action is dispatched when the asynchronous operation fails.
+Typically used to handle errors and reset loading or error states.
+
+### Summary
+
+Every createAsyncThunk generates three lifecycle actions: `pending, fulfilled, and rejected`
+
+These states represent:
+
+pending: Operation started.
+fulfilled: Operation succeeded.
+rejected: Operation failed.
+
+Use extraReducers to handle these actions and update your slice's state appropriately.
