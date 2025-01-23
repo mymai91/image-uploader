@@ -104,7 +104,7 @@ for example, to save data into cookie/localStorage before sending it to the comp
 Use:
 
 - tap for side effects (logging, saving data)
-- map when you need to transform the data stream
+- map when you need to transform/modify the data stream
 
 ```
 // tap: Used for side effects, doesn't transform data

@@ -10,7 +10,6 @@ import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UploadImageDto } from './dtos/upload-image.dto';
 import { Image } from './entities/images.entity';
-import { PaginationQueryDto } from '@/common/dtos/pagination-query.dto';
 import { PaginationResponseDto } from '@/common/dtos/pagination-response.dto';
 import { plainToClass } from 'class-transformer';
 import { ImageResponseDto } from './dtos/image-response.dto';
@@ -146,7 +145,7 @@ export class ImagesService {
       this.imageDeleteQueue.add(
         'delete',
         { imageId: image.id },
-        { delay: 30000 }, // 30 seconds
+        { delay: 3000000 }, // 5 minutes
       );
     } catch (error) {
       Logger.error('Failed to add delete job to queue:', error);

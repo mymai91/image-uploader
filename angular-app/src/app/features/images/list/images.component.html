@@ -1,34 +1,23 @@
-<div *ngIf="isLoading" class="flex">
-  <span class="loading loading-spinner loading-lg"></span>
+<div class="tabs">
+  <button [class.active]="activeTab === 'active'" (click)="switchTab('active')">Active Images</button>
+  <button [class.active]="activeTab === 'inactive'" (click)="switchTab('inactive')">Inactive Images</button>
 </div>
 
-<div class="container mx-auto p-4">
-  <div class="flex justify-between items-center">
-    <h1 class="text-2xl font-bold">Images</h1>
-    <a routerLink="/images/new" class="btn btn-primary">Add Image</a>
-  </div>
+<div *ngIf="isLoading">Loading...</div>
 
-  <div *ngIf="error" class="alert alert-error mt-4">{{ error }}</div>
-
-  <div>
-    <div
-      *ngFor="let image of images"
-      class="bg-white shadow-md rounded-lg p-4 mt-4 flex"
-    >
-      <div>
-        <p>{{ image.id }}</p>
-      </div>
+<ng-container *ngIf="!isLoading">
+  <div *ngIf="activeTab === 'active'">
+    <div *ngIf="activeImages.length === 0">No active images found</div>
+    <div *ngFor="let image of activeImages" class="image-card">
       <img [src]="image.filename" [alt]="image.description" />
-
-      <button
-        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        (click)="deleteImage(image.id)"
-      >
-        Delete
-      </button>
+      <button (click)="deleteImage(image.id)">Delete</button>
     </div>
   </div>
-</div>
 
-<!-- Router outlet for nested routes -->
-<router-outlet></router-outlet>
+  <div *ngIf="activeTab === 'inactive'">
+    <div *ngFor="let image of inactiveImages" class="image-card">
+      <img [src]="image.filename" [alt]="image.description" />
+      <button (click)="restoreImage(image.id)">Restore</button>
+    </div>
+  </div>
+</ng-container>
