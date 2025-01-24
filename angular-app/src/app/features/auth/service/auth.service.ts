@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { LoginRequest, LoginResponse } from '../login/login.type'
+import {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+} from '../login/login.type'
 import { Observable, tap } from 'rxjs'
 import { environment } from '@env/environment'
 
@@ -14,21 +19,33 @@ Making cross-origin requests (when your frontend and backend are on different do
 */
 export class AuthService {
   // TODO - implement enviroment.apiUrl
-  private readonly API_URL = `${environment.apiUrl}/auth`
+  private readonly API_URL = `${environment.apiUrl}`
 
   constructor(private http: HttpClient) {}
 
   signin(data: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/signin`, data).pipe(
-      tap((response: LoginResponse) => {
-        // Save the token in localStorage
+    return this.http
+      .post<LoginResponse>(`${this.API_URL}/auth/signin`, data)
+      .pipe(
+        tap((response: LoginResponse) => {
+          // Save the token in localStorage
 
-        console.log('response', response)
-        if (response.accessToken) {
-          localStorage.setItem('accessToken', response.accessToken)
-        }
-      }),
-    )
+          console.log('response', response)
+          if (response.accessToken) {
+            localStorage.setItem('accessToken', response.accessToken)
+          }
+        }),
+      )
+  }
+
+  register(data: RegisterRequest): Observable<RegisterResponse> {
+    console.log('data', data)
+    return this.http
+      .post<RegisterResponse>(`${this.API_URL}/users`, data)
+      .pipe()
+    // tap((response: RegisterResponse) => {
+    //   console.log('response', response)
+    // }),
   }
 
   // TODO: Implement signout api

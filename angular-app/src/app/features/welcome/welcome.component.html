@@ -1,1 +1,48 @@
-<p>welcome works!</p>
+<div class="min-h-screen bg-blue-600">
+  <nav class="flex items-center justify-between px-6 py-4">
+    <div class="flex items-center space-x-8">
+      <h1 class="text-white font-bold text-2xl">
+        Image Uploader
+      </h1>
+
+      <div class="hidden md:flex items-center space-x-6">
+        <div class="text-white flex items-center">
+          <a>Demo with Angular </a>
+        </div>
+        <div class="text-white">Demo with React</div>
+        <div class="text-white">Api with Nextjs</div>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <button class="text-white">Get started</button>
+      <button class="text-white">Log in</button>
+    </div>
+  </nav>
+
+  <div class="container mx-auto px-6 py-12 flex flex-col lg:flex-row items-center">
+    <div class="lg:w-1/2 mb-12 lg:mb-0">
+      <h1 class="text-white text-5xl md:text-6xl font-bold mb-6">
+        This is the demo for the Image Uploader
+      </h1>
+      <p class="text-white text-xl mb-8">
+        Platform for uploading and managing images. Check demo with Frontent Angular / React, and Backend Nextjs.
+      </p>
+
+      <p class="text-white text-xl mb-8">
+        Create an account for testing entire platform.
+
+        OR
+
+        You can try if you are a guest user.
+      </p>
+    </div>
+
+    <div class="lg:w-1/2 flex justify-end">
+      <div class="relative">
+        <img src="/api/placeholder/300/600" alt="Mobile app" class="w-48 absolute -left-24 top-12 z-10" />
+        <img src="/api/placeholder/800/500" alt="Desktop app" class="w-full max-w-2xl" />
+      </div>
+    </div>
+  </div>
+</div>
