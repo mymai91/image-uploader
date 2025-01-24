@@ -79,7 +79,7 @@ src/
 
 `ng generate service features/auth/services/auth`
 
-`ng g guards core/guards`
+`ng g guard core/guards.auth`
 
 `ng g interceptor core/interceptors/auth`
 
@@ -301,4 +301,104 @@ Most commonly used with ngModel
 >
   Submit
 </button>
+```
+
+# Turn off SSR
+
+from angular.json
+
+comment the code
+
+```
+// "server": "src/main.server.ts",
+// "outputMode": "server",
+// "ssr": {
+//   "entry": "src/server.ts"
+// }
+```
+
+# Summary of Lifecycle Hooks in Order
+
+Here’s the order in which these hooks are executed:
+
+constructor - Called when the component is instantiated.
+ngOnChanges - Called when any input property value changes.
+ngOnInit - Called once after the first ngOnChanges is done.
+ngDoCheck - Called during every change detection run.
+ngAfterContentInit - Called once after <ng-content> is projected into the component.
+ngAfterContentChecked - Called after every check of the projected content.
+ngAfterViewInit - Called once after the component's view and child views are initialized.
+ngAfterViewChecked - Called after every check of the component's view and child views.
+ngOnDestroy - Called just before the component is destroyed.
+
+# Diagram Representation of Lifecycle Phases:
+
+Creation → constructor, ngOnChanges, ngOnInit
+Content Projection → ngDoCheck, ngAfterContentInit, ngAfterContentChecked
+View Initialization → ngAfterViewInit, ngAfterViewChecked
+Destruction → ngOnDestroy
+
+# @Input sending data from parent to child
+
+### Summary:
+
+`@Input()` is for sending data from a parent component to a child component.
+It is not limited to HTML inputs but can be used with any data type (string, object, array, etc.).
+The data flow is one-way: from parent to child.
+
+### Example: Using @Input()
+
+#### Parent Component
+
+- HTML (parent.component.html):
+
+```
+<app-child [title]="'Hello from Parent!'" [count]="5"></app-child>
+```
+
+- TypeScript (parent.component.ts):
+
+```
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  templateUrl: './parent.component.html',
+  styleUrls: ['./parent.component.css'],
+})
+export class ParentComponent {
+  // No special setup required here
+}
+```
+
+#### Child Component
+
+- HTML (child.component.html):
+
+```
+<h1>{{ title }}</h1>
+<p>Count: {{ count }}</p>
+```
+
+#### TypeScript (child.component.ts):
+
+```
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  templateUrl: './child.component.html',
+  styleUrls: ['./child.component.css'],
+})
+export class ChildComponent {
+  @Input() title: string = ''; // Receives data from parent
+  @Input() count: number = 0;  // Receives data from parent
+}
+```
+
+#### Output on the Page
+
+```
+Hello from Parent!
+Count: 5
 ```

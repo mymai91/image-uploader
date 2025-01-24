@@ -10,12 +10,12 @@ import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UploadImageDto } from './dtos/upload-image.dto';
 import { Image } from './entities/images.entity';
-import { PaginationQueryDto } from '@/common/dtos/pagination-query.dto';
 import { PaginationResponseDto } from '@/common/dtos/pagination-response.dto';
 import { plainToClass } from 'class-transformer';
 import { ImageResponseDto } from './dtos/image-response.dto';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
+import { FindAllImageDto } from './dtos/find-all-image.dto';
 
 @Injectable()
 export class ImagesService {
@@ -76,11 +76,11 @@ export class ImagesService {
 
   async getAll(
     user: User,
-    paginationQuery: PaginationQueryDto,
+    findAllImageDto: FindAllImageDto,
   ): Promise<PaginationResponseDto<ImageResponseDto>> {
     const currentUser = await this.userUtils.getCurrentUser(user.email);
 
-    const { limit = 10, page = 1 } = paginationQuery;
+    const { limit = 10, page = 1 } = findAllImageDto;
     const skip = (page - 1) * limit;
 
     // Without pagination
@@ -93,7 +93,10 @@ export class ImagesService {
     // With pagination
 
     const images = await this.imageRepository.findAndCount({
-      where: { user: { id: currentUser.id }, isActive: true },
+      where: {
+        user: { id: currentUser.id },
+        isActive: findAllImageDto.isActive,
+      },
       relations: ['user'],
       order: { createdAt: 'DESC' },
       take: limit,
@@ -142,7 +145,7 @@ export class ImagesService {
       this.imageDeleteQueue.add(
         'delete',
         { imageId: image.id },
-        { delay: 30000 }, // 30 seconds
+        { delay: 3000000 }, // 5 minutes
       );
     } catch (error) {
       Logger.error('Failed to add delete job to queue:', error);

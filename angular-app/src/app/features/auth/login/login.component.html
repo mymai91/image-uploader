@@ -2,10 +2,10 @@
   <div class="form-layout">
     <div class="heading-layout">
       <h1 class="heading-title leading">Sign in here</h1>
-      <span class="subtitle">
+      <p class="subtitle">
         If you don’t have an account register You can
-        <span class="font-bold text-blue-800">Register here !</span>
-      </span>
+        <a class="font-bold text-blue-800" routerLink="/register">Register here !</a>
+      </p>
     </div>
 
     <form [formGroup]="loginForm" class="flex flex-col gap-2" (ngSubmit)="onSubmit()">
