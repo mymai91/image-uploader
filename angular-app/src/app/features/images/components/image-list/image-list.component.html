@@ -1,0 +1,6 @@
+<h2 class="text-center">{{title}}</h2>
+<div *ngIf="images.length === 0">{{noImagesMessage}}</div>
+<div *ngFor="let image of images" class="image-card">
+  <img [src]="image.filename" [alt]="image.description" />
+  <!-- <button>Delete</button> -->
+</div>

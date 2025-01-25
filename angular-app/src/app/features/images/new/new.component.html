@@ -2,17 +2,30 @@
   <h1 class="text-2xl font-bold mb-4">Upload New Image</h1>
 
   <!-- Dropzone -->
-  <ngx-dropzone
-    (change)="onSelect($event)"
-    [multiple]="false"
-    [accept]="accept"
-    [maxFileSize]="maxFileSize"
-    class="border border-dashed border-gray-300 p-6 rounded-lg"
-  >
+  <ngx-dropzone (change)="onSelect($event)" [multiple]="false" [accept]="accept" [maxFileSize]="maxFileSize"
+    class="border border-dashed border-gray-300 p-6 rounded-lg">
     <ngx-dropzone-label>
       <p class="text-center text-gray-500">
         Drag and drop your images here, or click to browse
       </p>
     </ngx-dropzone-label>
   </ngx-dropzone>
+
+  <div>
+
+    <div class="tabs">
+      <button [class.active]="activeTab === 'active'" (click)="switchTab('active')">Active Images</button>
+      <button [class.active]="activeTab === 'inactive'" (click)="switchTab('inactive')">Inactive Images</button>
+    </div>
+
+    <ng-container *ngIf="!isLoading">
+      <div *ngIf="activeTab === 'active'">
+        <global-image-list title="Active" [images]="activeImages"></global-image-list>
+      </div>
+
+      <div *ngIf="activeTab === 'inactive'">
+        <global-image-list title="InActive" [images]="inactiveImages"></global-image-list>
+      </div>
+    </ng-container>
+  </div>
 </div>
