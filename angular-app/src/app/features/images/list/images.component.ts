@@ -3,12 +3,13 @@ import { ImagesService } from '../service/images.service'
 import { ImageResponse } from '../images.type'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
+import { ImageListComponent } from '../components/image-list/image-list.component'
 
 @Component({
   selector: 'app-image-list',
   templateUrl: './images.component.html',
   styleUrls: ['./images.component.scss'],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ImageListComponent],
 })
 export class ImagesComponent implements OnInit {
   activeImages: ImageResponse[] = []
