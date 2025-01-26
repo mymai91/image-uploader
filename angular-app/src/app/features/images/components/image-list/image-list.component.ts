@@ -20,6 +20,10 @@ export class ImageListComponent {
 
   constructor() {}
 
+  // ngOnInit() {
+  //   console.log('ImageListComponent initialized')
+  // }
+
   handleDelete(id: number) {
     this.onDelete.emit(id)
   }
