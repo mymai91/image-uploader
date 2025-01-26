@@ -1,0 +1,10 @@
+.auth-layout {
+  background-image: url('/assets/images/auth.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  @media (min-width: 1024px) {
+    background-image: none; /* Desktop layout does not use the background image */
+  }
+}

@@ -1,31 +1,42 @@
-.form {
-  &-layout {
-    @apply w-1/2 h-screen flex flex-col gap-4 px-[6%] justify-center;
+/* Mobile background image */
+@media (max-width: 1024px) {
+  .auth-layout {
+    background-image: url('/assets/images/auth.jpg');
+    background-size: cover;
+    background-position: center;
   }
 }
 
-.image {
-  &-layout {
-    @apply w-1/2 h-screen flex flex-col items-center justify-end py-[5%];
-  }
 
-  &-background {
-    @apply bg-primary-blue;
-  }
+// .form {
+//   &-layout {
+//     @apply w-1/2 h-screen flex flex-col gap-4 justify-center;
+//   }
+// }
 
-  &-illustration {
-    @apply object-fill w-3/4;
-  }
-}
+// .image {
+//   // &-layout {
+//   //   @apply w-1/2 h-screen flex flex-col items-center justify-end;
+//   // }
 
-.heading {
-  &-layout {
-    @apply flex flex-col gap-1;
-  }
-  &-title {
-    @apply text-4xl text-slate-700 font-bold;
-  }
-  &-subtitle {
-    @apply text-base font-medium text-gray-400;
-  }
-}
+//   // &-background {
+//   //   @apply bg-primary-blue;
+//   // }
+
+//   // &-illustration {
+//   //   // @apply object-fill w-3/4;
+//   //   @apply w-full;
+//   // }
+// }
+
+// .heading {
+//   &-layout {
+//     @apply flex flex-col gap-1;
+//   }
+//   &-title {
+//     @apply text-4xl text-slate-700 font-bold;
+//   }
+//   &-subtitle {
+//     @apply text-base font-medium text-gray-400;
+//   }
+// }

@@ -1,0 +1,38 @@
+<header class="bg-blue-600 text-white shadow-md">
+  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <div class="flex items-center space-x-4">
+      <a routerLink="/" class="text-2xl font-bold hover:underline">Image Uploader</a>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="hidden md:flex items-center space-x-6">
+      <a routerLink="/images" routerLinkActive="font-bold underline" class="hover:underline">Images</a>
+      <a routerLink="/images/create" routerLinkActive="font-bold underline" class="hover:underline">Create New Image</a>
+    </nav>
+
+    <!-- Dropdown Menu (Mobile) -->
+    <div class="relative md:hidden">
+      <button (click)="toggleMenu()" class="flex items-center space-x-2 focus:outline-none">
+        <span>Menu</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+
+      <div *ngIf="menuOpen"
+        class="absolute right-0 top-full mt-2 w-48 bg-white text-blue-600 shadow-lg rounded-lg py-2 z-10">
+        <a routerLink="/images" routerLinkActive="font-bold" class="block px-4 py-2 hover:bg-blue-50">Images</a>
+        <a routerLink="/images/new" routerLinkActive="font-bold" class="block px-4 py-2 hover:bg-blue-50">Create New
+          Image</a>
+      </div>
+    </div>
+
+    <!-- Logout Button -->
+    <div>
+      <button (click)="logout()" class="text-sm bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100">
+        Logout
+      </button>
+    </div>
+  </div>
+</header>

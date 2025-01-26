@@ -407,3 +407,34 @@ Count: 5
 
 - @Input() allows the parent to send data to the child.
 - @Output() allows the child to send events (with optional data) back to the parent.
+
+# Create Header - Global component apply for entire app or on Certain Pages
+
+1. Modify app.component.ts
+
+```
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet, HeaderComponent],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  constructor(private router: Router) {}
+
+  showHeader(): boolean {
+    // Hide header on specific routes
+    return this.router.url !== '/login';
+  }
+}
+```
+
+2. Modify app.component.html
+
+```
+<app-header *ngIf="showHeader()"></app-header>
+<router-outlet></router-outlet>
+```

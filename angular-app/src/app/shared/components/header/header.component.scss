@@ -1,0 +1,10 @@
+/* Ensure the dropdown menu works nicely */
+header {
+  .dropdown-menu {
+    display: none;
+  }
+
+  .dropdown-menu.open {
+    display: block;
+  }
+}
