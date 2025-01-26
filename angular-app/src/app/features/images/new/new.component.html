@@ -20,11 +20,13 @@
 
     <ng-container *ngIf="!isLoading">
       <div *ngIf="activeTab === 'active'">
-        <global-image-list title="Active" [images]="activeImages"></global-image-list>
+        <global-image-list title="Active" [images]="activeImages" [isActive]="isActive"
+          (onDelete)="deleteImage($event)"></global-image-list>
       </div>
 
       <div *ngIf="activeTab === 'inactive'">
-        <global-image-list title="InActive" [images]="inactiveImages"></global-image-list>
+        <global-image-list title="InActive" [images]="inactiveImages" [isActive]="isActive"
+          (onRestore)="restoreImage($event)"></global-image-list>
       </div>
     </ng-container>
   </div>

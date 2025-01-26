@@ -402,3 +402,8 @@ export class ChildComponent {
 Hello from Parent!
 Count: 5
 ```
+
+# Send event from child component to parent component
+
+- @Input() allows the parent to send data to the child.
+- @Output() allows the child to send events (with optional data) back to the parent.
