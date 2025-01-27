@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Afacad Flux", "sans-serif"],
+        sans: ["DM Sans", "sans-serif"],
         roboto: ["Roboto", "sans-serif"],
         display: ["Nunito Sans", "sans-serif"],
       },

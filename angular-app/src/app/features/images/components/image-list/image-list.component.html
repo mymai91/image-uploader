@@ -1,6 +1,18 @@
-<h2 class="text-center">{{title}}</h2>
-<div *ngIf="images.length === 0">{{noImagesMessage}}</div>
-<div *ngFor="let image of images" class="image-card">
-  <img [src]="image.filename" [alt]="image.description" />
-  <!-- <button>Delete</button> -->
+<div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+  <div *ngFor="let image of images" class="image-card relative rounded-lg shadow-md overflow-hidden">
+    <div class="relative h-64 p-6">
+      <img [src]="image.path" [alt]="image.description" [ngClass]="{ 'object-contain': true }" class=" w-full h-full" />
+    </div>
+
+    <div class="p-2 bg-black/50">
+      <button *ngIf="isActive" (click)="handleDelete(image.id)"
+        class="w-full px-3 py-1.5 text-white bg-red-500 hover:bg-red-600 rounded">
+        Delete
+      </button>
+      <button *ngIf="!isActive" (click)="handleRestore(image.id)"
+        class="w-full px-3 py-1.5 text-white bg-green-500 hover:bg-green-600 rounded">
+        Restore
+      </button>
+    </div>
+  </div>
 </div>

@@ -1,35 +1,50 @@
-<div class="flex justify-between items-center">
-  <h1 class="text-2xl font-bold">Images</h1>
-  <a routerLink="/images/new" class="btn btn-primary">Add Image</a>
-</div>
-<div class="tabs">
-  <button [class.active]="activeTab === 'active'" (click)="switchTab('active')">Active Images</button>
-  <button [class.active]="activeTab === 'inactive'" (click)="switchTab('inactive')">Inactive Images</button>
+<div class="container mx-auto p-4">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Images</h1>
+    <a routerLink="/images/new" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Add Image</a>
+  </div>
+
+  <div class="tabs flex border-b border-gray-200 mb-12">
+    <button class="tab px-4 py-2" [class.active]="activeTab === 'active'" (click)="switchTab('active')">
+      Active Images
+    </button>
+    <button class="tab px-4 py-2" [class.active]="activeTab === 'inactive'" (click)="switchTab('inactive')">
+      Inactive Images
+    </button>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <div [ngSwitch]="activeTab">
+      <div *ngSwitchCase="'active'">
+        <global-image-list [title]="'Active Image'" [images]="activeImages" [noImagesMessage]="'No active images found'"
+          [isActive]="isActive" (onDelete)="deleteImage($event)"></global-image-list>
+      </div>
+
+      <div *ngSwitchCase="'inactive'">
+        <global-image-list [title]="'Inactive Image'" [images]="inactiveImages"
+          [noImagesMessage]="'No inactive images found'" [isActive]="isActive"
+          (onRestore)="restoreImage($event)"></global-image-list>
+      </div>
+    </div>
+  </ng-container>
+
 </div>
 
-<!-- <div *ngIf="isLoading">Loading...</div> -->
 
-<ng-container *ngIf="!isLoading">
+<!-- <ng-container *ngIf="!isLoading">
   <div *ngIf="activeTab === 'active'">
 
-    <global-image-list [title]="'Active Image'" [images]="activeImages"
-      [noImagesMessage]="'No active images found'"></global-image-list>
-    <!-- <div *ngIf="activeImages.length === 0">No active images found</div>
+    <div *ngIf="activeImages.length === 0">No active images found</div>
     <div *ngFor="let image of activeImages" class="image-card">
       <img [src]="image.filename" [alt]="image.description" />
       <button (click)="deleteImage(image.id)">Delete</button>
-    </div> -->
-  </div>
+    </div>
 
-  <div *ngIf="activeTab === 'inactive'">
-    <global-image-list [title]="'Inactive Image'" [images]="inactiveImages"
-      [noImagesMessage]="'No inactive images found'"></global-image-list>
-    <!-- <div *ngFor="let image of inactiveImages" class="image-card">
+  <div *ngFor="let image of inactiveImages" class="image-card">
       <img [src]="image.filename" [alt]="image.description" />
       <button (click)="restoreImage(image.id)">Restore</button>
-    </div> -->
-  </div>
-</ng-container>
+    </div>
+</ng-container> -->
 
 <!-- Router outlet for nested routes -->
 <router-outlet></router-outlet>

@@ -24,6 +24,7 @@ export class CreateNewImageComponent {
   isLoading = false
   error = ''
   activeTab = 'active'
+  isActive: boolean = true
 
   constructor(private imagesService: ImagesService, private router: Router) {}
 
@@ -76,6 +77,7 @@ export class CreateNewImageComponent {
 
   switchTab(tab: 'active' | 'inactive') {
     this.activeTab = tab
+    this.isActive = tab === 'active'
   }
 
   restoreImage(id: number) {

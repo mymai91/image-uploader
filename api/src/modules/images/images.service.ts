@@ -19,6 +19,10 @@ import { FindAllImageDto } from './dtos/find-all-image.dto';
 
 @Injectable()
 export class ImagesService {
+  private readonly baseUrl =
+    process.env.NODE_ENV === 'production'
+      ? process.env.DOMAIN_PROD
+      : process.env.DOMAIN_LOCAL;
   constructor(
     @InjectRepository(Image)
     private imageRepository: Repository<Image>,
@@ -106,7 +110,8 @@ export class ImagesService {
     const [items, total] = images;
 
     const serializerImage = items.map((item) => {
-      return plainToClass(ImageResponseDto, item, {
+      const image = { ...item, path: `${this.baseUrl}/${item.path}` };
+      return plainToClass(ImageResponseDto, image, {
         excludeExtraneousValues: true,
       });
     });

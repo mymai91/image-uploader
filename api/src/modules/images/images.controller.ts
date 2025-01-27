@@ -24,7 +24,6 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { User } from '../users/entities/user.entity';
 import { UploadImageDto } from './dtos/upload-image.dto';
 import { ImagesService } from './images.service';
-import { PaginationQueryDto } from '@/common/dtos/pagination-query.dto';
 import { ImageResponseDto } from './dtos/image-response.dto';
 import { FindAllImageDto } from './dtos/find-all-image.dto';
 

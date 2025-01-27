@@ -11,21 +11,42 @@
     </ngx-dropzone-label>
   </ngx-dropzone>
 
-  <div>
-
-    <div class="tabs">
-      <button [class.active]="activeTab === 'active'" (click)="switchTab('active')">Active Images</button>
-      <button [class.active]="activeTab === 'inactive'" (click)="switchTab('inactive')">Inactive Images</button>
+  <div class="mt-12">
+    <div class="tabs flex border-b border-gray-200 mb-12">
+      <button class="tab px-4 py-2" [class.active]="activeTab === 'active'" (click)="switchTab('active')">
+        Active Images
+      </button>
+      <button class="tab px-4 py-2" [class.active]="activeTab === 'inactive'" (click)="switchTab('inactive')">
+        Inactive Images
+      </button>
     </div>
 
     <ng-container *ngIf="!isLoading">
+      <div [ngSwitch]="activeTab">
+        <div *ngSwitchCase="'active'">
+          <global-image-list [title]="'Active Image'" [images]="activeImages"
+            [noImagesMessage]="'No active images found'" [isActive]="isActive"
+            (onDelete)="deleteImage($event)"></global-image-list>
+        </div>
+
+        <div *ngSwitchCase="'inactive'">
+          <global-image-list [title]="'Inactive Image'" [images]="inactiveImages"
+            [noImagesMessage]="'No inactive images found'" [isActive]="isActive"
+            (onRestore)="restoreImage($event)"></global-image-list>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- <ng-container *ngIf="!isLoading">
       <div *ngIf="activeTab === 'active'">
-        <global-image-list title="Active" [images]="activeImages"></global-image-list>
+        <global-image-list title="Active" [images]="activeImages" [isActive]="isActive"
+          (onDelete)="deleteImage($event)"></global-image-list>
       </div>
 
       <div *ngIf="activeTab === 'inactive'">
-        <global-image-list title="InActive" [images]="inactiveImages"></global-image-list>
+        <global-image-list title="InActive" [images]="inactiveImages" [isActive]="isActive"
+          (onRestore)="restoreImage($event)"></global-image-list>
       </div>
-    </ng-container>
+    </ng-container> -->
   </div>
 </div>

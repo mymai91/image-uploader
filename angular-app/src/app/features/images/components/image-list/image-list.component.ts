@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, Input } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { ImageResponse } from '../../images.type'
 
 @Component({
@@ -13,6 +13,22 @@ export class ImageListComponent {
   @Input() title: string = ''
   @Input() images: ImageResponse[] = []
   @Input() noImagesMessage: string = 'No images found'
+  @Input() isActive: boolean = true
+
+  @Output() onDelete = new EventEmitter<number>()
+  @Output() onRestore = new EventEmitter<number>()
 
   constructor() {}
+
+  // ngOnInit() {
+  //   console.log('ImageListComponent initialized')
+  // }
+
+  handleDelete(id: number) {
+    this.onDelete.emit(id)
+  }
+
+  handleRestore(id: number) {
+    this.onRestore.emit(id)
+  }
 }

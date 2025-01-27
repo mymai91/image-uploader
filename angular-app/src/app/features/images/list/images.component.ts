@@ -19,6 +19,7 @@ export class ImagesComponent implements OnInit {
   isLoading = false
   error = ''
   activeTab = 'active'
+  isActive: boolean = true
 
   constructor(private imagesService: ImagesService) {}
 
@@ -66,6 +67,7 @@ export class ImagesComponent implements OnInit {
   }
 
   deleteImage(id: number) {
+    console.log('deleteImage id', id)
     if (!confirm('Are you sure you want to delete this image?')) return
 
     this.imagesService.deleteImage(id).subscribe({
@@ -79,9 +81,11 @@ export class ImagesComponent implements OnInit {
 
   switchTab(tab: 'active' | 'inactive') {
     this.activeTab = tab
+    this.isActive = tab === 'active'
   }
 
   restoreImage(id: number) {
+    console.log('restoreImage id', id)
     this.imagesService.restoreImage(id).subscribe({
       next: () => console.log(`Image ${id} restored`),
       error: err => {

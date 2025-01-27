@@ -1,6 +1,7 @@
 export interface ImageResponse {
   id: number
   filename: string
+  path: string
   description?: string
   createdAt: Date
   updatedAt: Date

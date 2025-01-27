@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common'
+import { Component } from '@angular/core'
+import { RouterModule } from '@angular/router'
 
 @Component({
   selector: 'app-welcome',
-  imports: [],
+  imports: [CommonModule, RouterModule],
   templateUrl: './welcome.component.html',
-  styleUrl: './welcome.component.scss'
+  styleUrl: './welcome.component.scss',
 })
-export class WelcomeComponent {
-
-}
+export class WelcomeComponent {}

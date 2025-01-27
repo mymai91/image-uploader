@@ -1,0 +1,47 @@
+<header class="bg-blue-600 text-white shadow-md">
+  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Left Section (Logo) -->
+    <div class="flex items-center">
+      <a routerLink="/" class="text-2xl font-bold hover:underline">Image Uploader</a>
+    </div>
+
+    <!-- Center Section (Navigation Links Aligned to the Right) -->
+    <nav class="hidden md:flex items-center space-x-6 ml-auto mr-6">
+      <a routerLink="/images" routerLinkActive="font-bold underline" class="hover:underline">Images</a>
+      <a routerLink="/images/new" routerLinkActive="font-bold underline" class="hover:underline">Create New Image</a>
+    </nav>
+
+    <!-- Right Section (Logout and Dropdown) -->
+    <div class="relative flex items-center space-x-4">
+      <!-- Logout Button for Larger Screens -->
+      <button (click)="logout()"
+        class="hidden md:block text-sm bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100">
+        Logout
+      </button>
+
+      <!-- Dropdown Menu for Mobile -->
+      <div class="md:hidden">
+        <button (click)="toggleMenu()" class="flex items-center space-x-2 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+
+        <!-- Dropdown Links -->
+        <div *ngIf="menuOpen"
+          class="absolute right-0 top-full mt-2 w-48 bg-white text-blue-600 shadow-lg rounded-lg py-2 z-10">
+          <a routerLink="/images" routerLinkActive="font-bold" class="block px-4 py-2 hover:bg-blue-50">
+            Images
+          </a>
+          <a routerLink="/images/new" routerLinkActive="font-bold" class="block px-4 py-2 hover:bg-blue-50">
+            Create New Image
+          </a>
+          <button (click)="logout()"
+            class="font-bold block w-full text-left px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-gray-100">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
