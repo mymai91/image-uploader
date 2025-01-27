@@ -1,33 +1,45 @@
-<div class="flex flex-wrap w-screen h-screen auth-layout">
-  <!-- Form Section -->
-  <div class="flex flex-col justify-center items-center w-full px-6 lg:w-1/2 bg-white bg-opacity-80 lg:bg-transparent">
-    <div class="text-center mb-8">
-      <h1 class="text-3xl lg:text-4xl font-bold leading-tight text-gray-800 mb-4">Sign in here</h1>
-      <p class="text-gray-600">
-        If you don’t have an account, register.
-        <a class="font-bold text-blue-800 hover:underline" routerLink="/register">Register here!</a>
-      </p>
+<div class="bg-gradient-to-r from-blue-50 to-blue-100 h-screen">
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between px-6 py-4 h-20">
+    <div class="flex items-center space-x-8">
+      <h1 class="text-gray-900 font-bold text-2xl"><a routerLink="/">Image Uploader</a></h1>
     </div>
 
-    <form [formGroup]="loginForm" class="flex flex-col gap-4 w-full max-w-md bg-white shadow-lg rounded-lg p-6"
-      (ngSubmit)="onSubmit()">
-      <global-input-text formControlName="email" [errorMessage]="getErrorMessage('email')" label="Email"
-        placeholder="Enter your email" [required]="true">
-      </global-input-text>
+  </nav>
 
-      <global-input-password formControlName="password" placeholder="Enter password" label="Password" [required]="true"
-        [passwordErrorMessage]="getErrorMessage('password')">
-      </global-input-password>
+  <!-- Hero Section -->
+  <div class="container mx-auto px-6 py-12 flex flex-col lg:flex-row items-center lg:space-x-12">
+    <!-- Form Section -->
+    <div class="flex flex-col justify-center items-center w-full px-6">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-extrabold leading-tight text-gray-800 mb-4">Welcome Back</h1>
+        <p class="text-gray-600">
+          Don't have an account?
+          <a class="font-semibold text-blue-600 hover:text-blue-800 hover:underline" routerLink="/register">
+            Register here!
+          </a>
+        </p>
+      </div>
 
-      <button class="py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-all"
-        type="submit">
-        Login
-      </button>
-    </form>
-  </div>
+      <form [formGroup]="loginForm" class="flex flex-col gap-6 w-full max-w-lg bg-white shadow-2xl rounded-2xl p-8"
+        (ngSubmit)="onSubmit()">
+        <global-input-text formControlName="email" [errorMessage]="getErrorMessage('email')" label="Email"
+          placeholder="Enter your email" [required]="true">
+        </global-input-text>
 
-  <!-- Image Section (Desktop Only) -->
-  <div class="hidden lg:flex items-center justify-center w-full lg:w-1/2 h-full bg-blue-50">
-    <img src="assets/images/auth.jpg" alt="Login illustration" class="w-full max-w-lg rounded-lg shadow-lg" />
+        <global-input-password formControlName="password" placeholder="Enter password" label="Password"
+          [required]="true" [passwordErrorMessage]="getErrorMessage('password')">
+        </global-input-password>
+
+        <button class="py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-all shadow-lg"
+          type="submit">
+          Login
+        </button>
+
+        <a routerLink="/forgot-password" class="text-sm text-blue-600 hover:text-blue-800 text-center">
+          Forgot your password?
+        </a>
+      </form>
+    </div>
   </div>
 </div>

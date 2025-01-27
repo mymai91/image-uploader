@@ -1,38 +1,44 @@
-<div class="flex flex-wrap w-screen h-screen auth-layout">
-  <!-- Form Section -->
-  <div class="flex flex-col justify-center items-center w-full px-6 lg:w-1/2 bg-white bg-opacity-80 lg:bg-transparent">
-    <div class="text-center mb-8">
-      <h1 class="text-3xl lg:text-4xl font-bold leading-tight text-gray-800 mb-4">Sign in here</h1>
-      <p class="text-gray-600">
-        Already have an account?
-        <a class="font-bold text-blue-800 hover:underline" routerLink="/login">Login here!</a>
-      </p>
+<div class="bg-gradient-to-r from-blue-50 to-blue-100 h-screen">
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between px-6 py-4 h-20">
+    <div class="flex items-center space-x-8">
+      <h1 class="text-gray-900 font-bold text-2xl"><a routerLink="/">Image Uploader</a></h1>
     </div>
+  </nav>
 
-    <form [formGroup]="registerForm" class="flex flex-col gap-4 w-full max-w-md bg-white shadow-lg rounded-lg p-6"
-      (ngSubmit)="onSubmit()">
-      <!-- Username Field -->
-      <global-input-text formControlName="username" label="Username" type="text" id="username" [required]="true"
-        [errorMessage]="getErrorMessage('username')"></global-input-text>
+  <!-- Hero Section -->
+  <div class="container mx-auto px-6 py-12 flex flex-col lg:flex-row items-center lg:space-x-12">
+    <!-- Form Section -->
+    <div class="flex flex-col justify-center items-center w-full px-6">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-extrabold leading-tight text-gray-800 mb-4">Sign in here</h1>
+        <p class="text-gray-600">
+          Already have an account?
+          <a class="font-bold text-blue-800 hover:underline" routerLink="/login">Login here!</a>
+        </p>
+      </div>
 
-      <!-- Email Field -->
-      <global-input-text formControlName="email" label="Email" type="email" id="email" [required]="true"
-        [errorMessage]="getErrorMessage('email')"></global-input-text>
 
-      <!-- Password Field -->
-      <global-input-password formControlName="password" label="Password" id="password" [required]="true"
-        [passwordErrorMessage]="getErrorMessage('password')"></global-input-password>
+      <form [formGroup]="registerForm" class="flex flex-col gap-6 w-full max-w-lg bg-white shadow-2xl rounded-2xl p-8"
+        (ngSubmit)="onSubmit()">
+        <!-- Username Field -->
+        <global-input-text formControlName="username" label="Username" type="text" id="username" [required]="true"
+          [errorMessage]="getErrorMessage('username')"></global-input-text>
 
-      <!-- Submit Button -->
-      <button type="submit"
-        class="py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-semibold transition-all">
-        Create Account
-      </button>
-    </form>
-  </div>
+        <!-- Email Field -->
+        <global-input-text formControlName="email" label="Email" type="email" id="email" [required]="true"
+          [errorMessage]="getErrorMessage('email')"></global-input-text>
 
-  <!-- Image Section (Desktop Only) -->
-  <div class="hidden lg:flex items-center justify-center w-full lg:w-1/2 h-full bg-blue-50">
-    <img src="assets/images/auth.jpg" alt="Login illustration" class="w-full max-w-lg rounded-lg shadow-lg" />
+        <!-- Password Field -->
+        <global-input-password formControlName="password" label="Password" id="password" [required]="true"
+          [passwordErrorMessage]="getErrorMessage('password')"></global-input-password>
+
+        <!-- Submit Button -->
+        <button type="submit"
+          class="py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-semibold transition-all">
+          Create Account
+        </button>
+      </form>
+    </div>
   </div>
 </div>
