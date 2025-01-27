@@ -20,13 +20,62 @@
 yarn add @angular/material @angular/forms @angular/flex-layout rxjs
 ```
 
-3. Set Up Angular Material
+3. Set Up Tailwind
 
 ```
-ng add @angular/material
+yarn add -D tailwindcss postcss autoprefixer
+
+npx tailwindcss init
+
+yarn add -D daisyui@latest
+
 ```
 
-Choose a theme (e.g., Indigo/Pink), enable global typography, and add animations when prompted.
+3.1 Update tailwind.config.js
+
+```
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: false,
+  content: ["./src/**/*.{html,ts}"],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["DM Sans", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
+        display: ["Nunito Sans", "sans-serif"],
+      },
+      colors: {
+        primary: {
+          blue: "#000842",
+        },
+      },
+    },
+  },
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["light"],
+  },
+}
+```
+
+3.2 Open index.html
+
+```
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+    rel="stylesheet">
+```
+
+3.3 Open styles.scss
+
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
 4. Start the Application
    Start the development server:
