@@ -16,7 +16,6 @@ export class AppComponent {
   showHeader(): boolean {
     return (
       this.router.url !== '/login' &&
-      this.router.url !== '/login?guest=true' &&
       this.router.url !== '/register' &&
       this.router.url !== '/'
     )

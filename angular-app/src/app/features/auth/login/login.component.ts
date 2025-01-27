@@ -55,7 +55,7 @@ export class LoginComponent {
 
     this.route.queryParams.subscribe(params => {
       if (params['guest']) {
-        this.prefillGuestAccount
+        this.prefillGuestAccount()
       }
     })
   }
