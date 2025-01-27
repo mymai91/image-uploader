@@ -17,7 +17,9 @@ export const getListImage = createAsyncThunk(
     console.log("getListThunk#####")
     // return api.getList<ProductImage>("/product-images")
     try {
-      const response = await api.getList<ProductImage>("/images")
+      const response = await api.getList<ProductImage>("/images", {
+        isActive: true,
+      })
 
       dispatch(
         fetchListImage({
@@ -51,7 +53,7 @@ export const deleteImage = createAsyncThunk(
       // console.log("response", response)
       dispatch(removeImage({ id: params.id }))
     } catch (error: any) {
-      console.error("DELETE /product-images failed:", error)
+      console.error(`DELETE /images/${params.id} failed:`, error)
     }
   },
 )
