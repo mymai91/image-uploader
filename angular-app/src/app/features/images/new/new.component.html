@@ -11,13 +11,21 @@
     </ngx-dropzone-label>
   </ngx-dropzone>
 
+  <div class="mb-4 text-gray-600 h-12 mt-8">
+    <p *ngIf="activeTab === 'inactive' && inactiveImages.length > 0">
+      <strong>Note:</strong> Image will be deleted in <span class="text-red-500 font-semibold">1 hour</span>. If
+      you change your mind, restore your image.
+    </p>
+  </div>
+
+
   <div class="mt-12">
     <div class="tabs flex border-b border-gray-200 mb-12">
       <button class="tab px-4 py-2" [class.active]="activeTab === 'active'" (click)="switchTab('active')">
         Active Images
       </button>
       <button class="tab px-4 py-2" [class.active]="activeTab === 'inactive'" (click)="switchTab('inactive')">
-        Inactive Images
+        Deleted Images
       </button>
     </div>
 
