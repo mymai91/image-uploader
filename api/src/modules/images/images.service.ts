@@ -23,6 +23,8 @@ export class ImagesService {
     process.env.NODE_ENV === 'production'
       ? process.env.DOMAIN_PROD
       : process.env.DOMAIN_LOCAL;
+
+  private readonly delayTime = 60 * 60 * 1000; // 1 hour
   constructor(
     @InjectRepository(Image)
     private imageRepository: Repository<Image>,
@@ -150,7 +152,7 @@ export class ImagesService {
       this.imageDeleteQueue.add(
         'delete',
         { imageId: image.id },
-        { delay: 3000000 }, // 5 minutes
+        { delay: this.delayTime }, // 1 hour
       );
     } catch (error) {
       Logger.error('Failed to add delete job to queue:', error);
