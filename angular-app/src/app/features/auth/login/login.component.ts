@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms'
-import { Router, RouterModule } from '@angular/router'
+import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { TextComponent } from '@app/shared/components/input/text/text.component'
 import { ErrorMessages, LoginRequest } from './login.type'
 import { PasswordComponent } from '@app/shared/components/input/password/password.component'
@@ -46,10 +46,17 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute, // check router params
   ) {
     this.loginForm = this.fb.group({
-      email: ['john@example.com', [Validators.required, Validators.email]],
-      password: ['password123', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    })
+
+    this.route.queryParams.subscribe(params => {
+      if (params['guest']) {
+        this.prefillGuestAccount
+      }
     })
   }
 
@@ -87,6 +94,13 @@ export class LoginComponent {
         this.apiError = 'Login failed. Please check your credentials.'
         console.error('Error:', err)
       },
+    })
+  }
+
+  private prefillGuestAccount(): void {
+    this.loginForm.patchValue({
+      email: 'john@example.com',
+      password: 'password123',
     })
   }
 }

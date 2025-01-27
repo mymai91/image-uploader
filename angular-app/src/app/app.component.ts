@@ -14,6 +14,11 @@ export class AppComponent {
   title = 'image-uploader-angular-app'
 
   showHeader(): boolean {
-    return this.router.url !== '/login'
+    return (
+      this.router.url !== '/login' &&
+      this.router.url !== '/login?guest=true' &&
+      this.router.url !== '/register' &&
+      this.router.url !== '/'
+    )
   }
 }

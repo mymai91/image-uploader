@@ -1,22 +1,19 @@
-<div class="min-h-screen bg-blue-600">
+<div class="bg-gradient-to-r from-blue-50 to-blue-100">
   <!-- Navbar -->
   <nav class="flex items-center justify-between px-6 py-4">
     <div class="flex items-center space-x-8">
-      <h1 class="text-white font-bold text-2xl">Image Uploader</h1>
+      <h1 class="text-gray-900 font-bold text-2xl">Image Uploader</h1>
       <div class="hidden md:flex items-center space-x-6">
-        <a href="#" class="text-white hover:underline">Demo with Angular</a>
-        <a href="#" class="text-white hover:underline">Demo with React</a>
-        <a href="#" class="text-white hover:underline">API with Next.js</a>
+        <a href="#" class="text-gray-700 hover:text-blue-600">Demo with Angular</a>
+        <a href="#" class="text-gray-700 hover:text-blue-600">Demo with React</a>
+        <a href="#" class="text-gray-700 hover:text-blue-600">API with Next.js</a>
       </div>
     </div>
     <div class="flex items-center space-x-4">
-      <a routerLink="/register" class="px-4 py-2 bg-white text-blue-600 rounded-3xl hover:bg-gray-100">Get Started</a>
-
-      <a routerLink="/login"
-        class="px-4 py-2 bg-transparent border border-white text-white rounded-3xl hover:bg-white hover:text-blue-600">
+      <a routerLink="/register" class="px-4 py-2 bg-white text-blue-600 rounded-3xl hover:bg-gray-200">Get Started</a>
+      <a routerLink="/login" class="px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700">
         Log In
       </a>
-
     </div>
   </nav>
 
@@ -24,21 +21,22 @@
   <div class="container mx-auto px-6 py-12 flex flex-col lg:flex-row items-center lg:space-x-12">
     <!-- Text Content -->
     <div class="lg:w-1/2 mb-12 lg:mb-0">
-      <h1 class="text-white text-5xl md:text-6xl font-bold leading-tight mb-6">
+      <h1 class="text-gray-900 text-5xl md:text-6xl font-bold leading-tight mb-6">
         Image Uploader Demo
       </h1>
-      <p class="text-white text-lg md:text-xl mb-6">
+      <p class="text-gray-700 text-lg md:text-xl mb-6">
         A platform for uploading and managing images. Check out the frontend demos for Angular, React, and the backend
         API built with Next.js.
       </p>
-      <p class="text-white text-lg md:text-xl mb-8">
+      <p class="text-gray-700 text-lg md:text-xl mb-8">
         Create an account to explore the entire platform or try it as a guest user.
       </p>
       <div class="flex space-x-4">
-        <a routerLink="/register" class="px-6 py-3 bg-white text-blue-600 rounded-3xl font-semibold hover:bg-gray-100">
+        <a routerLink="/register" class="px-6 py-3 bg-blue-600 text-white rounded-3xl font-semibold hover:bg-blue-700">
           Create Account
         </a>
-        <a routerLink="/login" class="px-6 py-3 bg-white text-blue-600 rounded-3xl font-semibold hover:bg-gray-100">
+        <a routerLink="/login" [queryParams]="{ guest: true }"
+          class="px-6 py-3 bg-white text-blue-600 rounded-3xl font-semibold hover:bg-gray-200">
           Try with Example Account
         </a>
       </div>
@@ -54,4 +52,140 @@
   </div>
 </div>
 
-<router-outlet></router-outlet>
+<div class="container mx-auto px-6 py-12">
+  <h2 class="text-gray-900 text-3xl font-bold text-center mb-8">Explore the Demos</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Angular Demo -->
+    <div class="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
+      <img src="assets/images/logo/angular.svg" alt="Angular Logo" class="h-16 mb-4" />
+      <h3 class="text-xl font-bold mb-2">Angular Demo</h3>
+      <p class="text-gray-700 text-center mb-4">
+        Experience the frontend built with Angular showcasing a modern UI and smooth functionality.
+      </p>
+      <a href="https://your-angular-demo-link" target="_blank"
+        class="w-full px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 text-white rounded-3xl font-semibold hover:from-blue-600 hover:to-blue-800 text-center">
+        View Demo
+      </a>
+      <a href="https://your-angular-case-study-link" target="_blank"
+        class="w-full px-6 py-3 border border-blue-600 bg-white text-blue-600 hover:bg-gray-100 rounded-3xl font-semibold hover:from-gray-600 hover:to-gray-800 mt-4 text-center">
+        Case Study
+      </a>
+    </div>
+
+    <!-- React Demo -->
+    <div class="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
+      <img src="assets/images/logo/reactjs.svg" alt="React Logo" class="h-16 mb-4" />
+      <h3 class="text-xl font-bold mb-2">React Demo</h3>
+      <p class="text-gray-700 text-center mb-4">
+        A frontend built with React.js, using <strong>Redux Toolkit</strong> for state management to handle complex app
+        logic efficiently.
+      </p>
+      <a href="https://your-react-demo-link" target="_blank"
+        class="w-full px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 text-white rounded-3xl font-semibold hover:from-blue-600 hover:to-blue-800 text-center">
+        View Demo
+      </a>
+      <a href="https://your-react-case-study-link" target="_blank"
+        class="w-full px-6 py-3 border border-blue-600 bg-white text-blue-600 hover:bg-gray-100 rounded-3xl font-semibold hover:from-gray-600 hover:to-gray-800 mt-4 text-center">
+        Case Study
+      </a>
+    </div>
+
+    <!-- Next.js Swagger API -->
+    <div class="p-6 bg-white rounded-lg shadow-lg flex flex-col items-center">
+      <img src="assets/images/logo/nestjs.svg" alt="Next.js Logo" class="h-16 mb-4" />
+      <h3 class="text-xl font-bold mb-2">Next.js API</h3>
+      <p class="text-gray-700 text-center mb-4">
+        Interact with the Next.js API using Swagger. Test endpoints and explore the backend's functionality.
+      </p>
+      <a href="https://your-nextjs-swagger-link" target="_blank"
+        class="w-full px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 text-white rounded-3xl font-semibold hover:from-blue-600 hover:to-blue-800 text-center">
+        View Demo
+      </a>
+      <a href="https://your-nextjs-case-study-link" target="_blank"
+        class="w-full px-6 py-3 border border-blue-600 bg-white text-blue-600 hover:bg-gray-100 rounded-3xl font-semibold hover:from-gray-600 hover:to-gray-800 mt-4 text-center">
+        Case Study
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container mx-auto px-6 py-12">
+  <h2 class="text-gray-900 text-4xl font-bold text-center mb-12">Technologies Used</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+    <!-- Angular -->
+    <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+      <img src="assets/images/logo/angular.svg" alt="Angular Logo" class="h-20 mx-auto mb-4" />
+      <p class="text-gray-800 font-bold text-lg">Angular</p>
+    </div>
+    <!-- React -->
+    <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+      <img src="assets/images/logo/reactjs.svg" alt="React Logo" class="h-20 mx-auto mb-4" />
+      <p class="text-gray-800 font-bold text-lg">React.js</p>
+    </div>
+    <!-- Redux Toolkit -->
+    <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+      <img src="assets/images/logo/redux.svg" alt="Redux Toolkit Logo" class="h-20 mx-auto mb-4" />
+      <p class="text-gray-800 font-bold text-lg">Redux Toolkit</p>
+    </div>
+    <!-- Tailwind -->
+    <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+      <img src="assets/images/logo/tailwind.svg" alt="Tailwind Logo" class="h-20 mx-auto mb-4" />
+      <p class="text-gray-800 font-bold text-lg">Tailwind</p>
+    </div>
+    <!-- Next.js -->
+    <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+      <img src="assets/images/logo/nestjs.svg" alt="Next.js Logo" class="h-20 mx-auto mb-4" />
+      <p class="text-gray-800 font-bold text-lg">Next.js</p>
+    </div>
+    <!-- Docker -->
+    <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+      <img src="assets/images/logo/docker.svg" alt="Docker Logo" class="h-20 mx-auto mb-4" />
+      <p class="text-gray-800 font-bold text-lg">Docker</p>
+    </div>
+    <!-- Azure -->
+    <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+      <img src="assets/images/logo/azure.svg" alt="Azure Logo" class="h-20 mx-auto mb-4" />
+      <p class="text-gray-800 font-bold text-lg">Azure</p>
+    </div>
+    <!-- AWS S3 -->
+    <div class="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+      <img src="assets/images/logo/aws.svg" alt="AWS S3 Logo" class="h-20 mx-auto mb-4" />
+      <p class="text-gray-800 font-bold text-lg">AWS S3</p>
+    </div>
+  </div>
+</div>
+
+<div class="container mx-auto px-6 py-12">
+  <h2 class="text-gray-900 text-3xl font-bold text-center mb-8">How It’s Deployed</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+    <!-- Docker -->
+    <div class="p-6 bg-white rounded-lg shadow-lg">
+      <img src="assets/images/logo/docker.svg" alt="Docker Logo" class="h-16 mx-auto mb-4" />
+      <h3 class="text-xl font-semibold mb-2">Docker</h3>
+      <p class="text-gray-700">
+        The application is containerized with Docker for consistent development and deployment.
+      </p>
+    </div>
+    <!-- Azure -->
+    <div class="p-6 bg-white rounded-lg shadow-lg">
+      <img src="assets/images/logo/azure.svg" alt="Azure Logo" class="h-16 mx-auto mb-4" />
+      <h3 class="text-xl font-semibold mb-2">Azure</h3>
+      <p class="text-gray-700">
+        The backend is deployed on Azure, ensuring scalability and high availability.
+      </p>
+    </div>
+    <!-- AWS S3 -->
+    <div class="p-6 bg-white rounded-lg shadow-lg">
+      <img src="assets/images/logo/aws.svg" alt="AWS S3 Logo" class="h-16 mx-auto mb-4" />
+      <h3 class="text-xl font-semibold mb-2">AWS S3</h3>
+      <p class="text-gray-700">
+        The frontend is hosted on AWS S3, ensuring fast delivery via a global content delivery network (CDN).
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-blue-600 text-white py-6 text-center">
+  <p class="text-sm">© 2025 Image Uploader Demo | Built by <a href="https://github.com/mymai91" class="underline">My
+      Mai</a></p>
+</footer>
