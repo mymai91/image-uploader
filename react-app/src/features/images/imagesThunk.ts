@@ -7,6 +7,7 @@ import {
   removeImage,
   restoreImage,
 } from "./imagesSlice"
+import { getDeletedListImage } from "./deletedImagesThunk"
 
 export const getListImage = createAsyncThunk(
   "productImages/getList",
@@ -51,7 +52,9 @@ export const deleteImage = createAsyncThunk(
     try {
       await api.remove(`/images`, params.id)
       // console.log("response", response)
-      dispatch(removeImage({ id: params.id }))
+      // dispatch(removeImage({ id: params.id }))
+      dispatch(getListImage())
+      dispatch(getDeletedListImage())
     } catch (error: any) {
       console.error(`DELETE /images/${params.id} failed:`, error)
     }

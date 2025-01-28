@@ -6,3 +6,10 @@ export interface ProductImage {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface Pagination {
+  total: number
+  page: number
+  limit: number
+  totalPage: number
+}

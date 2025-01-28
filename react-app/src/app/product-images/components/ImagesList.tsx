@@ -5,15 +5,25 @@ import { ProductImage } from "../types/ProductImage"
 import { useEffect } from "react"
 import { getListImage, deleteImage } from "@/features/images/imagesThunk"
 import ImageCardItem from "./ImageCardItem"
+import {
+  getDeletedListImage,
+  restoreImage,
+} from "@/features/images/deletedImagesThunk"
 
 interface Props {}
 
 const ImagesList: React.FC<Props> = () => {
   const { items, loading, error } = useAppSelector(state => state.images)
+  const {
+    items: deletedItems,
+    // loading: isLoadingDeletedImages,
+    // error: isDeletedError,
+  } = useAppSelector(state => state.deletedImages)
   const dispatch = useAppDispatch()
   console.log("state items", items)
   useEffect(() => {
     dispatch(getListImage())
+    dispatch(getDeletedListImage())
   }, [dispatch])
   if (loading) {
     return <div>Loading...</div>
@@ -29,7 +39,7 @@ const ImagesList: React.FC<Props> = () => {
 
   const handleRestoreImage = (id: number) => {
     console.log("handleRestoreImage id", id)
-    // dispatch(restoreImage({ id }))
+    dispatch(restoreImage({ id }))
   }
   return (
     <div>
@@ -42,6 +52,7 @@ const ImagesList: React.FC<Props> = () => {
               item={item}
               key={index}
               handleDeleteImage={handleDeleteImage}
+              isActive={true}
             />
           )
         })}
@@ -49,12 +60,13 @@ const ImagesList: React.FC<Props> = () => {
 
       <h1>Deleted Image List</h1>
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-        {items.map((item: ProductImage, index: number) => {
+        {deletedItems.map((item: ProductImage, index: number) => {
           return (
             <ImageCardItem
               item={item}
               key={index}
-              handleDeleteImage={handleDeleteImage}
+              handleRestoreImage={handleRestoreImage}
+              isActive={false}
             />
           )
         })}

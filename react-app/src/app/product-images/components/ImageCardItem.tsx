@@ -4,10 +4,17 @@ import Image from "next/image"
 
 interface Props {
   item: ProductImage
-  handleDeleteImage: (id: number) => void
+  handleDeleteImage?: (id: number) => void
+  handleRestoreImage?: (id: number) => void
+  isActive: boolean
 }
 
-const ImageCardItem: React.FC<Props> = ({ item, handleDeleteImage }) => {
+const ImageCardItem: React.FC<Props> = ({
+  item,
+  handleDeleteImage = () => {},
+  handleRestoreImage = () => {},
+  isActive,
+}) => {
   return (
     <div className="image-card rounded-lg shadow-lg bg-white overflow-hidden">
       <div className="h-64 p-6">
@@ -19,15 +26,22 @@ const ImageCardItem: React.FC<Props> = ({ item, handleDeleteImage }) => {
         />
       </div>
       <div className="p-2 bg-black/50">
-        <button
-          className="w-full px-3 py-1.5 text-white bg-red-500 hover:bg-red-600 rounded"
-          onClick={() => handleDeleteImage(item.id)}
-        >
-          Delete
-        </button>
-        <button className="w-full px-3 py-1.5 text-white bg-green-500 hover:bg-green-600 rounded">
-          Restore
-        </button>
+        {isActive && (
+          <button
+            className="w-full px-3 py-1.5 text-white bg-red-500 hover:bg-red-600 rounded"
+            onClick={() => handleDeleteImage(item.id)}
+          >
+            Delete
+          </button>
+        )}
+        {!isActive && (
+          <button
+            className="w-full px-3 py-1.5 text-white bg-green-500 hover:bg-green-600 rounded"
+            onClick={() => handleRestoreImage(item.id)}
+          >
+            Restore
+          </button>
+        )}
       </div>
     </div>
   )

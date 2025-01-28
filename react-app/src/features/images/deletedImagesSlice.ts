@@ -4,17 +4,13 @@ import {
 } from "@/app/product-images/types/ProductImage"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-interface ListImageState extends Pagination {
+interface DeletedListImageState extends Pagination {
   items: ProductImage[]
-  // total: number
-  // page: number
-  // limit: number
-  // totalPage: number
   loading: boolean
   error: string | null
 }
 
-const initialState: ListImageState = {
+const initialState: DeletedListImageState = {
   items: [],
   total: 0,
   page: 1,
@@ -24,8 +20,8 @@ const initialState: ListImageState = {
   error: null,
 }
 
-const imageSlice = createSlice({
-  name: "images",
+const deletedImagesSlice = createSlice({
+  name: "deletedImages",
   initialState,
   reducers: {
     fetchListImage(
@@ -57,9 +53,17 @@ const imageSlice = createSlice({
       state.items = newItems
       state.loading = false
     },
+    restoreDeletedImage(state, action: PayloadAction<{ image: ProductImage }>) {
+      state.items.push(action.payload.image)
+    },
   },
 })
 
-export const { fetchListImage, fetchListImageFailure, removeImage } =
-  imageSlice.actions
-export default imageSlice.reducer
+export const {
+  fetchListImage,
+  fetchListImageFailure,
+  removeImage,
+  restoreDeletedImage,
+} = deletedImagesSlice.actions
+
+export default deletedImagesSlice.reducer
