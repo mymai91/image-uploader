@@ -9,11 +9,15 @@ import {
   getDeletedListImage,
   restoreImage,
 } from "@/features/images/deletedImagesThunk"
+// import { shallowEqual, useSelector } from "react-redux"
 
 interface Props {}
 
 const ImagesList: React.FC<Props> = () => {
-  const { items, loading, error } = useAppSelector(state => state.images)
+  const { items, loading, error } = useAppSelector(
+    state => state.images,
+    // shallowEqual,
+  )
   const {
     items: deletedItems,
     // loading: isLoadingDeletedImages,
@@ -32,13 +36,11 @@ const ImagesList: React.FC<Props> = () => {
     return <div>Error: {error.message}</div>
   }
 
-  const handleDeleteImage = (id: number) => {
-    console.log("handleDeleteImage id", id)
-    dispatch(deleteImage({ id }))
+  const handleDeleteImage = (image: ProductImage) => {
+    dispatch(deleteImage(image))
   }
 
   const handleRestoreImage = (id: number) => {
-    console.log("handleRestoreImage id", id)
     dispatch(restoreImage({ id }))
   }
   return (
@@ -50,7 +52,7 @@ const ImagesList: React.FC<Props> = () => {
           return (
             <ImageCardItem
               item={item}
-              key={index}
+              key={item.id}
               handleDeleteImage={handleDeleteImage}
               isActive={true}
             />
@@ -64,7 +66,7 @@ const ImagesList: React.FC<Props> = () => {
           return (
             <ImageCardItem
               item={item}
-              key={index}
+              key={item.id}
               handleRestoreImage={handleRestoreImage}
               isActive={false}
             />

@@ -4,7 +4,7 @@ import Image from "next/image"
 
 interface Props {
   item: ProductImage
-  handleDeleteImage?: (id: number) => void
+  handleDeleteImage?: (image: ProductImage) => void
   handleRestoreImage?: (id: number) => void
   isActive: boolean
 }
@@ -29,7 +29,7 @@ const ImageCardItem: React.FC<Props> = ({
         {isActive && (
           <button
             className="w-full px-3 py-1.5 text-white bg-red-500 hover:bg-red-600 rounded"
-            onClick={() => handleDeleteImage(item.id)}
+            onClick={() => handleDeleteImage(item)}
           >
             Delete
           </button>

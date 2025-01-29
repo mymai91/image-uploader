@@ -61,7 +61,7 @@ export const api = {
   /**
    * Delete a resource
    */
-  remove: async (path: string, id: string): Promise<void> => {
+  remove: async (path: string, id: number): Promise<void> => {
     try {
       await axios.delete(`${path}/${id}`)
     } catch (error) {

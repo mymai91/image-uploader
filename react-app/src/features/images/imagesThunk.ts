@@ -2,12 +2,12 @@ import { ProductImage } from "@/app/product-images/types/ProductImage"
 import { api } from "@/lib/api/api"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import {
+  // addRestoreImage,
   fetchListImage,
   fetchListImageFailure,
   removeImage,
-  restoreImage,
 } from "./imagesSlice"
-import { getDeletedListImage } from "./deletedImagesThunk"
+import { addRestoreImage } from "./deletedImagesSlice"
 
 export const getListImage = createAsyncThunk(
   "productImages/getList",
@@ -46,29 +46,18 @@ export const getListImage = createAsyncThunk(
 
 export const deleteImage = createAsyncThunk(
   "productImages/delete",
-  async (params, { dispatch }) => {
+  async (params: ProductImage, { dispatch }) => {
     console.log("params", params)
 
     try {
       await api.remove(`/images`, params.id)
       // console.log("response", response)
-      // dispatch(removeImage({ id: params.id }))
-      dispatch(getListImage())
-      dispatch(getDeletedListImage())
+
+      // Optimistic update: remove from Redux state immediately
+      dispatch(removeImage({ id: params.id }))
+      dispatch(addRestoreImage({ image: params }))
     } catch (error: any) {
       console.error(`DELETE /images/${params.id} failed:`, error)
-    }
-  },
-)
-
-export const restoreProductImage = createAsyncThunk(
-  "productImages/restore",
-  async (params, { dispatch }) => {
-    try {
-      const newImage = await api.update(`/images/${params.id}/restore`, {})
-      dispatch(restoreImage({ image: newImage }))
-    } catch (error: any) {
-      console.error("POST /product-images failed:", error)
     }
   },
 )

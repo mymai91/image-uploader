@@ -39,6 +39,7 @@ const imageSlice = createSlice({
       }>,
     ) {
       state.items = [...state.items, ...action.payload.items]
+      state.items = action.payload.items
       state.page = action.payload.page
       state.limit = action.payload.limit
       state.totalPage = action.payload.totalPage
@@ -51,15 +52,18 @@ const imageSlice = createSlice({
       state.loading = false
     },
     removeImage(state, action: PayloadAction<{ id: number }>) {
-      const items = state.items
-      const newItems = items.filter(item => item.id !== action.payload.id)
-
-      state.items = newItems
-      state.loading = false
+      state.items = state.items.filter(item => item.id !== action.payload.id)
+    },
+    addRestoreImage(state, action: PayloadAction<{ image: ProductImage }>) {
+      state.items = [...state.items, action.payload.image]
     },
   },
 })
 
-export const { fetchListImage, fetchListImageFailure, removeImage } =
-  imageSlice.actions
+export const {
+  fetchListImage,
+  fetchListImageFailure,
+  removeImage,
+  addRestoreImage,
+} = imageSlice.actions
 export default imageSlice.reducer

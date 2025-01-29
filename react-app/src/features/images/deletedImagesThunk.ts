@@ -4,7 +4,7 @@ import {
 } from "@/app/product-images/api/productImage"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { fetchListImage, restoreDeletedImage } from "./deletedImagesSlice"
-import { getListImage } from "./imagesThunk"
+import { addRestoreImage } from "./imagesSlice"
 
 export const getDeletedListImage = createAsyncThunk(
   "deletedImages/getList",
@@ -35,8 +35,7 @@ export const restoreImage = createAsyncThunk(
     const response = await restoreImageApi(params.id)
     console.log("response.data=====", response.data)
     dispatch(restoreDeletedImage({ image: response.data }))
-    // dispatch(getListImage())
-    // dispatch(getDeletedListImage())
+    dispatch(addRestoreImage({ image: response.data }))
     console.log("response", response)
   },
 )

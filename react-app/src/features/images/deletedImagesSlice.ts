@@ -34,7 +34,18 @@ const deletedImagesSlice = createSlice({
         total: number
       }>,
     ) {
+      // state.items = [...state.items, ...action.payload.items]
+      // state.items = [...state.items, ...action.payload.items]
+      // if (action.payload.isLoadMore) {
+      //   // Append when scrolling for more
+      //   state.items = [...state.items, ...action.payload.items]
+      // } else {
+      //   // Replace when refetching
+      //   state.items = action.payload.items
+      // }
+
       state.items = [...state.items, ...action.payload.items]
+
       state.page = action.payload.page
       state.limit = action.payload.limit
       state.totalPage = action.payload.totalPage
@@ -46,15 +57,13 @@ const deletedImagesSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
-    removeImage(state, action: PayloadAction<{ id: number }>) {
-      const items = state.items
-      const newItems = items.filter(item => item.id !== action.payload.id)
-
-      state.items = newItems
-      state.loading = false
-    },
     restoreDeletedImage(state, action: PayloadAction<{ image: ProductImage }>) {
-      state.items.push(action.payload.image)
+      state.items = state.items.filter(
+        item => item.id !== action.payload.image.id,
+      )
+    },
+    addRestoreImage(state, action: PayloadAction<{ image: ProductImage }>) {
+      state.items = [...state.items, action.payload.image]
     },
   },
 })
@@ -62,8 +71,8 @@ const deletedImagesSlice = createSlice({
 export const {
   fetchListImage,
   fetchListImageFailure,
-  removeImage,
   restoreDeletedImage,
+  addRestoreImage,
 } = deletedImagesSlice.actions
 
 export default deletedImagesSlice.reducer
