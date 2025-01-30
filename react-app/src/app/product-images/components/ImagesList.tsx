@@ -1,9 +1,11 @@
 "use client"
 
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
+import { Tabs, SimpleGrid } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
 
 import ImageCardItem from "./ImageCardItem"
-import { useEffect } from "react"
+
 import {
   deleteActiveImage,
   getListActiveImage,
@@ -31,7 +33,6 @@ const ImagesList: React.FC<Props> = () => {
   }, [dispatch])
 
   const handleDeleteImage = (image: ProductImage) => {
-    console.log("delete image", image)
     dispatch(deleteActiveImage(image))
   }
 
@@ -41,36 +42,45 @@ const ImagesList: React.FC<Props> = () => {
 
   return (
     <div>
-      <h1>Image List</h1>
-      <h1>Active Image List</h1>
+      {/* <h1>Image List</h1>
+      <h1>Active Image List</h1> */}
 
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-        {activeImages.map((item: ProductImage) => {
-          return (
-            <ImageCardItem
-              item={item}
-              key={item.id}
-              handleDeleteImage={handleDeleteImage}
-              isActive={true}
-            />
-          )
-        })}
-      </div>
+      <Tabs.Root defaultValue="tab-1">
+        <Tabs.List>
+          <Tabs.Trigger value="tab-1">Active Images</Tabs.Trigger>
+          <Tabs.Trigger value="tab-2">InActive Images</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="tab-1">
+          <SimpleGrid columns={3} gap="20px">
+            {activeImages.map((item: ProductImage) => {
+              return (
+                <ImageCardItem
+                  item={item}
+                  key={item.id}
+                  handleDeleteImage={handleDeleteImage}
+                  isActive={true}
+                />
+              )
+            })}
+          </SimpleGrid>
+        </Tabs.Content>
+        <Tabs.Content value="tab-2">
+          <SimpleGrid columns={3} gap="20px">
+            {inActiveImages.map((item: ProductImage) => {
+              return (
+                <ImageCardItem
+                  item={item}
+                  key={item.id}
+                  handleRestoreImage={handleRestoreImage}
+                  isActive={false}
+                />
+              )
+            })}
+          </SimpleGrid>
+        </Tabs.Content>
+      </Tabs.Root>
 
       <h1>InActive Image</h1>
-
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-        {inActiveImages.map((item: ProductImage) => {
-          return (
-            <ImageCardItem
-              item={item}
-              key={item.id}
-              handleRestoreImage={handleRestoreImage}
-              isActive={false}
-            />
-          )
-        })}
-      </div>
     </div>
   )
 }

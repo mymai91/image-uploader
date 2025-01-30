@@ -21,9 +21,16 @@ const inActiveImageSlice = createSlice({
     restoreImage(state, action: PayloadAction<{ id: number }>) {
       state.items = state.items.filter(item => item.id !== action.payload.id)
     },
+    pushDeletedImageToInActiveList(
+      state,
+      action: PayloadAction<{ item: ProductImage }>,
+    ) {
+      state.items.push(action.payload.item)
+    },
   },
 })
 
-export const { fetchListImage, restoreImage } = inActiveImageSlice.actions
+export const { fetchListImage, restoreImage, pushDeletedImageToInActiveList } =
+  inActiveImageSlice.actions
 
 export default inActiveImageSlice.reducer
