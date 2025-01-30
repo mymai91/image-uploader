@@ -19,3 +19,7 @@ export const restoreImageApi = (id: number) => {
 export const deleteImageApi = (id: number) => {
   return api.remove(`images`, id)
 }
+
+export const uploadImageApi = (file: File, description: string) => {
+  return api.create("images", { file, description })
+}
