@@ -1,54 +1,51 @@
 "use client"
 
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
-import { ProductImage } from "../types/ProductImage"
-import { useEffect } from "react"
-import { getListImage, deleteImage } from "@/features/images/imagesThunk"
+
 import ImageCardItem from "./ImageCardItem"
+import { useEffect } from "react"
 import {
-  getDeletedListImage,
-  restoreImage,
-} from "@/features/images/deletedImagesThunk"
-// import { shallowEqual, useSelector } from "react-redux"
+  deleteActiveImage,
+  getListActiveImage,
+} from "@/features/activeImages/activeImageThunk"
+import { ProductImage } from "@/types/image"
+import {
+  getListInActiveImage,
+  restoreInActiveImage,
+} from "@/features/inActiveImages/inActiveImageThunk"
 
 interface Props {}
 
 const ImagesList: React.FC<Props> = () => {
-  const { items, loading, error } = useAppSelector(
-    state => state.images,
-    // shallowEqual,
+  const { items: activeImages } = useAppSelector(state => state.activeImages)
+
+  const { items: inActiveImages } = useAppSelector(
+    state => state.inActiveImages,
   )
-  const {
-    items: deletedItems,
-    // loading: isLoadingDeletedImages,
-    // error: isDeletedError,
-  } = useAppSelector(state => state.deletedImages)
+
   const dispatch = useAppDispatch()
-  console.log("state items", items)
+
   useEffect(() => {
-    dispatch(getListImage())
-    dispatch(getDeletedListImage())
+    dispatch(getListActiveImage())
+    dispatch(getListInActiveImage())
   }, [dispatch])
-  if (loading) {
-    return <div>Loading...</div>
-  }
-  if (error) {
-    return <div>Error: {error.message}</div>
-  }
 
   const handleDeleteImage = (image: ProductImage) => {
-    dispatch(deleteImage(image))
+    console.log("delete image", image)
+    dispatch(deleteActiveImage(image))
   }
 
-  const handleRestoreImage = (id: number) => {
-    dispatch(restoreImage({ id }))
+  const handleRestoreImage = (image: ProductImage) => {
+    dispatch(restoreInActiveImage(image))
   }
+
   return (
     <div>
       <h1>Image List</h1>
       <h1>Active Image List</h1>
+
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-        {items.map((item: ProductImage, index: number) => {
+        {activeImages.map((item: ProductImage) => {
           return (
             <ImageCardItem
               item={item}
@@ -60,9 +57,10 @@ const ImagesList: React.FC<Props> = () => {
         })}
       </div>
 
-      <h1>Deleted Image List</h1>
+      <h1>InActive Image</h1>
+
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-        {deletedItems.map((item: ProductImage, index: number) => {
+        {inActiveImages.map((item: ProductImage) => {
           return (
             <ImageCardItem
               item={item}

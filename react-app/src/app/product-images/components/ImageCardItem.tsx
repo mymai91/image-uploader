@@ -1,11 +1,11 @@
 import React from "react"
-import { ProductImage } from "../types/ProductImage"
 import Image from "next/image"
+import { ProductImage } from "@/types/image"
 
 interface Props {
   item: ProductImage
   handleDeleteImage?: (image: ProductImage) => void
-  handleRestoreImage?: (id: number) => void
+  handleRestoreImage?: (image: ProductImage) => void
   isActive: boolean
 }
 
@@ -37,7 +37,7 @@ const ImageCardItem: React.FC<Props> = ({
         {!isActive && (
           <button
             className="w-full px-3 py-1.5 text-white bg-green-500 hover:bg-green-600 rounded"
-            onClick={() => handleRestoreImage(item.id)}
+            onClick={() => handleRestoreImage(item)}
           >
             Restore
           </button>
