@@ -185,7 +185,10 @@ export class ImagesService {
       image.deletedAt = null;
       image.updatedAt = new Date();
 
-      return await this.imageRepository.save(image);
+      const restoreImage = await this.imageRepository.save(image);
+      restoreImage.path = `${this.baseUrl}/${restoreImage.path}`;
+
+      return restoreImage;
     } catch (error) {
       Logger.error('Failed to restore image:', error);
       throw error;

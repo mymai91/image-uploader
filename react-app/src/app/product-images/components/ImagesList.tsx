@@ -1,60 +1,82 @@
 "use client"
 
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
-import Image from "next/image"
-import { ProductImage } from "../types/ProductImage"
+import { SimpleGrid, Tabs } from "@chakra-ui/react"
 import { useEffect } from "react"
-import { getListImage, deleteImage } from "@/features/images/imagesThunk"
+import { LuImage, LuTrash2 } from "react-icons/lu"
 
-interface Props {}
+import ImageCardItem from "./ImageCardItem"
 
-const ImagesList: React.FC<Props> = () => {
-  const { items, loading, error } = useAppSelector(state => state.images)
+import {
+  deleteActiveImage,
+  getListActiveImage,
+} from "@/features/activeImages/activeImageThunk"
+import {
+  getListInActiveImage,
+  restoreInActiveImage,
+} from "@/features/inActiveImages/inActiveImageThunk"
+import { ProductImage } from "@/types/image"
+
+const ImagesList: React.FC = () => {
+  const { items: activeImages } = useAppSelector(state => state.activeImages)
+  const { items: inActiveImages } = useAppSelector(
+    state => state.inActiveImages,
+  )
+
   const dispatch = useAppDispatch()
-  console.log("state items", items)
+
   useEffect(() => {
-    dispatch(getListImage())
+    dispatch(getListActiveImage())
+    dispatch(getListInActiveImage())
   }, [dispatch])
-  if (loading) {
-    return <div>Loading...</div>
-  }
-  if (error) {
-    return <div>Error: {error.message}</div>
+
+  const handleDeleteImage = (image: ProductImage) => {
+    dispatch(deleteActiveImage(image))
   }
 
-  const handleDeleteImage = (id: number) => {
-    console.log("handleDeleteImage id", id)
-    dispatch(deleteImage({ id }))
+  const handleRestoreImage = (image: ProductImage) => {
+    dispatch(restoreInActiveImage(image))
   }
+
   return (
-    <div>
-      <h1>Image List</h1>
-      <div>
-        {items.map((item: ProductImage, index: number) => {
-          return (
-            <div key={index} className="flex flex-row items-center w-6/12">
-              {/* <Image
-                src={item.path}
-                alt={item.description}
-                width={200}
-                height={200}
-              /> */}
-              <p className="p-4">{item.id}</p>
-              <img className="p-4" src={item.path} alt={item.description} />
-              <h3 className="p-4">{item.filename}</h3>
-              <button
-                className="p-4"
-                onClick={() => handleDeleteImage(item.id)}
-              >
-                Delete
-              </button>
-            </div>
-          )
-        })}
-      </div>
+    <Tabs.Root defaultValue="active" size="lg" colorScheme="blue">
+      <Tabs.List gap="30px" mb={6}>
+        <Tabs.Trigger value="active" fontSize="xl">
+          <LuImage />
+          Active Images
+        </Tabs.Trigger>
+        <Tabs.Trigger value="inactive" fontSize="xl">
+          <LuTrash2 />
+          Inactive Images
+        </Tabs.Trigger>
+      </Tabs.List>
 
-      <h1>Deleted Image List</h1>
-    </div>
+      <Tabs.Content value="active">
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} gap="30px">
+          {activeImages.map((item: ProductImage) => (
+            <ImageCardItem
+              item={item}
+              key={item.id}
+              handleDeleteImage={handleDeleteImage}
+              isActive={true}
+            />
+          ))}
+        </SimpleGrid>
+      </Tabs.Content>
+
+      <Tabs.Content value="inactive">
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} gap="30px">
+          {inActiveImages.map((item: ProductImage) => (
+            <ImageCardItem
+              item={item}
+              key={item.id}
+              handleRestoreImage={handleRestoreImage}
+              isActive={false}
+            />
+          ))}
+        </SimpleGrid>
+      </Tabs.Content>
+    </Tabs.Root>
   )
 }
 

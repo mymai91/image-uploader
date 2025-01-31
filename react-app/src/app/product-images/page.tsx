@@ -1,11 +1,23 @@
 "use client"
 
-import ImagesList from "./components/ImagesList"
+import { Box, Container, Flex } from "@chakra-ui/react"
+import ImagesList from "../product-images/components/ImagesList"
 
-export default function UploadImagesPage() {
+export default function ProductImagePage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <ImagesList />
-    </div>
+    <Box minH="100vh" w="full" bg="gray.50" py={10}>
+      <Flex justify="center" align="center" h="full">
+        <Container
+          maxW="6xl"
+          bg="white"
+          boxShadow="lg"
+          borderRadius="xl"
+          p={6}
+          aria-label="Product Image Page"
+        >
+          <ImagesList />
+        </Container>
+      </Flex>
+    </Box>
   )
 }
