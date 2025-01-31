@@ -27,10 +27,17 @@ const activeImageSlice = createSlice({
     ) {
       state.items.push(action.payload.item)
     },
+    addUploadedImage(state, action: PayloadAction<{ item: ProductImage }>) {
+      state.items.unshift(action.payload.item)
+    },
   },
 })
 
-export const { fetchListImage, deleteImage, pushRestoredImageToActiveList } =
-  activeImageSlice.actions
+export const {
+  fetchListImage,
+  deleteImage,
+  pushRestoredImageToActiveList,
+  addUploadedImage,
+} = activeImageSlice.actions
 
 export default activeImageSlice.reducer

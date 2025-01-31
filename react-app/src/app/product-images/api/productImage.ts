@@ -21,5 +21,9 @@ export const deleteImageApi = (id: number) => {
 }
 
 export const uploadImageApi = (file: File, description: string) => {
-  return api.create("images", { file, description })
+  const formData = new FormData()
+  formData.append("image", file)
+  formData.append("description", description)
+
+  return api.create("images", formData)
 }

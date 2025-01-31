@@ -36,6 +36,12 @@ export const api = {
    * Create a new resource
    */
   create: async <T, Payload>(path: string, data: Payload): Promise<T> => {
+    const isFormData = data instanceof FormData
+    const headers = isFormData
+      ? { "Content-Type": "multipart/form-data" }
+      : { "Content-Type": "application/json" }
+
+    console.log("##upload data##", isFormData)
     try {
       const response = await axios.post(path, data)
       return response.data
