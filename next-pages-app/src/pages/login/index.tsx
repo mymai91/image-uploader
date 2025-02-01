@@ -1,6 +1,6 @@
 import React from "react"
-import LoginForm from "./components/LoginForm"
 import { Box } from "@chakra-ui/react"
+import LoginForm from "@/features/login/components/LoginForm"
 
 interface Props {}
 

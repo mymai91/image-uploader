@@ -15,7 +15,7 @@ cd next-pages-app
 - js-cookie → Store access token securely.
 
 ```
-yarn add @reduxjs/toolkit react-redux axios js-cookie
+yarn add @reduxjs/toolkit react-redux axios js-cookie @types/js-cookie
 ```
 
 - @chakra-ui/react, @emotion/react, @emotion/styled, framer-motion → Required for Chakra UI.

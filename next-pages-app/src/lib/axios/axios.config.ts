@@ -1,4 +1,5 @@
 import axios from "axios"
+import Cookies from "js-cookie"
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -10,15 +11,14 @@ const axiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
   config => {
-    const token = localStorage.getItem("accessToken")
-
+    // const token = localStorage.getItem("accessToken")
+    const token = Cookies.get("accessToken")
     // Only set Content-Type to JSON if it's not FormData
     if (config.headers && !(config.data instanceof FormData)) {
       config.headers["Content-Type"] = "application/json"
     }
 
     if (token && config.headers) {
-      console.log("##token##", token)
       config.headers.Authorization = `Bearer ${token}`
     }
     return config
@@ -27,19 +27,6 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error)
   },
 )
-
-// Response interceptor
-// axiosInstance.interceptors.response.use(
-//   response => response,
-//   async error => {
-//     if (error.response?.status === 401) {
-//       // Handle token expiration
-//       localStorage.removeItem("accessToken")
-//       window.location.href = "/login"
-//     }
-//     return Promise.reject(error)
-//   },
-// )
 
 // Response interceptor
 axiosInstance.interceptors.response.use(
@@ -53,7 +40,8 @@ axiosInstance.interceptors.response.use(
   },
   error => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("accessToken")
+      // localStorage.removeItem("accessToken")
+      Cookies.remove("accessToken")
       window.location.href = "/login"
     }
     return Promise.reject(error)
