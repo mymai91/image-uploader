@@ -1,8 +1,9 @@
+# Load Image from domain
+
+```
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactStrictMode: true,
   images: {
     domains: ["localhost"],
     // Or if you prefer using remotePatterns for more specific control:
@@ -25,3 +26,4 @@ const nextConfig: NextConfig = {
 }
 
 export default nextConfig
+```
