@@ -6,12 +6,14 @@ interface AuthState {
   accessToken: string | null
   loading: boolean
   error: string | null
+  isAuthenticated: boolean
 }
 
 const initialState: AuthState = {
   accessToken: Cookies.get("accessToken") || null,
   loading: false,
   error: null,
+  isAuthenticated: false,
 }
 
 const authSlice = createSlice({
@@ -27,10 +29,12 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<string>) => {
         state.loading = false
         state.accessToken = action.payload
+        state.isAuthenticated = true
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload as string
+        state.isAuthenticated = false
       })
       .addCase(logoutUser.fulfilled, state => {
         state.accessToken = null

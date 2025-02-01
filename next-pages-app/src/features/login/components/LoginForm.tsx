@@ -14,7 +14,7 @@ import React from "react"
 import { loginSchema } from "../schema/LoginSchema"
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks"
 import { useRouter } from "next/router"
-import { loginUser } from "../store/authThunk"
+import { loginUser } from "../stores/authThunk"
 
 interface Props {}
 

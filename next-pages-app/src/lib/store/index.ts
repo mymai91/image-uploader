@@ -1,4 +1,4 @@
-import authReducer from "@/features/login/store/authSlice"
+import authReducer from "@/features/login/stores/authSlice"
 import { configureStore } from "@reduxjs/toolkit"
 
 export const makeStore = () => {
