@@ -1,22 +1,24 @@
-import React, { PropsWithChildren } from "react"
+import { useAppSelector } from "@/hooks/storeHooks"
 import {
   Box,
-  Flex,
-  Container,
   Link as ChakraLink,
-  Button,
+  Container,
+  Flex,
   Heading,
   Spacer,
   useColorModeValue,
 } from "@chakra-ui/react"
-import Link from "next/link"
-import { useRouter } from "next/router"
+import NextLink from "next/link"
+// import { useRouter } from "next/router"
+import React, { PropsWithChildren } from "react"
+import AuthenticatedNav from "./headers/AuthenticatedNav"
+import UnauthenticatedNav from "./headers/UnauthenticatedNav"
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
-  const router = useRouter()
   const bgColor = useColorModeValue("gray.50", "gray.900")
   const headerBg = useColorModeValue("white", "gray.800")
 
+  const { isAuthenticated } = useAppSelector(state => state.auth)
   return (
     <Box minH="100vh" bg={bgColor}>
       {/* Header */}
@@ -29,51 +31,19 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       >
         <Container maxW="container.xl">
           <Flex py="4" align="center">
-            <Link href="/" passHref>
-              <ChakraLink _hover={{ textDecoration: "none" }}>
-                <Heading size="md" color="blue.500">
-                  ProductApp
-                </Heading>
-              </ChakraLink>
-            </Link>
+            <ChakraLink
+              as={NextLink}
+              href="/"
+              _hover={{ textDecoration: "none" }}
+            >
+              <Heading size="md" color="blue.500">
+                ProductApp
+              </Heading>
+            </ChakraLink>
 
             <Spacer />
 
-            <Flex gap="4">
-              <Link href="/login" passHref>
-                <Button
-                  as={ChakraLink}
-                  variant={router.pathname === "/login" ? "solid" : "ghost"}
-                  colorScheme="blue"
-                >
-                  Login
-                </Button>
-              </Link>
-              <Link href="/product-images" passHref>
-                <Button
-                  as={ChakraLink}
-                  variant={
-                    router.pathname === "/product-images" ? "solid" : "ghost"
-                  }
-                  colorScheme="blue"
-                >
-                  Product Images
-                </Button>
-              </Link>
-              <Link href="/product-images/new" passHref>
-                <Button
-                  as={ChakraLink}
-                  variant={
-                    router.pathname === "/product-images/new"
-                      ? "solid"
-                      : "ghost"
-                  }
-                  colorScheme="blue"
-                >
-                  New Image
-                </Button>
-              </Link>
-            </Flex>
+            {isAuthenticated ? <AuthenticatedNav /> : <UnauthenticatedNav />}
           </Flex>
         </Container>
       </Box>
@@ -96,9 +66,14 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       >
         <Container maxW="container.xl">
           <Flex justify="center" color="gray.500">
-            <ChakraLink href="https://github.com" isExternal>
+            <Box
+              as="a"
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               © 2024 ProductApp. All rights reserved.
-            </ChakraLink>
+            </Box>
           </Flex>
         </Container>
       </Box>
