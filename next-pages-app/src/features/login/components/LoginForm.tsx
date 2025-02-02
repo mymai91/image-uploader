@@ -9,16 +9,20 @@ import {
   FormLabel,
   Heading,
   Input,
+  VStack,
+  Card,
+  CardBody,
+  CardHeader,
+  Container,
+  Text,
 } from "@chakra-ui/react"
 import React from "react"
 import { loginSchema } from "../schema/LoginSchema"
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks"
+import { useAppDispatch } from "@/hooks/storeHooks"
 import { useRouter } from "next/router"
 import { loginUser } from "../stores/authThunk"
 
-interface Props {}
-
-const LoginForm: React.FC<Props> = ({}) => {
+const LoginForm: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -33,45 +37,63 @@ const LoginForm: React.FC<Props> = ({}) => {
 
   const dispatch = useAppDispatch()
   const router = useRouter()
-  // const { loading, error } = useAppSelector(state => state.auth)
 
   const onSubmit = async (data: LoginDto) => {
     dispatch(loginUser(data))
-
-    // console.log("result", result)
-
-    // if (loginUser.fulfilled.match(result)) {
-    //   // router.push("/product-images")
-    //   console.log("Login successful")
-    // }
   }
 
   return (
-    <Box>
-      <Heading>Login</Heading>
-      <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-        <FormControl isInvalid={!!errors.email} mb="4">
-          <FormLabel>Email</FormLabel>
-          <Input type="email" {...register("email")} />
-          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-        </FormControl>
+    <Container maxW="md" py="8">
+      <Card boxShadow="lg" borderRadius="xl">
+        <CardHeader pb="0">
+          <Heading size="lg" textAlign="center" color="gray.700">
+            Welcome Back
+          </Heading>
+          <Text mt="2" textAlign="center" color="gray.500">
+            Please sign in to continue
+          </Text>
+        </CardHeader>
 
-        <FormControl isInvalid={!!errors.password} mb="4">
-          <FormLabel>Password</FormLabel>
-          <Input type="password" {...register("password")} />
-          <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-        </FormControl>
+        <CardBody pt="6">
+          <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+            <VStack spacing="6">
+              <FormControl isInvalid={!!errors.email}>
+                <FormLabel>Email address</FormLabel>
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  size="lg"
+                  {...register("email")}
+                />
+                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              </FormControl>
 
-        <Button
-          type="submit"
-          colorScheme="blue"
-          isLoading={isSubmitting}
-          width="full"
-        >
-          Login
-        </Button>
-      </Box>
-    </Box>
+              <FormControl isInvalid={!!errors.password}>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  size="lg"
+                  {...register("password")}
+                />
+                <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+              </FormControl>
+
+              <Button
+                type="submit"
+                colorScheme="blue"
+                size="lg"
+                width="full"
+                isLoading={isSubmitting}
+                loadingText="Signing in..."
+              >
+                Sign In
+              </Button>
+            </VStack>
+          </Box>
+        </CardBody>
+      </Card>
+    </Container>
   )
 }
 
