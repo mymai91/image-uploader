@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { LoginDto } from "@/features/login/types/login"
 import {
   Box,
   Button,
@@ -14,7 +13,6 @@ import {
   CardBody,
   CardHeader,
   Container,
-  Text,
 } from "@chakra-ui/react"
 import React from "react"
 import { useAppDispatch } from "@/hooks/storeHooks"
@@ -36,8 +34,8 @@ const LoginForm: React.FC = () => {
     },
   })
 
-  const dispatch = useAppDispatch()
-  const router = useRouter()
+  // const dispatch = useAppDispatch()
+  // const router = useRouter()
 
   const onSubmit = async (data: RegisterDto) => {
     console.log(data)
@@ -49,16 +47,24 @@ const LoginForm: React.FC = () => {
       <Card boxShadow="lg" borderRadius="xl">
         <CardHeader pb="0">
           <Heading size="lg" textAlign="center" color="gray.700">
-            Welcome Back
+            Create your free account
           </Heading>
-          <Text mt="2" textAlign="center" color="gray.500">
-            Please sign in to continue
-          </Text>
         </CardHeader>
 
         <CardBody pt="6">
           <Box as="form" onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing="6">
+              <FormControl isInvalid={!!errors.email}>
+                <FormLabel>User Name</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Enter your username"
+                  size="lg"
+                  {...register("username")}
+                />
+                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              </FormControl>
+
               <FormControl isInvalid={!!errors.email}>
                 <FormLabel>Email address</FormLabel>
                 <Input

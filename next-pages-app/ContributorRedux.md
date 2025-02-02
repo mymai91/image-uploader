@@ -1,5 +1,27 @@
 # Redux thunk
 
+## Handle the Promise result from the Redux Toolki
+
+1. Added await before the dispatch to wait for the login action to complete
+2. Used .unwrap() to properly handle the Promise result from the Redux Toolkit async thunk
+
+```
+const onSubmit = async (data: LoginDto) => {
+  try {
+    const result = await dispatch(loginUser(data)).unwrap()
+    // Only redirect if login was successful
+    if (result) {
+      router.push("/product-images")
+    }
+  } catch (error) {
+    // Handle login error here if needed
+    console.error('Login failed:', error)
+  }
+}
+```
+
+## Create thunk
+
 when using **createAsyncThunk**, you must use **extraReducers** to handle the different states of the async thunk:
 
 - pending: When the request starts.
