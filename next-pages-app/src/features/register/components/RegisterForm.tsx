@@ -29,6 +29,7 @@ const LoginForm: React.FC = () => {
   } = useForm<RegisterDto>({
     resolver: yupResolver(registerSchema),
     defaultValues: {
+      username: "john",
       email: "john@example.com",
       password: "password123",
     },
@@ -54,7 +55,7 @@ const LoginForm: React.FC = () => {
         <CardBody pt="6">
           <Box as="form" onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing="6">
-              <FormControl isInvalid={!!errors.email}>
+              <FormControl isInvalid={!!errors.username}>
                 <FormLabel>User Name</FormLabel>
                 <Input
                   type="text"
@@ -62,7 +63,7 @@ const LoginForm: React.FC = () => {
                   size="lg"
                   {...register("username")}
                 />
-                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+                <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.email}>
