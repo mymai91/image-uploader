@@ -14,6 +14,11 @@ const UnauthenticatedNav: React.FC<Props> = () => {
           Login
         </Button>
       </Link>
+      <Link href="/register" passHref legacyBehavior>
+        <Button as="a" colorScheme="blue">
+          Get Started
+        </Button>
+      </Link>
     </Flex>
   )
 }

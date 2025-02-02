@@ -1,7 +1,8 @@
+import { useAuthUser } from "@/features/login/hooks/useAuthUser"
 import { logoutUser } from "@/features/login/stores/authThunk"
 import { useAppDispatch } from "@/hooks/storeHooks"
 import {
-  Avatar,
+  Text,
   Button,
   Flex,
   Menu,
@@ -15,6 +16,9 @@ import { useRouter } from "next/router"
 const AuthenticatedNav = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
+  // const { user } = useAppSelector(state => state.auth)
+
+  const user = useAuthUser()
 
   const handleLogout = () => {
     // dispatch(logout())
@@ -48,7 +52,8 @@ const AuthenticatedNav = () => {
 
       <Menu>
         <MenuButton>
-          <Avatar size="sm" name="User" bg="blue.500" />
+          {/* <Avatar size="sm" name="User" bg="blue.500" /> */}
+          <Text color={"blackAlpha.900"}>{user.username}</Text>
         </MenuButton>
         <MenuList>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
