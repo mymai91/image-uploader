@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { LoginDto } from "@/features/login/types/login"
 import {
   Box,
   Button,
@@ -14,39 +13,34 @@ import {
   CardBody,
   CardHeader,
   Container,
-  Text,
 } from "@chakra-ui/react"
 import React from "react"
-import { loginSchema } from "../schema/LoginSchema"
 import { useAppDispatch } from "@/hooks/storeHooks"
 import { useRouter } from "next/router"
-import { loginUser } from "../stores/authThunk"
+import { registerSchema } from "../schema/RegisterSchema"
+import { RegisterDto } from "../types/register"
+// import { loginUser } from "../stores/authThunk"
 
 const LoginForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginDto>({
-    resolver: yupResolver(loginSchema),
+  } = useForm<RegisterDto>({
+    resolver: yupResolver(registerSchema),
     defaultValues: {
+      username: "john",
       email: "john@example.com",
       password: "password123",
     },
   })
 
-  const dispatch = useAppDispatch()
-  const router = useRouter()
+  // const dispatch = useAppDispatch()
+  // const router = useRouter()
 
-  const onSubmit = async (data: LoginDto) => {
-    try {
-      const resultAction = await dispatch(loginUser(data))
-      if (loginUser.fulfilled.match(resultAction)) {
-        router.push("/product-images")
-      }
-    } catch (error) {
-      console.log(error)
-    }
+  const onSubmit = async (data: RegisterDto) => {
+    console.log(data)
+    // dispatch(loginUser(data))
   }
 
   return (
@@ -54,16 +48,24 @@ const LoginForm: React.FC = () => {
       <Card boxShadow="lg" borderRadius="xl">
         <CardHeader pb="0">
           <Heading size="lg" textAlign="center" color="gray.700">
-            Welcome Back
+            Create your free account
           </Heading>
-          <Text mt="2" textAlign="center" color="gray.500">
-            Please sign in to continue
-          </Text>
         </CardHeader>
 
         <CardBody pt="6">
           <Box as="form" onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing="6">
+              <FormControl isInvalid={!!errors.username}>
+                <FormLabel>User Name</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Enter your username"
+                  size="lg"
+                  {...register("username")}
+                />
+                <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+              </FormControl>
+
               <FormControl isInvalid={!!errors.email}>
                 <FormLabel>Email address</FormLabel>
                 <Input

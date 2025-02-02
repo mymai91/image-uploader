@@ -1,6 +1,6 @@
 import { LoginDto, LoginResponse } from "../types/login"
 import { api } from "@/lib/axios/api"
-import Cookies from "js-cookie"
+import { RegisterDto } from "../types/register"
 
 export const loginApi = async (loginDto: LoginDto) => {
   const response = await api.create<LoginResponse, LoginDto>(
@@ -8,8 +8,11 @@ export const loginApi = async (loginDto: LoginDto) => {
     loginDto,
   )
 
-  Cookies.set("accessToken", response.data.accessToken, { expires: 7 })
-  // axios.defaults.headers.common["Authorization"] = `Bearer ${action.payload}`
+  return response
+}
+
+export const registerApi = async (registerDto: RegisterDto) => {
+  const response = await api.create("/users", registerDto)
 
   return response
 }

@@ -1,19 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import Cookies from "js-cookie"
 import { loginUser, logoutUser } from "./authThunk"
+import { User } from "../types/login"
 
 interface AuthState {
   accessToken: string | null
+  user: User | null
   loading: boolean
   error: string | null
-  isAuthenticated: boolean
 }
 
+// Try to load user info from the JWT token stored in cookies
+const token = Cookies.get("accessToken") || null
+const storedUser = Cookies.get("user") ? JSON.parse(Cookies.get("user")!) : null
+
 const initialState: AuthState = {
-  accessToken: Cookies.get("accessToken") || null,
+  user: storedUser,
+  accessToken: token,
   loading: false,
   error: null,
-  isAuthenticated: false,
 }
 
 const authSlice = createSlice({
@@ -26,18 +31,25 @@ const authSlice = createSlice({
         state.loading = true
         state.error = null
       })
-      .addCase(loginUser.fulfilled, (state, action: PayloadAction<string>) => {
-        state.loading = false
-        state.accessToken = action.payload
-        state.isAuthenticated = true
-      })
+      .addCase(
+        loginUser.fulfilled,
+        (state, action: PayloadAction<{ accessToken: string; user: User }>) => {
+          state.loading = false
+          state.accessToken = action.payload.accessToken
+          state.user = action.payload.user
+
+          Cookies.set("accessToken", action.payload.accessToken, { expires: 7 })
+          Cookies.set("user", JSON.stringify(action.payload.user))
+        },
+      )
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload as string
-        state.isAuthenticated = false
       })
       .addCase(logoutUser.fulfilled, state => {
         state.accessToken = null
+        Cookies.remove("accessToken")
+        Cookies.remove("user")
       })
   },
 })

@@ -4,7 +4,7 @@ import ProductImageList from "@/features/productImage/components/ProductImageLis
 
 interface Props {}
 
-const LoginPage: React.FC<Props> = ({}) => {
+const ProductImagesPage: React.FC<Props> = ({}) => {
   return (
     <Box>
       <ProductImageList />
@@ -12,4 +12,4 @@ const LoginPage: React.FC<Props> = ({}) => {
   )
 }
 
-export default LoginPage
+export default ProductImagesPage
