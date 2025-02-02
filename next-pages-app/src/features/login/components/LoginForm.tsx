@@ -39,7 +39,15 @@ const LoginForm: React.FC = () => {
   const router = useRouter()
 
   const onSubmit = async (data: LoginDto) => {
-    dispatch(loginUser(data))
+    try {
+      const result = await dispatch(loginUser(data)).unwrap()
+
+      if (result) {
+        router.push("/product-images")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
