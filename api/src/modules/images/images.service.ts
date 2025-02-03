@@ -64,13 +64,17 @@ export class ImagesService {
       // Create a new image entity
       const image = this.imageRepository.create({
         filename: compressedFilename,
-        path: `${this.baseUrl}/${compressedFilePath}`,
+        path: compressedFilePath,
         description: uploadImageDto.description,
         user: currentUser,
       });
 
       // Save and return the new image
-      return await this.imageRepository.save(image);
+      const uploadedImage = await this.imageRepository.save(image);
+
+      uploadedImage.path = `${this.baseUrl}/${uploadedImage.path}`;
+
+      return uploadedImage;
     } catch (error) {
       // Clean up the file if there's an error
       if (file.path && fs.existsSync(file.path)) {
