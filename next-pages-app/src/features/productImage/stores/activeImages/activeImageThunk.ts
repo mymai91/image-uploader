@@ -40,7 +40,7 @@ export const uploadImage = createAsyncThunk(
   async (params: { file: File; description: string }, { dispatch }) => {
     try {
       const resp = await uploadImageApi(params.file, params.description)
-      console.log("###resp####", resp)
+      console.log("###resp####", resp.data)
       dispatch(addUploadedImage({ item: resp.data }))
     } catch (error: any) {
       console.error("uploadImage /images failed:", error)

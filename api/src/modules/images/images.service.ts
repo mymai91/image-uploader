@@ -64,7 +64,7 @@ export class ImagesService {
       // Create a new image entity
       const image = this.imageRepository.create({
         filename: compressedFilename,
-        path: compressedFilePath,
+        path: `${this.baseUrl}/${compressedFilePath}`,
         description: uploadImageDto.description,
         user: currentUser,
       });
