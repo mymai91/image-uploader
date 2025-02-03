@@ -8,11 +8,10 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react"
 import NextLink from "next/link"
-// import { useRouter } from "next/router"
 import React, { PropsWithChildren } from "react"
 import AuthenticatedNav from "./headers/AuthenticatedNav"
 import UnauthenticatedNav from "./headers/UnauthenticatedNav"
-import { useIsAuthenticated } from "@/features/login/hooks/useIsAuthenticated"
+import { useIsAuthenticated } from "@/features/auth/login/hooks/useIsAuthenticated"
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   const bgColor = useColorModeValue("gray.50", "gray.900")
@@ -20,7 +19,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 
   const isAuthenticated = useIsAuthenticated()
   return (
-    <Box minH="100vh" bg={bgColor}>
+    <Box minH="100vh" bg={bgColor} display={"flex"} flexDirection={"column"}>
       {/* Header */}
       <Box
         bg={headerBg}
@@ -28,6 +27,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         position="fixed"
         width="full"
         zIndex="sticky"
+        display={"flex"}
       >
         <Container maxW="container.xl">
           <Flex py="4" align="center">
@@ -37,7 +37,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
               _hover={{ textDecoration: "none" }}
             >
               <Heading size="md" color="blue.500">
-                ProductApp
+                React - Image uploader
               </Heading>
             </ChakraLink>
 
@@ -49,7 +49,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       </Box>
 
       {/* Main Content */}
-      <Box as="main" pt="20" pb="16">
+      <Box as="main" pt="20" pb="16" flexGrow={1} display={"flex"}>
         <Container maxW="container.xl" p="6">
           {children}
         </Container>
@@ -60,19 +60,19 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         as="footer"
         bg={headerBg}
         py="6"
-        position="fixed"
         bottom="0"
         width="full"
+        display={"flex"}
       >
         <Container maxW="container.xl">
           <Flex justify="center" color="gray.500">
             <Box
               as="a"
-              href="https://github.com"
+              href="https://github.com/mymai91"
               target="_blank"
               rel="noopener noreferrer"
             >
-              © 2024 ProductApp. All rights reserved.
+              © 2025 React-Image Uploader.
             </Box>
           </Flex>
         </Container>
