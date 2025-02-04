@@ -41,7 +41,7 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 export function middleware(request: NextRequest) {
-  const isAuthenticated = request.cookies.get("accessToken")
+  const isAuthenticated = request.cookies.get("image_uploader-accessToken")
   const isAuthPage =
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/register")

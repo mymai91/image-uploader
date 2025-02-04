@@ -10,10 +10,8 @@ export interface RegisterDto {
   password: string
 }
 
-// export interface LoginResponse {
-//   data: {
-//     accessToken: string
-//     user: User
-//   }
-//   status: number
-// }
+export interface RegisterResponse {
+  id: string
+  username: string
+  email: string
+}

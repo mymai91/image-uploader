@@ -37,8 +37,6 @@ export const api = {
    */
   create: async <T, Payload>(path: string, data: Payload): Promise<T> => {
     try {
-      console.log("##data##", data)
-      console.log("##path##", path)
       const response = await axios.post(path, data)
       return response.data
     } catch (error) {

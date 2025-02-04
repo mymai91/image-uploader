@@ -86,3 +86,12 @@ export const getListActiveImage = () => async (dispatch: AppDispatch) => {
 
 - If you want **Redux Toolkit** to handle everything for you, use createAsyncThunk + extraReducers.
 - If you **prefer writing your own logic and have full control**, use **manual thunks** like in Example 2.
+
+## Remove key - value of cookie
+
+```
+  Cookies.remove("image_uploader-accessToken", { path: "/" })
+  Cookies.remove("image_uploader-user", { path: "/" })
+```
+
+without `{ path: "/" }` only delete `value`

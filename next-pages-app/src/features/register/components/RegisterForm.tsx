@@ -19,6 +19,7 @@ import { useAppDispatch } from "@/hooks/storeHooks"
 import { useRouter } from "next/router"
 import { registerSchema } from "../schema/RegisterSchema"
 import { RegisterDto } from "../types/register"
+import { registerUser } from "@/features/login/stores/authThunk"
 // import { loginUser } from "../stores/authThunk"
 
 const LoginForm: React.FC = () => {
@@ -35,12 +36,20 @@ const LoginForm: React.FC = () => {
     },
   })
 
-  // const dispatch = useAppDispatch()
-  // const router = useRouter()
+  const dispatch = useAppDispatch()
+  const router = useRouter()
 
   const onSubmit = async (data: RegisterDto) => {
     console.log(data)
-    // dispatch(loginUser(data))
+    try {
+      const resultAction = await dispatch(registerUser(data))
+
+      if (registerUser.fulfilled.match(resultAction)) {
+        router.push("/login")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
