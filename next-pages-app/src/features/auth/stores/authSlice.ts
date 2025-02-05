@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import Cookies from "js-cookie"
 import { loginUser, logoutUser, registerUser } from "./authThunk"
-import { User } from "../types/login"
+import { User } from "../login/types/login"
 
 interface AuthState {
   accessToken: string | null

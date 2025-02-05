@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import Cookies from "js-cookie"
-import { loginApi } from "../api/api"
-import { LoginDto } from "../types/login"
-import { RegisterDto } from "../types/register"
-import { registerApi } from "@/features/register/api/api"
+import { registerApi } from "@/features/auth/register/api/api"
+import { LoginDto } from "../login/types/login"
+import { loginApi } from "../login/api/api"
+import { RegisterDto } from "../register/types/register"
 
 // Async thunk for login
 export const loginUser = createAsyncThunk(

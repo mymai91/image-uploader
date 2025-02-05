@@ -20,9 +20,7 @@ import NextLink from "next/link"
 import React, { PropsWithChildren } from "react"
 import { HamburgerIcon } from "@chakra-ui/icons"
 import AuthenticatedNav from "./headers/AuthenticatedNav"
-import UnauthenticatedNav from "./headers/UnauthenticatedNav"
-import { useIsAuthenticated } from "@/features/login/hooks/useIsAuthenticated"
-import LoginForm from "@/features/login/components/LoginForm"
+import { useIsAuthenticated } from "@/features/auth/login/hooks/useIsAuthenticated"
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   const bgColor = useColorModeValue("gray.50", "gray.900")

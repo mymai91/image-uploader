@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { LoginDto } from "@/features/login/types/login"
 import {
   Box,
   Button,
@@ -20,7 +19,8 @@ import React from "react"
 import { loginSchema } from "../schema/LoginSchema"
 import { useAppDispatch } from "@/hooks/storeHooks"
 import { useRouter } from "next/router"
-import { loginUser } from "../stores/authThunk"
+import { loginUser } from "../../stores/authThunk"
+import { LoginDto } from "../types/login"
 
 const LoginForm: React.FC = () => {
   const {

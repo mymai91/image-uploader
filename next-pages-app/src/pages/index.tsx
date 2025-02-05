@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { Geist, Geist_Mono } from "next/font/google"
-import { Box, Container, VStack, Heading, Text } from "@chakra-ui/react"
+import { Box, Container, VStack, Heading } from "@chakra-ui/react"
 import HomePage from "./home"
 
 const geistSans = Geist({

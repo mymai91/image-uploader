@@ -1,8 +1,7 @@
-import { useAuthUser } from "@/features/login/hooks/useAuthUser"
-import { logoutUser } from "@/features/login/stores/authThunk"
+import { useAuthUser } from "@/features/auth/login/hooks/useAuthUser"
+import { logoutUser } from "@/features/auth/stores/authThunk"
 import { useAppDispatch } from "@/hooks/storeHooks"
 import {
-  Text,
   Button,
   VStack,
   Box,

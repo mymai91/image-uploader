@@ -1,4 +1,4 @@
-import authReducer from "@/features/login/stores/authSlice"
+import authReducer from "@/features/auth/stores/authSlice"
 import activeImagesReducer from "@/features/productImage/stores/activeImages/activeImageSlice"
 import inActiveImagesReducer from "@/features/productImage/stores/inActiveImages/inActiveImageSlice"
 import { configureStore } from "@reduxjs/toolkit"

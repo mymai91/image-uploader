@@ -19,8 +19,7 @@ import { useAppDispatch } from "@/hooks/storeHooks"
 import { useRouter } from "next/router"
 import { registerSchema } from "../schema/RegisterSchema"
 import { RegisterDto } from "../types/register"
-import { registerUser } from "@/features/login/stores/authThunk"
-// import { loginUser } from "../stores/authThunk"
+import { registerUser } from "../../stores/authThunk"
 
 const LoginForm: React.FC = () => {
   const {
