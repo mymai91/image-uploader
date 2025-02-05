@@ -4,12 +4,14 @@ import type { NextRequest } from "next/server"
 export function middleware(request: NextRequest) {
   const isAuthenticated = request.cookies.get("image_uploader-accessToken")
   const isAuthPage =
+    request.nextUrl.pathname === "/" ||
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/register")
+
   const isProtectedPage = request.nextUrl.pathname.startsWith("/product-images")
 
   if (isProtectedPage && !isAuthenticated) {
-    return NextResponse.redirect(new URL("/login", request.url))
+    return NextResponse.redirect(new URL("/", request.url))
   }
 
   if (isAuthPage && isAuthenticated) {
@@ -20,5 +22,9 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/register", "/product-images/:path*"],
+  matcher: ["/:path*"],
 }
+
+// export const config = {
+//   matcher: ["/", "/login", "/register", "/product-images/:path*"],
+// }
