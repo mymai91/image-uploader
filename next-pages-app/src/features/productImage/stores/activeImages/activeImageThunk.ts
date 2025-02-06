@@ -44,7 +44,6 @@ export const uploadImage = createAsyncThunk(
     try {
       const resp = await uploadImageApi(params.file, params.description)
 
-      return resp.data
       dispatch(addUploadedImage({ item: resp.data }))
     } catch (error: any) {
       return rejectWithValue(
