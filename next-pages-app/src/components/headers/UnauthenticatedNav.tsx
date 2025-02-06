@@ -2,7 +2,9 @@ import { Button, Flex } from "@chakra-ui/react"
 
 import Link from "next/link"
 
-interface Props {}
+interface Props {
+  children?: React.ReactNode
+}
 
 const UnauthenticatedNav: React.FC<Props> = () => {
   // const router = useRouter

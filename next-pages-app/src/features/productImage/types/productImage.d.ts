@@ -19,3 +19,13 @@ export interface ListImageState extends Pagination {
   isLoading: boolean
   error: string | null
 }
+
+export interface ProductImageListResponse {
+  data: {
+    items: ProductImage[]
+  }
+}
+
+export interface UploadImageResponse {
+  data: ProductImage
+}

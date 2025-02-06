@@ -11,7 +11,9 @@ export interface RegisterDto {
 }
 
 export interface RegisterResponse {
-  id: string
-  username: string
-  email: string
+  data: {
+    id: string
+    username: string
+    email: string
+  }
 }

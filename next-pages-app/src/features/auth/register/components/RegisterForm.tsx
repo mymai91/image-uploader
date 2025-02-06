@@ -56,41 +56,16 @@ const RegisterForm: React.FC = () => {
             "Something went wrong. Please try again.",
         })
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       showError({
         title: "Register Error",
-        message: error.message || "Something went wrong. Please try again.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
       })
     }
   }
-
-  // const onSubmit = async (data: RegisterDto) => {
-  //   console.log(data)
-  //   try {
-  //     const resultAction = await dispatch(registerUser(data))
-
-  //     if (registerUser.fulfilled.match(resultAction)) {
-  //       router.push("/login")
-  //       showSuccess({
-  //         title: "Account created successfully!",
-  //         message: "You can now log in with your credentials.",
-  //       })
-  //     } else {
-  //       // console.log(resultAction)
-  //       showError({
-  //         title: "Register Error",
-  //         message:
-  //           resultAction.error.message ||
-  //           "Something went wrong. Please try again.",
-  //       })
-  //     }
-  //   } catch (error: any) {
-  //     showError({
-  //       title: "Register Error",
-  //       message: error.message || "Something went wrong. Please try again.",
-  //     })
-  //   }
-  // }
 
   return (
     <Container maxW="md" py="8">

@@ -3,25 +3,38 @@
 import { useState, useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import { VStack, Button, Image, Text, Box } from "@chakra-ui/react"
-
-import { useAppDispatch } from "@/hooks/storeHooks"
+import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks"
 import ProductImageList from "@/features/productImage/components/ProductImageList"
 import { uploadImage } from "@/features/productImage/stores/activeImages/activeImageThunk"
+import { useAppToast } from "@/hooks/useAppToast"
 
 const ProductImageNewPage = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const { error } = useAppSelector(state => state.activeImages)
 
   const dispatch = useAppDispatch()
+  const { showError, showSuccess } = useAppToast()
 
   const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
+    async (acceptedFiles: File[]) => {
       const file = acceptedFiles[0]
       if (file) {
-        setPreviewUrl(URL.createObjectURL(file))
-        dispatch(uploadImage({ file, description: "Uploaded image" }))
+        const response = await dispatch(
+          uploadImage({ file, description: "Uploaded image" }),
+        )
+
+        if (uploadImage.fulfilled.match(response)) {
+          setPreviewUrl(URL.createObjectURL(file))
+          showSuccess({ title: "Image uploaded successfully", message: "" })
+        } else if (uploadImage.rejected.match(response)) {
+          showError({
+            title: "Upload Error",
+            message: response.payload as string,
+          })
+        }
       }
     },
-    [dispatch],
+    [dispatch, showError, showSuccess],
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -50,11 +63,13 @@ const ProductImageNewPage = () => {
           )}
         </Box>
 
-        {/* {previewUrl && <Image src={previewUrl} alt="Preview" boxSize="200px" />} */}
-
         <Button {...getRootProps()} colorScheme="blue">
           Upload Image
         </Button>
+
+        {!Boolean(error) && previewUrl && (
+          <Image src={previewUrl} alt="Preview" boxSize="200px" />
+        )}
       </VStack>
 
       <Box

@@ -2,7 +2,9 @@ import React from "react"
 import { Box, Button, Link, VStack } from "@chakra-ui/react"
 import LoginForm from "@/features/auth/login/components/LoginForm"
 
-interface Props {}
+interface Props {
+  children?: React.ReactNode
+}
 
 const HomePage: React.FC<Props> = ({}) => {
   return (
