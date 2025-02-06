@@ -13,6 +13,7 @@ import {
   CardBody,
   CardHeader,
   Container,
+  Link as ChakraLink,
 } from "@chakra-ui/react"
 import React from "react"
 import { useAppDispatch } from "@/hooks/storeHooks"
@@ -20,8 +21,10 @@ import { useRouter } from "next/router"
 import { registerSchema } from "../schema/RegisterSchema"
 import { RegisterDto } from "../types/register"
 import { registerUser } from "../../stores/authThunk"
+import { useAppToast } from "@/hooks/useAppToast"
+import NextLink from "next/link"
 
-const LoginForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -37,19 +40,57 @@ const LoginForm: React.FC = () => {
 
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const { showError } = useAppToast()
 
   const onSubmit = async (data: RegisterDto) => {
-    console.log(data)
     try {
       const resultAction = await dispatch(registerUser(data))
 
       if (registerUser.fulfilled.match(resultAction)) {
         router.push("/login")
+      } else {
+        showError({
+          title: "Register Error",
+          message:
+            (resultAction?.payload as string) ||
+            "Something went wrong. Please try again.",
+        })
       }
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      showError({
+        title: "Register Error",
+        message: error.message || "Something went wrong. Please try again.",
+      })
     }
   }
+
+  // const onSubmit = async (data: RegisterDto) => {
+  //   console.log(data)
+  //   try {
+  //     const resultAction = await dispatch(registerUser(data))
+
+  //     if (registerUser.fulfilled.match(resultAction)) {
+  //       router.push("/login")
+  //       showSuccess({
+  //         title: "Account created successfully!",
+  //         message: "You can now log in with your credentials.",
+  //       })
+  //     } else {
+  //       // console.log(resultAction)
+  //       showError({
+  //         title: "Register Error",
+  //         message:
+  //           resultAction.error.message ||
+  //           "Something went wrong. Please try again.",
+  //       })
+  //     }
+  //   } catch (error: any) {
+  //     showError({
+  //       title: "Register Error",
+  //       message: error.message || "Something went wrong. Please try again.",
+  //     })
+  //   }
+  // }
 
   return (
     <Container maxW="md" py="8">
@@ -106,6 +147,16 @@ const LoginForm: React.FC = () => {
               >
                 Sign In
               </Button>
+
+              <ChakraLink
+                as={NextLink}
+                px={2}
+                py={1}
+                rounded="md"
+                href={"/login"}
+              >
+                Already have an account?
+              </ChakraLink>
             </VStack>
           </Box>
         </CardBody>
@@ -114,4 +165,4 @@ const LoginForm: React.FC = () => {
   )
 }
 
-export default LoginForm
+export default RegisterForm

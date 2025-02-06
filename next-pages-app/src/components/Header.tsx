@@ -20,9 +20,10 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
-import { useAuthUser } from "@/features/login/hooks/useAuthUser"
-import { logoutUser } from "@/features/login/stores/authThunk"
+
 import { useAppDispatch } from "@/hooks/storeHooks"
+import { useAuthUser } from "@/features/auth/login/hooks/useAuthUser"
+import { logoutUser } from "@/features/auth/stores/authThunk"
 
 interface NavLinkProps {
   children: React.ReactNode

@@ -23,7 +23,7 @@ const AuthenticatedNav = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser())
-    router.push("/login")
+    router.push("/")
   }
 
   return (
