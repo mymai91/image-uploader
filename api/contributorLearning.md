@@ -95,14 +95,51 @@ use `@UseInterceptors(ClassSerializerInterceptor)` and `@SerializeOptions({ type
 https://docs.nestjs.com/techniques/serialization
 
 ```
-@UseInterceptors(ClassSerializerInterceptor)
-export class ImagesController {
-  @Get()
-  @Auth()
-  @SerializeOptions({ type: ImageResponseDto })
-  async findAll(@GetUser() user: User, @Query('page') page: number) {
-    return this.imagesService.getAll(user);
+import { Body, Controller, Post, SerializeOptions } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { plainToInstance } from 'class-transformer';
+import { UserResponseDto } from './dtos/user-response.dto';
+
+@ApiTags('users')
+@Controller('users')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
+  @Post()
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiResponse({
+    status: 201,
+    description: 'User has been successfully created.',
+  })
+  @ApiResponse({ status: 409, description: 'User already exists.' })
+  @SerializeOptions({ type: UserResponseDto })
+  async create(@Body() createUserDto: CreateUserDto) {
+    const user = this.usersService.create(createUserDto);
+
+    return plainToInstance(UserResponseDto, user, {
+      excludeExtraneousValues: true,
+    });
   }
+}
+
+```
+
+and src/modules/users/dtos/user-response.dto.ts
+
+```
+import { Expose } from 'class-transformer';
+
+export class UserResponseDto {
+  @Expose()
+  id: number;
+
+  @Expose()
+  username: string;
+
+  @Expose()
+  email: string;
 }
 ```
 

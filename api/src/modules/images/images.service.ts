@@ -70,7 +70,11 @@ export class ImagesService {
       });
 
       // Save and return the new image
-      return await this.imageRepository.save(image);
+      const uploadedImage = await this.imageRepository.save(image);
+
+      uploadedImage.path = `${this.baseUrl}/${uploadedImage.path}`;
+
+      return uploadedImage;
     } catch (error) {
       // Clean up the file if there's an error
       if (file.path && fs.existsSync(file.path)) {

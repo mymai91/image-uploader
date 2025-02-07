@@ -37,14 +37,18 @@ export const deleteActiveImage = createAsyncThunk(
 
 export const uploadImage = createAsyncThunk(
   "activeImages/upload",
-  async (params: { file: File; description: string }, { dispatch }) => {
+  async (
+    params: { file: File; description: string },
+    { dispatch, rejectWithValue },
+  ) => {
     try {
       const resp = await uploadImageApi(params.file, params.description)
-      console.log("###resp####", resp)
+
       dispatch(addUploadedImage({ item: resp.data }))
     } catch (error: any) {
-      console.error("uploadImage /images failed:", error)
-      throw error
+      return rejectWithValue(
+        error.response?.data?.message || "Image upload failed",
+      )
     }
   },
 )

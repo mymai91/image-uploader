@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { LoginDto } from "@/features/login/types/login"
 import {
   Box,
   Button,
@@ -14,22 +13,26 @@ import {
   CardBody,
   CardHeader,
   Container,
-  Text,
+  Link as ChakraLink,
 } from "@chakra-ui/react"
 import React from "react"
-import { loginSchema } from "../schema/LoginSchema"
 import { useAppDispatch } from "@/hooks/storeHooks"
 import { useRouter } from "next/router"
-import { loginUser } from "../stores/authThunk"
+import { registerSchema } from "../schema/RegisterSchema"
+import { RegisterDto } from "../types/register"
+import { registerUser } from "../../stores/authThunk"
+import { useAppToast } from "@/hooks/useAppToast"
+import NextLink from "next/link"
 
-const LoginForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginDto>({
-    resolver: yupResolver(loginSchema),
+  } = useForm<RegisterDto>({
+    resolver: yupResolver(registerSchema),
     defaultValues: {
+      username: "john",
       email: "john@example.com",
       password: "password123",
     },
@@ -37,15 +40,30 @@ const LoginForm: React.FC = () => {
 
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const { showError } = useAppToast()
 
-  const onSubmit = async (data: LoginDto) => {
+  const onSubmit = async (data: RegisterDto) => {
     try {
-      const resultAction = await dispatch(loginUser(data))
-      if (loginUser.fulfilled.match(resultAction)) {
-        router.push("/product-images")
+      const resultAction = await dispatch(registerUser(data))
+
+      if (registerUser.fulfilled.match(resultAction)) {
+        router.push("/login")
+      } else {
+        showError({
+          title: "Register Error",
+          message:
+            (resultAction?.payload as string) ||
+            "Something went wrong. Please try again.",
+        })
       }
-    } catch (error) {
-      console.log(error)
+    } catch (error: unknown) {
+      showError({
+        title: "Register Error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+      })
     }
   }
 
@@ -54,16 +72,24 @@ const LoginForm: React.FC = () => {
       <Card boxShadow="lg" borderRadius="xl">
         <CardHeader pb="0">
           <Heading size="lg" textAlign="center" color="gray.700">
-            Welcome Back
+            Create your free account
           </Heading>
-          <Text mt="2" textAlign="center" color="gray.500">
-            Please sign in to continue
-          </Text>
         </CardHeader>
 
         <CardBody pt="6">
           <Box as="form" onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing="6">
+              <FormControl isInvalid={!!errors.username}>
+                <FormLabel>User Name</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Enter your username"
+                  size="lg"
+                  {...register("username")}
+                />
+                <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+              </FormControl>
+
               <FormControl isInvalid={!!errors.email}>
                 <FormLabel>Email address</FormLabel>
                 <Input
@@ -96,6 +122,16 @@ const LoginForm: React.FC = () => {
               >
                 Sign In
               </Button>
+
+              <ChakraLink
+                as={NextLink}
+                px={2}
+                py={1}
+                rounded="md"
+                href={"/login"}
+              >
+                Already have an account?
+              </ChakraLink>
             </VStack>
           </Box>
         </CardBody>
@@ -104,4 +140,4 @@ const LoginForm: React.FC = () => {
   )
 }
 
-export default LoginForm
+export default RegisterForm

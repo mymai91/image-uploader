@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ListImageState, ProductImage } from "../../types/productImage"
+import { uploadImage } from "./activeImageThunk"
 
 const initialState: ListImageState = {
   items: [],
@@ -30,6 +31,20 @@ const activeImageSlice = createSlice({
     addUploadedImage(state, action: PayloadAction<{ item: ProductImage }>) {
       state.items.unshift(action.payload.item)
     },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(uploadImage.pending, state => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(uploadImage.fulfilled, state => {
+        state.isLoading = false
+      })
+      .addCase(uploadImage.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.payload as string
+      })
   },
 })
 

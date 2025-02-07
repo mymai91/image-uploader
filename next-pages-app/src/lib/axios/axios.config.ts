@@ -11,8 +11,8 @@ const axiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
   config => {
-    // const token = localStorage.getItem("accessToken")
-    const token = Cookies.get("accessToken")
+    // const token = localStorage.getItem("image_uploader-accessToken")
+    const token = Cookies.get("image_uploader-accessToken")
     // Only set Content-Type to JSON if it's not FormData
     if (config.headers && !(config.data instanceof FormData)) {
       config.headers["Content-Type"] = "application/json"
@@ -40,8 +40,8 @@ axiosInstance.interceptors.response.use(
   },
   error => {
     if (error.response?.status === 401) {
-      // localStorage.removeItem("accessToken")
-      Cookies.remove("accessToken")
+      // localStorage.removeItem("image_uploader-accessToken")
+      Cookies.remove("image_uploader-accessToken")
       window.location.href = "/login"
     }
     return Promise.reject(error)

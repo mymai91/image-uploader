@@ -1,4 +1,4 @@
-import RegisterForm from "@/features/register/components/RegisterForm"
+import RegisterForm from "@/features/auth/register/components/RegisterForm"
 import { Box } from "@chakra-ui/react"
 
 const Register: React.FC = () => {
